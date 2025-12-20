@@ -1,0 +1,120 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+// Collections
+const landschaften = await getCollection("landschaft");
+const orte = await getCollection("orte");
+const ortschaften = await getCollection("ortschaften");
+
+// Spezielle Seiten (wie in der Chronik)
+import { chronik as luftbild1946 } from "./luftbild-1946.astro";
+import { chronik as ortschaftenUmPechgruen } from "./ortschaften/um-pechgruen.astro";
+---
+
+<BaseLayout title="Inhalte">
+  <h1>Inhalte</h1>
+
+  <p class="lede">
+    Überblick über alle Themenbereiche. (Wird später automatisch wachsen.)
+  </p>
+
+  <section>
+    <h2>Landschaft</h2>
+
+    {landschaften.length === 0 ? (
+      <p>Noch keine Einträge.</p>
+    ) : (
+      <ul>
+        {landschaften
+          .sort((a, b) => a.data.title.localeCompare(b.data.title, "de"))
+          .map((e) => (
+            <li>
+              <a href={`/landschaft/${e.slug}`}>{e.data.title}</a>
+              {e.data.subtitle ? <span> — {e.data.subtitle}</span> : null}
+            </li>
+          ))}
+      </ul>
+    )}
+  </section>
+
+  <section>
+    <h2>Orte</h2>
+
+    <ul>
+      <li>
+        <a href={luftbild1946.href}>{luftbild1946.title}</a>
+        {luftbild1946.subtitle ? <span> — {luftbild1946.subtitle}</span> : null}
+      </li>
+
+      {orte
+        .sort((a, b) => a.data.title.localeCompare(b.data.title, "de"))
+        .map((e) => (
+          <li>
+            <a href={`/orte/${e.slug}`}>{e.data.title}</a>
+            {e.data.subtitle ? <span> — {e.data.subtitle}</span> : null}
+          </li>
+        ))}
+    </ul>
+  </section>
+
+  <section>
+    <h2>Ortschaften</h2>
+
+    <ul>
+      <li>
+        <a href={ortschaftenUmPechgruen.href}>{ortschaftenUmPechgruen.title}</a>
+        {ortschaftenUmPechgruen.subtitle ? (
+          <span> — {ortschaftenUmPechgruen.subtitle}</span>
+        ) : null}
+      </li>
+
+      {ortschaften.length === 0 ? (
+        <li>Noch keine Einträge.</li>
+      ) : (
+        ortschaften
+          .sort((a, b) => a.data.title.localeCompare(b.data.title, "de"))
+          .map((e) => (
+            <li>
+              <a href={`/ortschaften/${e.slug}`}>{e.data.title}</a>
+              {e.data.subtitle ? <span> — {e.data.subtitle}</span> : null}
+            </li>
+          ))
+      )}
+    </ul>
+  </section>
+
+  <section>
+    <h2>Chronik</h2>
+    <p>
+      <a href="/chronik">Zur Chronik →</a>
+    </p>
+  </section>
+
+  <section>
+    <h2>Suche</h2>
+    <p>
+      <a href="/suche">Zur Suche →</a>
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .lede {
+    margin-top: 10px;
+    color: rgba(0, 0, 0, 0.65);
+  }
+
+  section {
+    margin-top: 28px;
+  }
+
+  ul {
+    margin: 10px 0 0;
+    padding-left: 18px;
+  }
+
+  li {
+    margin: 6px 0;
+  }
+</style>

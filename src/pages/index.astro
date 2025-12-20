@@ -1,99 +1,80 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
 const siteTitle = "Pechgrün";
+const description =
+  "Pechgrün – eine ruhige, sammelnde Website über Ort, Landschaft und Spuren.";
 ---
 
-<!doctype html>
-<html lang="de">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{siteTitle}</title>
-    <meta name="description" content="Pechgrün – eine ruhige, sammelnde Website über Ort, Landschaft und Spuren." />
-  </head>
+<BaseLayout title={siteTitle} description={description}>
+  <!-- HERO / PANORAMA -->
+  <section class="hero">
+    <h1 class="hero-title">Pechgrün</h1>
+    <p class="hero-subtitle">Landschaft · Spuren · Erinnerung</p>
+    <img
+      src="/images/redelbach-meiselberg.jpg"
+      alt="Pechgrün – Blick vom Meiselberg auf Dorfmitte und Leiten. Aquarell von Karl Redelbach."
+      class="hero-image"
+    />
+  </section>
 
-  <body>
-    <header class="site-header">
-      <div class="wrap">
-        <div class="brand">Pechgrün</div>
-      </div>
-    </header>
+  <section class="section">
+    <p>
+      Pechgrün ist ein Ort, der nicht mehr existiert. Er wurde im Zuge des
+      Braunkohleabbaus verschüttet und ist heute Teil einer Landschaft, die kaum
+      noch erkennen lässt, was hier einmal war.
+    </p>
 
-    <main>
-      <!-- HERO / PANORAMA -->
-      <section class="hero">
-        <div class="wrap">
-          <h1 class="hero-title">Pechgrün</h1>
-          <p class="hero-subtitle">Landschaft · Spuren · Erinnerung</p>
-          <div class="hero-image" aria-label="Panorama-Platzhalter"></div>
-        </div>
-      </section>
+    <p>
+      Diese Website möchte Pechgrün wieder sichtbar machen – nicht als
+      Rekonstruktion und nicht als Denkmal, sondern als Sammlung von Spuren,
+      Bildern, Texten und Erinnerungen.
+    </p>
 
-      <!-- ÜBERBLICK (noch ohne Text) -->
-      <section class="section">
-        <div class="wrap">
-          <h2>Worum es hier geht</h2>
-          <p class="muted">
-            (Platzhalter – hier kommt später ein kurzer Einstieg und danach eine etwas ausführlichere Beschreibung.)
-          </p>
-        </div>
-      </section>
+    <p>
+      Es gibt Bücher, Zeichnungen, Karten und persönliche Zeugnisse, die sich
+      mit dem Ort beschäftigen. Vieles davon ist heute schwer zugänglich oder
+      nur noch in privaten Zusammenhängen vorhanden.
+    </p>
 
-      <!-- EINSTIEG: HALDE & VERSCHÜTTUNG -->
-      <section class="section">
-        <div class="wrap">
-          <h2>Halde &amp; Verschüttung</h2>
-          <p class="muted">
-            (Platzhalter – hier führen wir später von der Landschaft in die Geschichte.)
-          </p>
-        </div>
-      </section>
-    </main>
+    <p>
+      Hier werden diese Inhalte zusammengeführt, eingeordnet und miteinander in
+      Beziehung gesetzt – mit dem Ziel, einen Ort, der physisch verschwunden
+      ist, als Geschichte und Landschaft erfahrbar zu halten.
+    </p>
 
-    <footer class="site-footer">
-      <div class="wrap">
-        <small class="muted">© {new Date().getFullYear()} Pechgrün</small>
-      </div>
-    </footer>
-  </body>
-</html>
+    <p>
+      Der Einstieg erfolgt bewusst über die Landschaft. Von dort aus führen Wege
+      weiter – zu Bildern, Karten, Dokumenten und zur Geschichte der
+      Verschüttung.
+    </p>
+  </section>
+</BaseLayout>
 
 <style>
-  :global(html, body) { margin: 0; padding: 0; }
-  :global(body) {
-    font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
-    line-height: 1.6;
-    background: #fafafa;
-    color: #111;
+  .hero {
+    padding: 48px 0 28px;
   }
-
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
-
-  .site-header {
-    position: sticky;
-    top: 0;
-    backdrop-filter: blur(8px);
-    background: rgba(250, 250, 250, 0.85);
-    border-bottom: 1px solid rgba(0,0,0,0.08);
+  .hero-title {
+    margin: 0;
+    font-size: 44px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
   }
-  .brand { padding: 14px 0; font-size: 16px; letter-spacing: 0.02em; }
-
-  .hero { padding: 48px 0 28px; }
-  .hero-title { margin: 0; font-size: 44px; font-weight: 600; letter-spacing: 0.01em; }
-  .hero-subtitle { margin: 10px 0 22px; color: rgba(0,0,0,0.65); }
+  .hero-subtitle {
+    margin: 10px 0 22px;
+    color: rgba(0, 0, 0, 0.65);
+  }
 
   .hero-image {
+    width: 100%;
     height: 360px;
+    object-fit: cover;
     border-radius: 18px;
-    background: linear-gradient(135deg, rgba(0,0,0,0.08), rgba(0,0,0,0.02));
-    border: 1px solid rgba(0,0,0,0.08);
+    border: 1px solid rgba(0, 0, 0, 0.08);
   }
 
-  .section { padding: 34px 0; }
-  h2 { margin: 0 0 10px; font-size: 22px; font-weight: 600; }
-  .muted { color: rgba(0,0,0,0.6); margin: 0; }
-
-  .site-footer {
-    padding: 26px 0 50px;
-    border-top: 1px solid rgba(0,0,0,0.08);
+  .section {
+    padding: 34px 0;
   }
 </style>

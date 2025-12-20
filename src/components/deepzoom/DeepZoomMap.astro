@@ -1,0 +1,294 @@
+---
+type Marker = {
+  id: string;
+  x: number;
+  y: number;
+  label?: string;
+  title?: string;
+  href?: string;
+};
+
+type StartView =
+  | { type: "home" }
+  | { type: "centerZoom"; x: number; y: number; zoomFactor: number }
+  | { type: "rect"; x: number; y: number; w: number; h: number; zoomFactor?: number };
+
+const {
+  id,
+  tileSource,
+  markers = [],
+  markersDefaultVisible = false,
+  showMarkersToggle = true,
+  authorMode = true,
+  startView = { type: "home" },
+  height = 640,
+} = Astro.props as {
+  id: string;
+  tileSource: string | Record<string, any>;
+  markers?: Marker[];
+  markersDefaultVisible?: boolean;
+  showMarkersToggle?: boolean;
+  authorMode?: boolean;
+  startView?: StartView;
+  height?: number;
+};
+---
+
+<div
+  id={id}
+  style={`
+    width:100%;
+    height:${height}px;
+    background:#000;
+    border-radius:12px;
+    overflow:hidden;
+    position:relative;
+  `}
+>
+  {showMarkersToggle && (
+    <button
+      type="button"
+      data-dz-toggle
+      style="
+        position:absolute;
+        right:6px;
+        bottom:6px;
+        z-index:10;
+        font: inherit;
+        padding: 0.35rem 0.6rem;
+        border-radius: 10px;
+        border: 1px solid rgba(0,0,0,0.25);
+        background: rgba(255,255,255,0.85);
+        backdrop-filter: blur(4px);
+        cursor: pointer;
+      "
+      aria-pressed={markersDefaultVisible}
+    >
+      Marker einblenden
+    </button>
+  )}
+
+  <div
+    data-dz-toast
+    style="
+      position:absolute;
+      left:8px;
+      bottom:8px;
+      z-index:10;
+      font: 13px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      padding: 0.25rem 0.5rem;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.25);
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(4px);
+      display:none;
+      user-select:text;
+      pointer-events:none;
+    "
+    aria-hidden="true"
+  ></div>
+</div>
+
+<script is:inline src="/vendor/openseadragon.min.js"></script>
+
+<script define:vars={{ id, tileSource, markers, markersDefaultVisible, showMarkersToggle, authorMode, startView }}>
+  // @ts-ignore
+  const OSD = window.OpenSeadragon;
+  const host = document.getElementById(id);
+
+  if (!host || !OSD) {
+    console.warn("DeepZoomMap: host or OpenSeadragon missing", { id, host, OSD: !!OSD });
+  } else {
+    // ✅ KRITISCH: Pointer-events-Regel zuverlässig injizieren (statt kaputtem #{id}-CSS)
+    const styleId = `dz-pe-${id}`;
+    if (!document.getElementById(styleId)) {
+      const s = document.createElement("style");
+      s.id = styleId;
+      s.textContent = `
+        #${id} .openseadragon-overlay,
+        #${id} .openseadragon-overlay * {
+          pointer-events: auto !important;
+        }
+      `;
+      document.head.appendChild(s);
+    }
+
+    const toggleBtn = host.querySelector("[data-dz-toggle]");
+    const toast = host.querySelector("[data-dz-toast]");
+
+    const viewer = OSD({
+      element: host,
+      tileSources: tileSource,
+      showNavigationControl: false,
+      wrapHorizontal: false,
+      wrapVertical: false,
+      constrainDuringPan: true,
+      visibilityRatio: 1.0,
+      zoomPerScroll: 1.02,
+      gestureSettingsMouse: {
+        scrollToZoom: true,
+        clickToZoom: false,
+        dblClickToZoom: true,
+        pinchToZoom: true,
+        flickEnabled: true,
+      },
+    });
+
+    function makeMarkerElement(m) {
+      const el = document.createElement(m.href ? "a" : "div");
+
+      if (m.href) {
+        el.href = m.href;
+        el.style.textDecoration = "none";
+        el.style.cursor = "pointer";
+      }
+
+      el.title = m.title || m.label || "";
+      el.style.width = "30px";
+      el.style.height = "30px";
+      el.style.display = "block";
+      el.style.pointerEvents = "auto";
+      el.style.touchAction = "manipulation";
+
+      // SVG soll keine eigenen Klicks "fangen"
+      el.innerHTML = `
+        <svg style="pointer-events:none" width="30" height="30" viewBox="0 0 30 30">
+          <circle style="pointer-events:none" cx="15" cy="15" r="13" fill="#fff" stroke="#000" stroke-width="2"/>
+          <text style="pointer-events:none" x="15" y="15" text-anchor="middle" dominant-baseline="central"
+                font-size="14" font-weight="900">${m.label ?? ""}</text>
+        </svg>`;
+
+      // OSD darf nicht pannen/zoomen beim Marker-Klick
+      const stop = (e) => e.stopPropagation();
+      ["pointerdown", "pointerup", "mousedown", "mouseup", "touchstart", "touchend"].forEach((evt) =>
+        el.addEventListener(evt, stop, { passive: false })
+      );
+
+      // Navigation robust
+      if (m.href) {
+        el.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          window.location.assign(m.href);
+        });
+      }
+
+      return el;
+    }
+
+    let item = null;
+    let markersVisible = !!markersDefaultVisible;
+
+    function addMarkers() {
+      viewer.clearOverlays();
+      if (!item) item = viewer.world.getItemAt(0);
+      if (!item) return;
+
+      for (const m of markers) {
+        const imgPt = new OSD.Point(m.x, m.y);
+        const vpPt = item.imageToViewportCoordinates(imgPt);
+        viewer.addOverlay({
+          element: makeMarkerElement(m),
+          location: vpPt,
+          placement: OSD.Placement.CENTER,
+        });
+      }
+    }
+
+    function setMarkersVisible(v) {
+      markersVisible = v;
+      if (markersVisible) addMarkers();
+      else viewer.clearOverlays();
+
+      if (toggleBtn) {
+        toggleBtn.textContent = markersVisible ? "Marker ausblenden" : "Marker einblenden";
+        toggleBtn.setAttribute("aria-pressed", markersVisible ? "true" : "false");
+      }
+    }
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener("click", () => setMarkersVisible(!markersVisible));
+      toggleBtn.textContent = markersVisible ? "Marker ausblenden" : "Marker einblenden";
+      toggleBtn.setAttribute("aria-pressed", markersVisible ? "true" : "false");
+    }
+
+    // Author mode: Option/Alt + Klick -> Bildkoordinaten anzeigen + kopieren
+    let toastTimer = null;
+
+    function showCoords(x, y) {
+      if (!toast) return;
+      toast.textContent = `x=${x}, y=${y}`;
+      toast.style.display = "block";
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => (toast.style.display = "none"), 10000);
+    }
+
+    async function copy(text) {
+      try {
+        if (navigator?.clipboard?.writeText) await navigator.clipboard.writeText(text);
+      } catch (_) {}
+    }
+
+    viewer.addHandler("canvas-click", (ev) => {
+      if (!authorMode) return;
+      const oe = ev?.originalEvent;
+      if (!oe?.altKey) return;
+
+      ev.preventDefaultAction = true;
+      oe.stopPropagation?.();
+
+      const currentItem = viewer.world.getItemAt(0);
+      if (!currentItem) return;
+
+      const webPoint = ev.position;
+      const vpPoint = viewer.viewport.pointFromPixel(webPoint);
+      const imgPoint = currentItem.viewportToImageCoordinates(vpPoint);
+
+      const x = Math.round(imgPoint.x);
+      const y = Math.round(imgPoint.y);
+
+      showCoords(x, y);
+      copy(`${x},${y}`);
+    });
+
+    function applyStartView() {
+      item = viewer.world.getItemAt(0);
+      if (!item) return;
+
+      const home = viewer.viewport.getHomeZoom();
+      viewer.viewport.minZoomLevel = home;
+      viewer.viewport.maxZoomLevel = home * 32;
+
+      if (!startView || startView.type === "home") return;
+
+      if (startView.type === "centerZoom") {
+        const imgCenter = new OSD.Point(startView.x, startView.y);
+        const vpCenter = item.imageToViewportCoordinates(imgCenter);
+        viewer.viewport.panTo(vpCenter, true);
+        viewer.viewport.zoomTo(home * startView.zoomFactor, vpCenter, true);
+        return;
+      }
+
+      if (startView.type === "rect") {
+        const r = startView;
+        const imgTL = new OSD.Point(r.x, r.y);
+        const imgBR = new OSD.Point(r.x + r.w, r.y + r.h);
+        const vpTL = item.imageToViewportCoordinates(imgTL);
+        const vpBR = item.imageToViewportCoordinates(imgBR);
+
+        const rect = new OSD.Rect(vpTL.x, vpTL.y, vpBR.x - vpTL.x, vpBR.y - vpTL.y);
+        viewer.viewport.fitBounds(rect, true);
+
+        if (typeof r.zoomFactor === "number") {
+          const c = rect.getCenter();
+          viewer.viewport.zoomTo(home * r.zoomFactor, c, true);
+        }
+      }
+    }
+
+    viewer.addHandler("open", () => {
+      applyStartView();
+      setMarkersVisible(!!markersDefaultVisible);
+    });
+  }
+</script>

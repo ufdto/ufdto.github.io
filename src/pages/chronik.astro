@@ -1,0 +1,454 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString("sv-SE", { timeZone: "UTC" });
+
+// 1) Landschaft
+const entriesLandschaft = await getCollection("landschaft");
+const landschaftItems = entriesLandschaft.map((e) => {
+  const d = (e.data.updated ?? e.data.date) as Date;
+  return {
+    kind: "content" as const,
+    title: e.data.title as string,
+    subtitle: (e.data.subtitle as string | undefined) ?? "",
+    date: d,
+    isUpdated: Boolean(e.data.updated),
+    bereich: "Landschaft",
+    href: `/landschaft/${e.slug}`,
+    order: typeof e.data.order === "number" ? e.data.order : 0,
+  };
+});
+
+// 2) Orte
+const entriesOrte = await getCollection("orte");
+const orteItems = entriesOrte.map((e) => {
+  const d = (e.data.updated ?? e.data.date) as Date;
+  return {
+    kind: "content" as const,
+    title: e.data.title as string,
+    subtitle: (e.data.subtitle as string | undefined) ?? "",
+    date: d,
+    isUpdated: Boolean(e.data.updated),
+    bereich: "Orte",
+    href: `/orte/${e.slug}`,
+    order: typeof e.data.order === "number" ? e.data.order : 0,
+  };
+});
+
+// 3) Ortschaften (NEU)
+const entriesOrtschaften = await getCollection("ortschaften");
+const ortschaftenItems = entriesOrtschaften.map((e) => {
+  const d = (e.data.updated ?? e.data.date) as Date;
+  return {
+    kind: "content" as const,
+    title: e.data.title as string,
+    subtitle: (e.data.subtitle as string | undefined) ?? "",
+    date: d,
+    isUpdated: Boolean(e.data.updated),
+    bereich: "Ortschaften",
+    href: `/ortschaften/${e.slug}`,
+    order: typeof e.data.order === "number" ? e.data.order : 0,
+  };
+});
+
+// 4) Astro-Seiten mit export const chronik = {...}
+// ✅ WICHTIG: rekursiv, damit auch /pages/orte/... gefunden wird
+const pageModules = import.meta.glob("./**/*.astro", { eager: true }) as Record<
+  string,
+  any
+>;
+
+const astroItems = Object.entries(pageModules)
+  .filter(
+    ([path]) => !path.endsWith("/chronik.astro") && path !== "./chronik.astro"
+  )
+  .map(([, mod]) => mod?.chronik)
+  .filter(Boolean)
+  .map((c: any) => ({
+    kind: "page" as const,
+    title: String(c.title ?? ""),
+    subtitle: String(c.subtitle ?? ""),
+    date: new Date(String(c.date)), // erwartet "YYYY-MM-DD"
+    isUpdated: false,
+    bereich: String(c.bereich ?? "Seite"),
+    href: String(c.href ?? "#"),
+    order: typeof c.order === "number" ? c.order : 0,
+  }))
+  .filter((x) => x.title && x.href && !Number.isNaN(x.date.getTime()));
+
+// 5) Merge + Sort
+const items = [...landschaftItems, ...orteItems, ...ortschaftenItems, ...astroItems]
+  .slice()
+  .sort((a, b) => {
+    const ta = a.date.getTime();
+    const tb = b.date.getTime();
+    if (tb !== ta) return tb - ta;
+    if (b.order !== a.order) return b.order - a.order;
+    return a.title.localeCompare(b.title, "de");
+  });
+---
+
+<BaseLayout title="Chronik">
+  <main class="chronik-page">
+    <div class="chronik-top">
+      <h1>Chronik</h1>
+
+      <p class="hint">
+        Hier sind alle Seiten dieser Website in zeitlicher Reihenfolge gelistet (neueste oben).
+        So siehst du auf einen Blick, was seit deinem letzten Besuch neu ist. Wenn du einen älteren
+        Eintrag suchst, kannst du die Liste mit dem Filter nach Titel oder Untertitel eingrenzen.
+      </p>
+
+      <div class="filterbar" role="search">
+        <label class="filterlabel" for="chronikFilter">Filtern</label>
+
+        <div class="filterfield">
+          <input
+            id="chronikFilter"
+            type="search"
+            placeholder="Titel oder Untertitel …"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button
+            id="chronikClear"
+            class="clear"
+            type="button"
+            aria-label="Filter zurücksetzen"
+          >
+            ×
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nur dieser Bereich scrollt -->
+    <div class="scrollpane" aria-label="Chronik-Liste">
+      <table class="chronik">
+        <colgroup>
+          <col class="c-title" />
+          <col class="c-bereich" />
+          <col class="c-date" />
+        </colgroup>
+
+        <thead>
+          <tr>
+            <th>Titel</th>
+            <th>Bereich</th>
+            <th>Datum</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {items.map((e) => {
+            const q = `${e.title} ${e.subtitle}`.toLowerCase();
+            return (
+              <tr data-q={q}>
+                <td>
+                  <a class="title-link" href={e.href}>
+                    {e.title}
+                  </a>
+
+                  {e.subtitle ? (
+                    <div class="subtitle-inline">{e.subtitle}</div>
+                  ) : null}
+                </td>
+
+                <td class="bereich">{e.bereich}</td>
+
+                <td class="date-cell">
+                  <span class="date-text">{fmtDate(e.date)}</span>
+                  {e.isUpdated ? (
+                    <span class="badge" title="Updated">↻</span>
+                  ) : null}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      // ---------------- Filter / Reset (TypeScript-friendly) ----------------
+      const inputEl = document.querySelector("#chronikFilter");
+      const clearEl = document.querySelector("#chronikClear");
+
+      if (!(inputEl instanceof HTMLInputElement)) {
+        console.warn("chronikFilter not found or not an input");
+      }
+      if (!(clearEl instanceof HTMLButtonElement)) {
+        console.warn("chronikClear not found or not a button");
+      }
+
+      if (inputEl instanceof HTMLInputElement && clearEl instanceof HTMLButtonElement) {
+        const rows = Array.from(
+          document.querySelectorAll("table.chronik tbody tr")
+        ).filter((el): el is HTMLTableRowElement => el instanceof HTMLTableRowElement);
+
+        const setClearVisible = () => {
+          clearEl.style.visibility = inputEl.value ? "visible" : "hidden";
+        };
+
+        const applyFilter = () => {
+          const q = inputEl.value.trim().toLowerCase();
+          for (const tr of rows) {
+            const hay = tr.dataset.q ?? "";
+            tr.hidden = q ? !hay.includes(q) : false;
+          }
+          setClearVisible();
+        };
+
+        let timerId: number | undefined;
+
+        const schedule = () => {
+          if (timerId !== undefined) window.clearTimeout(timerId);
+          timerId = window.setTimeout(applyFilter, 80);
+        };
+
+        inputEl.addEventListener("input", schedule);
+
+        clearEl.addEventListener("click", () => {
+          inputEl.value = "";
+          applyFilter();
+          inputEl.focus();
+        });
+
+        inputEl.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            inputEl.value = "";
+            applyFilter();
+            inputEl.focus();
+          }
+        });
+
+        setClearVisible();
+      }
+
+      // ---------------- Robust Scroll: immer die Liste scrollen ----------------
+      const paneEl = document.querySelector(".scrollpane");
+      const pageEl = document.querySelector(".chronik-page");
+
+      if (paneEl instanceof HTMLElement && pageEl instanceof HTMLElement) {
+        // Body/HTML scroll auf dieser Seite ausschalten (sonst "verschwindet" der Kopfbereich)
+        const htmlEl = document.documentElement;
+        const bodyEl = document.body;
+
+        const prevHtmlOverflow = htmlEl.style.overflow;
+        const prevBodyOverflow = bodyEl.style.overflow;
+
+        htmlEl.style.overflow = "hidden";
+        bodyEl.style.overflow = "hidden";
+
+        // Beim Verlassen der Seite sauber zurücksetzen
+        window.addEventListener("beforeunload", () => {
+          htmlEl.style.overflow = prevHtmlOverflow;
+          bodyEl.style.overflow = prevBodyOverflow;
+        });
+
+        const wheelHandler = (e: WheelEvent) => {
+          // nur wenn wir tatsächlich auf der Chronik-Seite sind
+          if (!document.body.contains(pageEl)) return;
+          if (paneEl.scrollHeight <= paneEl.clientHeight) return;
+
+          // Trackpad/Wheel: wir übernehmen den Scroll und leiten ihn an paneEl weiter
+          e.preventDefault();
+          paneEl.scrollTop += e.deltaY;
+        };
+
+        // Capture + passive:false, damit preventDefault greift
+        window.addEventListener("wheel", wheelHandler, { passive: false, capture: true });
+      }
+    </script>
+  </main>
+</BaseLayout>
+
+<style>
+  .chronik-page {
+    max-width: 980px;
+    margin: 0 auto;
+
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .chronik-top {
+    flex: 0 0 auto;
+  }
+
+  .scrollpane {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+
+    /* macOS Overlay-Scrollbar kann Inhalte überdecken -> etwas Luft rechts */
+    padding-right: 14px;
+    scrollbar-gutter: stable;
+  }
+
+  h1 {
+    margin-bottom: 0.3rem;
+  }
+
+  .hint {
+    margin: 0 0 1.1rem 0;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 1.35;
+  }
+
+  .filterbar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0 0 0.9rem 0;
+  }
+
+  .filterlabel {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.92rem;
+    white-space: nowrap;
+  }
+
+  .filterfield {
+    position: relative;
+    flex: 1;
+  }
+
+  #chronikFilter {
+    width: 100%;
+    padding: 0.55rem 2rem 0.55rem 0.7rem;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    border-radius: 10px;
+    font-size: 0.98rem;
+  }
+
+  /* Native WebKit "clear" X ausblenden, damit nur unser Button erscheint */
+  #chronikFilter::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+  }
+  #chronikFilter::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+  }
+
+  #chronikFilter:focus {
+    outline: none;
+    border-color: rgba(0, 0, 0, 0.35);
+  }
+
+  .clear {
+    position: absolute;
+    right: 0.35rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.6rem;
+    height: 1.6rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    font-size: 1.25rem;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.55);
+    cursor: pointer;
+    visibility: hidden;
+  }
+
+  .clear:hover {
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  table.chronik {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 0.98rem;
+  }
+
+  col.c-title {
+    width: auto;
+  }
+  col.c-bereich {
+    width: 10%;
+  }
+  col.c-date {
+    width: 10ch;
+  }
+
+  thead th {
+    text-align: left;
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
+
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 2;
+  }
+
+  table.chronik th:first-child,
+  table.chronik td:first-child {
+    padding-left: 0;
+  }
+
+  table.chronik th:last-child,
+  table.chronik td:last-child {
+    padding-right: 0;
+  }
+
+  table.chronik thead th:nth-child(3),
+  table.chronik tbody td:nth-child(3) {
+    text-align: right !important;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  tbody td {
+    padding-top: 0.62rem;
+    padding-bottom: 0.62rem;
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.10);
+    vertical-align: top;
+  }
+
+  .title-link {
+    display: block;
+    font-weight: 650;
+    text-decoration: none;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .title-link:hover {
+    text-decoration: underline;
+  }
+
+  .subtitle-inline {
+    margin-top: 0.22rem;
+    line-height: 1.25;
+    font-size: 0.88rem;
+    color: rgba(0, 0, 0, 0.55);
+  }
+
+  td.bereich {
+    white-space: nowrap;
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 0.9rem;
+  }
+
+  .badge {
+    display: inline-block;
+    margin-left: 0.4rem;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.45);
+  }
+</style>

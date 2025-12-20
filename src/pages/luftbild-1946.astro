@@ -1,0 +1,334 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+// Damit es in der Chronik auftaucht:
+export const chronik = {
+  title: "Luftbild 1946",
+  subtitle: "Deep Zoom – Marker führen zu Orten",
+  date: "2025-12-18",
+  order: 1,
+  bereich: "Orte",
+  href: "/luftbild-1946",
+};
+
+const tileSource = "/tiles/luftbild-1946/1946.dzi";
+
+// Fixes Start-Zentrum (Haus 24 Koordinaten)
+const centerPoint = { x: 4063, y: 6986 };
+const startZoomFactor = 5.0;
+
+// Marker aus src/content/orte/*.md
+const entries = await getCollection("orte");
+const points = entries.map((e) => ({
+  slug: e.slug,
+  title: e.data.title as string,
+  number: e.data.number as number,
+  x: e.data.x as number,
+  y: e.data.y as number,
+  href: `/orte/${e.slug}`,
+}));
+---
+
+<BaseLayout title="Luftbild 1946">
+  <main style="max-width:980px;margin:0 auto;">
+    <h1 style="margin:0 0 0.35rem;">Luftbild Pechgrün 1946</h1>
+    <p style="margin:0 0 1rem; opacity:0.8;">
+      Deep Zoom – nummerierte Häuser als Zugang zur Dorfgeschichte
+    </p>
+
+    <!-- EINORDNUNG -->
+    <section>
+      <h2>Einordnung</h2>
+
+      <p>
+        Diese Seite zeigt eine <strong>außergewöhnliche Luftaufnahme des Dorfes Pechgrün</strong>,
+        aufgenommen im <strong>Mai 1946</strong>. Außergewöhnlich ist dieses Bild nicht nur wegen
+        seiner für die Zeit bemerkenswerten technischen Qualität, sondern vor allem wegen des
+        <strong>Zeitpunkts</strong>, zu dem es entstanden ist: nach der Zwangsaussiedlung eines
+        großen Teils der Bevölkerung, aber noch bevor baulicher Verfall, Abriss und spätere
+        Zerstörung einsetzten.
+      </p>
+
+      <p>
+        Frühere Luftaufnahmen dieses Ortes existieren nicht. Erst im Verlauf des Zweiten Weltkriegs
+        begann die systematische Luftbildfotografie. Spätere Aufnahmen hätten Pechgrün bereits
+        verändert gezeigt. Dass ausgerechnet für das Jahr 1946 eine derart detailreiche Aufnahme
+        erhalten ist, stellt einen <strong>seltenen Glücksfall</strong> dar.
+      </p>
+
+      <p>
+        Zusammen mit der ungewöhnlich hohen Bildqualität wird diese Aufnahme zu einem
+        <strong>Schlüsselbild</strong>: Sie erlaubt es, das Dorf konkret zu sehen – so, wie es war,
+        als dort noch Menschen lebten.
+      </p>
+    </section>
+
+    <!-- BILD -->
+    <h2 style="margin-top:2rem;">Luftbild Pechgrün – Mai 1946</h2>
+
+    <div
+      id="osd"
+      style="
+        width:100%;
+        height:640px;
+        background:#000;
+        border-radius:12px;
+        overflow:hidden;
+        position:relative;
+        margin-bottom:1rem;
+      "
+    >
+      <!-- Marker-Toggle direkt im Bild (Start: Marker AUS) -->
+      <button
+        id="toggle-markers"
+        type="button"
+        style="
+          position:absolute;
+          right:6px;
+          bottom:6px;
+          z-index:10;
+          font: inherit;
+          padding: 0.35rem 0.6rem;
+          border-radius: 10px;
+          border: 1px solid rgba(0,0,0,0.25);
+          background: rgba(255,255,255,0.85);
+          backdrop-filter: blur(4px);
+          cursor: pointer;
+        "
+        aria-pressed="true"
+      >
+        Marker einblenden
+      </button>
+
+      <!-- Versteckte Koordinaten-Anzeige (nur bei Option/Alt+Klick) -->
+      <div
+        id="coord-toast"
+        style="
+          position:absolute;
+          left:8px;
+          bottom:8px;
+          z-index:10;
+          font: 13px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+          padding: 0.25rem 0.5rem;
+          border-radius: 10px;
+          border: 1px solid rgba(0,0,0,0.25);
+          background: rgba(255,255,255,0.85);
+          backdrop-filter: blur(4px);
+          display:none;
+          user-select:text;
+          pointer-events:none;
+        "
+        aria-hidden="true"
+      ></div>
+    </div>
+
+    <!-- GLOBAL: Overlays klickbar -->
+    <style is:global>
+      #osd .openseadragon-overlay,
+      #osd .openseadragon-overlay a {
+        pointer-events: auto !important;
+      }
+    </style>
+
+    <!-- HAUSNUMMERN & MARKER -->
+    <section>
+      <h2>Hausnummern und Marker</h2>
+
+      <p>
+        Die Hausnummern sind <strong>fest in das Luftbild eingetragen</strong>. Sie folgen der
+        historischen Nummerierung des Dorfes und lassen sich nicht ein- oder ausblenden.
+        Grundlage der Zuordnung ist ein <strong>handschriftlicher Ortsplan von Karl Redelbach</strong>,
+        der für die Pechgrüner Erinnerungsbücher angefertigt wurde. Erst dieser Plan macht es möglich,
+        die schriftlichen Quellen räumlich zu verorten.
+      </p>
+
+      <p>
+        Zusätzlich gibt es <strong>Marker</strong>, die du über den Button rechts unten
+        <strong>explizit einschalten</strong> kannst. Diese Marker kennzeichnen Punkte im Raum, zu
+        denen bereits <strong>Detailseiten mit Zusatzinformationen</strong> existieren
+        (z.&nbsp;B. aus Erinnerungsbüchern, Einwohnermeldebuch und Kirchenbüchern). Ein Klick auf
+        einen Marker führt direkt zur entsprechenden Detailseite.
+      </p>
+
+      <p>
+        Die Detailseiten entstehen <strong>nach und nach</strong>. Ihre Erstellung erfordert Zeit
+        und sorgfältige Arbeit; deshalb sind bislang nur einige Punkte mit eigenen Seiten versehen.
+        Mit fortschreitender Arbeit werden Schritt für Schritt weitere Detailseiten hinzukommen –
+        und damit auch weitere Marker im Luftbild sichtbar werden.
+      </p>
+    </section>
+
+    <!-- BEDIENUNG -->
+    <section>
+      <h2>Bedienung</h2>
+      <ul>
+        <li>
+          <strong>Zoomen:</strong>
+          mit Trackpad (Zwei-Finger-Geste) oder mit dem Mausrad
+        </li>
+        <li>
+          <strong>Verschieben (Panning):</strong>
+          <span style="white-space:nowrap;">Maus:</span> linke Taste gedrückt halten und ziehen &nbsp;–&nbsp;
+          <span style="white-space:nowrap;">Trackpad:</span> gedrückt halten und ziehen
+        </li>
+        <li>
+          <strong>Doppelklick:</strong>
+          hineinzoomen &nbsp;–&nbsp;
+          <strong>Shift&nbsp;+&nbsp;Doppelklick:</strong> wieder herauszoomen
+        </li>
+        <li>
+          <strong>Marker einschalten:</strong>
+          Button rechts unten („Marker einblenden“)
+        </li>
+        <li>
+          <strong>Detailseite öffnen:</strong>
+          Marker anklicken
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <script is:inline src="/vendor/openseadragon.min.js"></script>
+
+  <script define:vars={{ tileSource, centerPoint, startZoomFactor, points }}>
+    // @ts-ignore
+    const OSD = window.OpenSeadragon;
+    const host = document.getElementById("osd");
+    const toast = document.getElementById("coord-toast");
+
+    const viewer = OSD({
+      element: host,
+      tileSources: tileSource,
+      showNavigationControl: false,
+      wrapHorizontal: false,
+      wrapVertical: false,
+      constrainDuringPan: true,
+      visibilityRatio: 1.0,
+      zoomPerScroll: 1.02,
+      gestureSettingsMouse: {
+        scrollToZoom: true,
+        clickToZoom: false,
+        dblClickToZoom: true,
+        pinchToZoom: true,
+        flickEnabled: true,
+      },
+    });
+
+    function makeSvgMarker(number, title, href) {
+      const wrap = document.createElement("a");
+      wrap.href = href;
+      wrap.title = title;
+      wrap.style.width = "30px";
+      wrap.style.height = "30px";
+      wrap.style.display = "block";
+      wrap.style.pointerEvents = "auto";
+      wrap.style.cursor = "pointer";
+      wrap.style.textDecoration = "none";
+
+      const stop = (e) => e.stopPropagation();
+      ["mousedown", "mouseup", "click", "touchstart", "touchend"].forEach((evt) =>
+        wrap.addEventListener(evt, stop, { passive: true })
+      );
+
+      wrap.innerHTML = `
+        <svg width="30" height="30" viewBox="0 0 30 30">
+          <circle cx="15" cy="15" r="13" fill="#fff" stroke="#000" stroke-width="2"/>
+          <text x="15" y="15" text-anchor="middle" dominant-baseline="central"
+                font-size="14" font-weight="900">${number}</text>
+        </svg>`;
+      return wrap;
+    }
+
+    let item = null;
+    let markersVisible = false;
+
+    function addMarkers() {
+      viewer.clearOverlays();
+      for (const p of points) {
+        const imgPt = new OSD.Point(p.x, p.y);
+        const vpPt = item.imageToViewportCoordinates(imgPt);
+        viewer.addOverlay({
+          element: makeSvgMarker(p.number, p.title, p.href),
+          location: vpPt,
+          placement: OSD.Placement.CENTER,
+        });
+      }
+    }
+
+    function setMarkersVisible(v) {
+      markersVisible = v;
+      if (v) addMarkers();
+      else viewer.clearOverlays();
+
+      toggleBtn.textContent = v ? "Marker ausblenden" : "Marker einblenden";
+      toggleBtn.setAttribute("aria-pressed", String(!v));
+    }
+
+    const toggleBtn = document.getElementById("toggle-markers");
+    toggleBtn.addEventListener("click", () => setMarkersVisible(!markersVisible));
+
+    // Versteckte Funktion: Option/Alt + Klick -> Bildkoordinaten anzeigen (und kopieren)
+    let toastTimer = null;
+
+    function showCoords(x, y) {
+      if (!toast) return;
+      toast.textContent = `x=${x}, y=${y}`;
+      toast.style.display = "block";
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.style.display = "none";
+      }, 10000);
+    }
+
+    async function copyCoordsToClipboard(text) {
+      try {
+        if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+        }
+      } catch (_) {
+        // still fine – Anzeige reicht
+      }
+    }
+
+    viewer.addHandler("canvas-click", (ev) => {
+      // OSD liefert das echte Browser-Event in ev.originalEvent
+      const oe = ev && ev.originalEvent;
+      const isOption = !!(oe && oe.altKey); // Option auf macOS = altKey
+      if (!isOption) return;
+
+      // Falls OSD etwas anderes tun wollte: unterbinden
+      ev.preventDefaultAction = true;
+      if (oe && oe.stopPropagation) oe.stopPropagation();
+
+      const currentItem = viewer.world.getItemAt(0);
+      if (!currentItem) return;
+
+      // Klickposition (Pixel im Viewer) -> Viewport -> Bildkoordinaten
+      const webPoint = ev.position; // Pixel relativ zum Viewer-Element
+      const vpPoint = viewer.viewport.pointFromPixel(webPoint);
+      const imgPoint = currentItem.viewportToImageCoordinates(vpPoint);
+
+      const x = Math.round(imgPoint.x);
+      const y = Math.round(imgPoint.y);
+
+      showCoords(x, y);
+      copyCoordsToClipboard(`${x},${y}`);
+    });
+
+    viewer.addHandler("open", () => {
+      item = viewer.world.getItemAt(0);
+      const home = viewer.viewport.getHomeZoom();
+      viewer.viewport.minZoomLevel = home;
+      viewer.viewport.maxZoomLevel = home * 32;
+
+      const imgCenter = new OSD.Point(centerPoint.x, centerPoint.y);
+      const vpCenter = item.imageToViewportCoordinates(imgCenter);
+      viewer.viewport.panTo(vpCenter, true);
+      viewer.viewport.zoomTo(home * startZoomFactor, vpCenter, true);
+
+      // Initial: Marker AUS
+      viewer.clearOverlays();
+    });
+  </script>
+</BaseLayout>

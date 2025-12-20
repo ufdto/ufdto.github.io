@@ -1,0 +1,235 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = "Pechgrün", description = "" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description ? <meta name="description" content={description} /> : null}
+
+    <!-- Optional: Inter (uncomment if you want it) -->
+    <!-- <link rel="preconnect" href="https://rsms.me/" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" /> -->
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <a href="/" class="brand-link">Pechgrün</a>
+    </div>
+
+    <nav class="top-nav" aria-label="Hauptnavigation">
+      <a href="/inhalte">Inhalte</a>
+      <span class="sep">·</span>
+
+      <a href="/chronik">Chronik</a>
+      <span class="sep">·</span>
+
+      <a href="/quellen">Quellen</a>
+      <span class="sep">·</span>
+
+      <a href="/impressum">Über diese Website</a>
+    </nav>
+  </div>
+</header>
+
+    <main id="main" class="main">
+      <slot />
+    </main>
+
+    <style>
+      /* ---------- Base reset ---------- */
+      :global(*) {
+        box-sizing: border-box;
+      }
+      :global(html, body) {
+        margin: 0;
+        padding: 0;
+      }
+      :global(img) {
+        max-width: 100%;
+        height: auto;
+      }
+
+      /* ---------- Typography ---------- */
+      :global(body) {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        line-height: 1.6;
+        color: #111;
+        background: #fff;
+      }
+
+      :global(a) {
+        color: inherit;
+      }
+      :global(a:hover) {
+        text-decoration: underline;
+      }
+
+      /* Narrow figures (e.g., Redelbach images): max 540px, left-aligned */
+      :global(main figure.narrow) {
+        max-width: 540px;
+        margin: 1.25rem 0 2rem;
+      }
+
+      :global(main figure.narrow img) {
+        width: 100%;
+        height: auto;
+      }
+
+      :global(main figure img) {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      /* ---------- Layout ---------- */
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        background: #fff;
+      }
+
+      .site-header {
+        backdrop-filter: blur(8px);
+        background: rgba(255, 255, 255, 0.92);
+      }
+
+      .header-inner {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 0.9rem 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .brand-link {
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .top-nav {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        white-space: nowrap;
+      }
+
+      .top-nav a {
+        text-decoration: none;
+        opacity: 0.9;
+      }
+
+      .top-nav a:hover {
+        opacity: 1;
+      }
+
+      .sep {
+        opacity: 0.45;
+      }
+
+      .main {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 1.75rem 1.25rem 3rem;
+      }
+
+      /* ---------- Content defaults ---------- */
+      :global(main h1) {
+        font-size: 2.5rem;
+        line-height: 1.15;
+        margin: 0 0 1rem;
+      }
+
+      :global(main h2) {
+        margin-top: 2rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.2;
+      }
+
+      :global(main p) {
+        margin: 0 0 1rem;
+      }
+
+      :global(main figure) {
+        margin: 1.25rem 0 2rem;
+      }
+
+      :global(main figcaption) {
+        margin-top: 0.6rem;
+        font-size: 0.95rem;
+        opacity: 0.85;
+        line-height: 1.4;
+      }
+
+      :global(main blockquote) {
+        margin: 1rem 0 1.5rem;
+        padding: 1rem 1.25rem;
+        border-left: 4px solid rgba(0, 0, 0, 0.15);
+      }
+
+      :global(main blockquote p) {
+        margin: 0.5rem 0;
+      }
+
+      /* Accessibility */
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+      }
+      .skip-link:focus {
+        left: 1rem;
+        top: 1rem;
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        padding: 0.5rem 0.75rem;
+        border-radius: 8px;
+      }
+
+      /* Responsive header wrap */
+      @media (max-width: 520px) {
+        .header-inner {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+
+      /* Panorama viewport: show it taller, allow horizontal scroll */
+      :global(.pano-viewport) {
+        width: 100%;
+        height: 540px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        border-radius: 12px;
+        -webkit-overflow-scrolling: touch;
+        background: rgba(0, 0, 0, 0.03);
+      }
+
+      :global(.pano-viewport .pano-img) {
+        height: 100%;
+        width: auto !important;
+        max-width: none !important;
+        object-fit: contain;
+        display: block;
+      }
+    </style>
+  </body>
+</html>

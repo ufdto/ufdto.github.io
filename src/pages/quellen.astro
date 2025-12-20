@@ -1,0 +1,212 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "Quellen";
+---
+
+<BaseLayout title={title}>
+  <article class="content">
+    <style>
+      .source-split {
+        display: grid;
+        grid-template-columns: 400px 1fr;
+        gap: 1.25rem;
+        margin: 2rem 0;
+        align-items: start;
+      }
+
+      /* Bildcontainer links */
+      .source-image {
+        max-width: 400px;
+      }
+
+      .source-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      /* Echte Bildunterschrift: kleiner, grauer, enger */
+      .source-caption {
+        margin-top: 0.4rem;
+        font-size: 0.8em;
+        line-height: 1.25;
+        color: #777;
+      }
+
+      /* Rechte Spalte: normaler Flow (für mehrere Absätze) */
+      .source-meta {
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Falls globales CSS mit "flow spacing" arbeitet: im rechten Block definieren wir sauber */
+      .source-meta p {
+        margin: 0 0 0.9rem 0;
+      }
+
+      .source-meta p:last-child {
+        margin-bottom: 0;
+      }
+
+      @media (max-width: 700px) {
+        .source-split {
+          grid-template-columns: 1fr;
+        }
+
+        .source-image {
+          max-width: 100%;
+        }
+      }
+    </style>
+
+    <h1>Quellen</h1>
+
+    <p>
+      Diese Website stützt sich auf eine Vielzahl unterschiedlicher Quellen. Sie
+      ist nicht aus einem einzelnen Projekt oder einer einzelnen Publikation
+      hervorgegangen, sondern aus einem über viele Jahre gewachsenen Bestand an
+      Erinnerungen, Dokumenten, Bildern und eigenen Recherchen.
+    </p>
+
+    <p>
+      Ziel dieser Seite ist es, diese Grundlagen transparent zu machen und
+      zugleich deutlich zu zeigen, auf wessen Arbeit und Engagement diese
+      Website aufbaut.
+    </p>
+
+    <h2>Erinnerungsbände „Pechgrün – Geschichte und Erinnerungen“</h2>
+
+    <p>
+      Eine zentrale Grundlage dieser Website bilden die drei Erinnerungsbände
+      <em
+        >„Pechgrün – Geschichte und Erinnerungen. Pechgrün am Fuße des
+        Erzgebirges, ein verschüttetes Dorf“</em
+      >, erschienen in den Jahren 1989, 1993 und 1998.
+    </p>
+
+    <p>
+      In diesen Bänden wurde erstmals in größerem Umfang die Geschichte des
+      Dorfes Pechgrün, seiner Häuser, seiner Bewohner und seines sozialen
+      Umfelds dokumentiert und festgehalten. Viele Texte, Hinweise, Abbildungen
+      und Zusammenhänge, die auf dieser Website aufgegriffen und weitergeführt
+      werden, gehen unmittelbar auf diese Publikationen zurück.
+    </p>
+
+    <div class="source-split">
+      <div class="source-image">
+        <img
+          src="/images/autoren-pechgruen-buecher.jpg"
+          alt="Autoren und Herausgeber der Pechgrün-Bände: Erich Heinzel, Karl Redelbach, Anton Strunz und Franz Dengler"
+        />
+        <div class="source-caption">
+          Autoren und Herausgeber der Erinnerungsbände „Pechgrün – Geschichte
+          und Erinnerungen“ (1989–1998).
+        </div>
+      </div>
+
+      <div class="source-meta">
+        <p>
+          Von links nach rechts: Erich Heinzel, Karl Redelbach, Anton Strunz und
+          Franz Dengler.
+        </p>
+        <p>
+          Erich Heinzel, Karl Redelbach und Anton Strunz waren maßgeblich an
+          Konzeption, Redaktion und inhaltlicher Gestaltung der Pechgrün-Bände
+          beteiligt; Anton Strunz war der Initiator des gesamten Projekts.
+        </p>
+        <p>
+          Franz Dengler, aus dem Nachbardorf stammend, war Teil des Egerländer
+          Umfelds, aus dem diese Erinnerungsarbeit hervorging, und begleitete
+          das Projekt aus persönlicher Verbundenheit. Aufnahme vermutlich Ende
+          der 1990er-Jahre.
+        </p>
+      </div>
+    </div>
+
+    <h2>Gedenkbuch der Gemeinde Pechgrün</h2>
+
+    <div class="source-split">
+      <div class="source-image">
+        <img
+          src="/images/quelle-gedenkbuch.jpg"
+          alt="Titelseite des Gedenkbuchs der Gemeinde Pechgrün"
+        />
+        <div class="source-caption">
+          Titelseite des Gedenkbuchs der Gemeinde Pechgrün, entstanden in den
+          1920er-Jahren.
+        </div>
+      </div>
+
+      <div class="source-meta">
+        <p>
+          Eine weitere wichtige Grundlage bildet das <em
+            >Gedenkbuch der Gemeinde Pechgrün</em
+          >, das in den 1920er-Jahren entstanden ist. Dieses handschriftlich
+          geführte Buch stellt eine der frühesten systematischen
+          Zusammenstellungen zur Geschichte der Gemeinde dar und entstand zu
+          einer Zeit, als viele der darin erwähnten Personen und Ereignisse noch
+          Teil der lebendigen Erinnerung waren.
+        </p>
+        <p>
+          Das Gedenkbuch enthält unter anderem Hinweise auf die Entwicklung der
+          Gemeinde, auf Häuser, Besitzverhältnisse sowie auf Personen und
+          Familien, die für Pechgrün von Bedeutung waren. Es spiegelt damit eine
+          zeitgenössische Sicht auf das Dorf und seine Geschichte wider, lange
+          bevor die späteren Erinnerungsbände entstanden.
+        </p>
+        <p>
+          Das Gedenkbuch wurde als internes Erinnerungs- und Dokumentationsbuch
+          der Gemeinde geführt und wird heute vom Staatsarchiv Leitmeritz
+          digital bereitgestellt (Porta Fontium). Es stellt eine frühe, zeitnahe
+          Quelle dar, auf die sich spätere Erinnerungsarbeiten teilweise stützen
+          konnten, ohne sie vollständig zu ersetzen. Die auf dieser Website
+          verwendeten Abbildungen und Hinweise aus dem Gedenkbuch dienen der
+          historischen Einordnung und Ergänzung.
+        </p>
+      </div>
+    </div>
+
+    <h2>Mündliche Überlieferung und familiäre Erinnerungen</h2>
+
+    <p>
+      Eine weitere wichtige Quelle sind mündliche Überlieferungen innerhalb der
+      Familie sowie im weiteren Umfeld der Vertriebenen. Erzählungen von Eltern,
+      Großeltern, Verwandten und Bekannten aus dem Egerland haben früh das Bild
+      von Pechgrün geprägt und bilden einen wesentlichen Hintergrund für viele
+      der hier dargestellten Inhalte.
+    </p>
+
+    <h2>Kirchenbücher, Archive und genealogische Recherchen</h2>
+
+    <p>
+      Ergänzt werden diese Erinnerungen durch umfangreiche genealogische
+      Recherchen, insbesondere in Kirchenbüchern des Pfarrbezirks Chodau sowie in
+      weiteren Archiven. Diese Quellen wurden genutzt, um Personen,
+      Familienzusammenhänge und zeitliche Abläufe nachvollziehbar zu machen.
+    </p>
+
+    <h2>Eigene Recherchen, Fotografien und Dokumentationen</h2>
+
+    <p>
+      Hinzu kommen eigene Recherchen vor Ort, Fotografien, Kartenstudien,
+      Luftbilder sowie Dokumentationen, die im Zusammenhang mit Reisen,
+      Ortsbegehungen und der Beschäftigung mit der Landschaft und den
+      verbliebenen Spuren von Pechgrün entstanden sind.
+    </p>
+
+    <p>
+      Teile dieser Arbeiten wurden auch in eigenen Fotobüchern und
+      Dokumentationen festgehalten und bilden eine weitere Grundlage für die
+      Inhalte dieser Website.
+    </p>
+
+    <h2>Hinweis zum offenen Charakter</h2>
+
+    <p>
+      Diese Quellenübersicht erhebt keinen Anspruch auf Vollständigkeit. Sie
+      wird bei Bedarf ergänzt und präzisiert, insbesondere dann, wenn weitere
+      Materialien, Hinweise oder Beiträge hinzukommen.
+    </p>
+  </article>
+</BaseLayout>

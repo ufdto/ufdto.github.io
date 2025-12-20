@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("ortschaften");
+  return entries.map((e) => ({
+    params: { slug: e.slug },
+    props: { entry: e },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<BaseLayout title={entry.data.title}>
+  <main style="max-width:980px;margin:0 auto;">
+    <h1 style="margin:0 0 0.35rem;">{entry.data.title}</h1>
+
+    {entry.data.subtitle ? (
+      <p style="margin:0 0 1rem; opacity:0.8;">{entry.data.subtitle}</p>
+    ) : null}
+
+    <Content />
+ </main>
+</BaseLayout>
