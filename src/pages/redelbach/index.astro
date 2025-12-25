@@ -1,0 +1,149 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+// Inhalte aus dem Redelbach-Bereich
+import { chronik as sketchbook } from "./sketchbook.astro";
+import { chronik as erinnerungen } from "./erinnerungen.astro";
+import { chronik as gedicht } from "./gedicht.astro";
+import { chronik as gallery } from "./gallery.astro";
+
+export const chronik = {
+  title: "Karl Redelbach",
+  subtitle: "Der künstlerische Ursprung der Pechgrün-Bücher",
+  date: "2025-12-22",
+  bereich: "Redelbach",
+  href: "/redelbach",
+  order: 10,
+};
+
+const intro =
+  "Karl Redelbach war ein begnadeter Künstler und enger Freund von Erich Heinzl. Seine Fähigkeit zu zeichnen, zu malen, zu schreiben und in Sprache Bilder entstehen zu lassen, war ihm nicht anerzogen oder angelernt, sondern grundlegend vorhanden. Er besaß einen Blick für Landschaft, Menschen und Zusammenhänge, der über das Alltägliche hinausging.\n\n" +
+  "Diese Begabung verband sich bei ihm mit einer tiefen Verbundenheit zur Heimat. Pechgrün war für ihn kein verlorener Ort am Rand der Geschichte, sondern ein Ort, für den er sich verantwortlich fühlte. Die Erinnerung an das Dorf, aus dem er selbst und seine Familie vertrieben worden waren, wollte er nicht dem Vergessen überlassen.\n\n" +
+  "Aus dieser Haltung heraus entstand sein Mitwirken an den Pechgrün-Büchern. Auf der Bildebene, in Texten und in poetischer Form gab er dem Ort eine Gestalt, die mehr ist als Beschreibung. Seine Zeichnungen, Skizzen, Erinnerungen und Gedichte trugen die Bücher in Ausdruck und Ton. Ohne dieses Zusammenspiel aus künstlerischer Begabung und Heimatverbundenheit wären die Pechgrün-Bände in dieser Form nicht entstanden – und vieles von dem, was heute über Pechgrün zugänglich ist, gäbe es nicht.";
+
+const permissionNote =
+  "Viele der hier gezeigten Bilder wurden von Originalen abfotografiert, die uns Jutta Geldmacher (Tochter von Karl Redelbach) gezeigt hat – mit ihrer ausdrücklichen Einwilligung zur Veröffentlichung. Sie meinte, ihr Vater hätte sich darüber gefreut, wenn er es noch erlebt hätte.";
+
+const entries = [
+  {
+    ...gallery,
+    note:
+      "Bilder von Karl Redelbach: Aquarelle, Zeichnungen und Drucke mit Motiven aus Pechgrün – verkleinert dargestellt und per Klick in hoher Auflösung.",
+  },
+  {
+    ...sketchbook,
+    note:
+      "Ein Skizzenheft mit Notizen: zeichnerische Beobachtungen vom Verfall und Abriss des Dorfes – Seite für Seite dokumentiert, ohne nachträgliche Glättung.",
+  },
+  {
+    ...erinnerungen,
+    note:
+      "Ein zusammenhängender Erinnerungstext: Redelbachs Blick auf Pechgrün, seine Wege, Orte und Landschaften – ruhig, beschreibend und persönlich.",
+  },
+  {
+    ...gedicht,
+    note:
+      "Ein langes Erinnerungs­gedicht in egerländischer Sprache. Der Text besteht fast nur aus Fragen – ergänzt durch eine sachliche Übersetzung und eine Einordnung aus heutiger Sicht.",
+  },
+];
+---
+
+<BaseLayout title={chronik.title}>
+  <article class="text-ort">
+    <header class="head">
+      <h1>{chronik.title}</h1>
+      <p class="subtitle">{chronik.subtitle}</p>
+
+      <p class="intro">{intro}</p>
+      <p class="intro">{permissionNote}</p>
+    </header>
+
+    <section class="list" aria-label="Inhalte von Karl Redelbach">
+      <ul class="items">
+        {
+          entries.map((e) => (
+            <li class="item">
+              <h2 class="title">
+                <a href={e.href}>{e.title}</a>
+              </h2>
+
+              {e.subtitle ? <p class="sub">{e.subtitle}</p> : null}
+              {e.note ? <p class="note">{e.note}</p> : null}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .text-ort {
+    width: min(860px, 100%);
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  .head {
+    margin-bottom: 1.6rem;
+  }
+
+  .subtitle {
+    margin: -0.35rem 0 0.9rem 0;
+    font-size: 1.15rem;
+    line-height: 1.35;
+    color: rgba(0, 0, 0, 0.72);
+  }
+
+  .intro {
+    margin-top: 0.4rem;
+    margin-bottom: 0.9rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: rgba(0, 0, 0, 0.6);
+    white-space: pre-line;
+  }
+
+  .items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .item {
+    padding: 1.2rem 0 1.4rem 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .item:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .title {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.35rem;
+    line-height: 1.25;
+  }
+
+  .title a {
+    text-decoration: none;
+  }
+
+  .title a:hover {
+    text-decoration: underline;
+  }
+
+  .sub {
+    margin: 0 0 0.6rem 0;
+    font-size: 1.02rem;
+    line-height: 1.4;
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .note {
+    margin: 0;
+    font-size: 1.02rem;
+    line-height: 1.7;
+  }
+</style>

@@ -1,0 +1,78 @@
+---
+export const chronik = {
+    title: "Karl Redelbach – Skizzenheft",
+    subtitle: "Skizzen und Notizen, seitenweise präsentiert",
+    date: "2025-12-22",
+    bereich: "Redelbach",
+    order: 20,
+    href: "/redelbach/sketchbook",
+};
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import RedelbachSketchbookViewer from "../../components/RedelbachSketchbookViewer.astro";
+
+const title = "Karl Redelbach – Skizzenheft";
+const description =
+    "Unveröffentlichte Skizzen und Notizen von Karl Redelbach. Ein künstlerisches Dokument von Verfall und Zerstörung des Dorfes Pechgrün.";
+---
+
+<BaseLayout title={title} description={description}>
+    <article class="rb-page">
+        <header class="rb-header">
+            <h1>Karl Redelbach</h1>
+            <p class="rb-subtitle">Skizzen und Notizen – Seite für Seite</p>
+        </header>
+
+        <section class="rb-intro">
+            <p>
+                In diesem Skizzenheft tritt Karl Redelbach nicht als
+                Erzähler oder Kommentator auf, sondern als zeichnender
+                Beobachter. Wie ein Bildreporter hält er fest, was geschieht,
+                während Pechgrün verschwindet: verlassene Höfe, zerfallende
+                Gebäude, letzte Spuren von Nutzung – und schließlich den Abriss.
+                Zu fast jeder Zeichnung fügte er handschriftliche Notizen hinzu,
+                die das Gesehene präzisieren, einordnen oder still ergänzen.
+                Bild und Sprache greifen ineinander und bilden gemeinsam ein
+                Protokoll des Verschwindens – nicht sachlich-distanziert,
+                sondern getragen von genauer Wahrnehmung und innerer
+                Verbundenheit.
+            </p>
+        </section>
+
+        <RedelbachSketchbookViewer />
+
+        <footer class="rb-footer">
+            <p>
+                Fotografien der Originalblätter. Spuren von Alter, Gebrauch und
+                Papierstruktur wurden bewusst nicht retuschiert.
+            </p>
+        </footer>
+    </article>
+</BaseLayout>
+
+<style>
+    .rb-page {
+        display: grid;
+        gap: 1.75rem;
+    }
+
+    .rb-header h1 {
+        margin-bottom: 0.25rem;
+    }
+
+    .rb-subtitle {
+        font-size: 1.1rem;
+        opacity: 0.85;
+        margin: 0;
+    }
+
+    .rb-intro,
+    .rb-footer {
+        max-width: 70ch;
+    }
+
+    .rb-footer {
+        font-size: 0.95rem;
+        opacity: 0.85;
+    }
+</style>

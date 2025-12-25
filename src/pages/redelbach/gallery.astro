@@ -1,0 +1,519 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export const chronik = {
+  title: "Bilder von Karl Redelbach",
+  subtitle: "Aquarelle, Zeichnungen und Drucke mit Motiven aus Pechgrün",
+  date: "2025-12-23",
+  bereich: "Redelbach",
+  href: "/redelbach/gallery",
+  order: 3,
+};
+
+/* Bild-Importe */
+const smallMods = import.meta.glob("/src/assets/redelbach/gallery/*-small.jpg", {
+  eager: true,
+  query: "?url",
+  import: "default",
+});
+
+const fullMods = import.meta.glob("/src/assets/redelbach/gallery/*-full.jpg", {
+  eager: true,
+  query: "?url",
+  import: "default",
+});
+
+function buildUrlMap(mods) {
+  const map = new Map();
+  for (const [path, url] of Object.entries(mods)) {
+    const file = path.split("/").pop() ?? "";
+    const id = file.replace("-small.jpg", "").replace("-full.jpg", "");
+    map.set(id, url);
+  }
+  return map;
+}
+
+const smallMap = buildUrlMap(smallMods);
+const fullMap = buildUrlMap(fullMods);
+
+/* freie Reihenfolge */
+const order = [
+  "p01","p02","p03","p04","p05","p06","p07","p08","p09","p10",
+  "p11","p12","p13","p14","p15","p16","p17","p18","p19","p20",
+];
+
+/* Bildbeschreibungen: WAS ist zu sehen (keine Quellen, kein Besitz) */
+const metaById = {
+  p01: {
+    title: "Pechgrün",
+    desc: 'Blick vom "Meißl-Huaf" hinunter zur Dorfmitte und darüber hinaus zum Herrenteich und zur "Leitn"',
+  },
+  p02: {
+    title: "Pechgrün",
+    desc: 'Marterl vor den Resten des "Friedl-Hauses" (Haus Nr. 22, Geburtsort von Karl Redelbach)',
+  },
+  p03: { title: "Selbstporträt", desc: "Karl Redelbach" },
+  p04: {
+    title: "Pechgrün",
+    desc: 'das "Mußl-Haus" (Haus Nr. 12) mit der Rückseite in den Hang des "Gloanat" hineingebaut',
+  },
+  p05: {
+    title: "Pechgrün",
+    desc: "Wintertag. Blick vom Platz vor dem Fellnerladen (Haus Nr. 24) dorfaufwärts",
+  },
+  p06: { title: "Pechgrün", desc: "Dorfkapelle" },
+  p07: { title: "Zwischen Pechgrün und Kösteldorf", desc: "Wehrmühle am Schwarzebach" },
+  p08: {
+    title: "Pechgrün",
+    desc: 'Familie mit Leiterwagen den "Lauchrong" (Hang) hinunter kommend hinter dem "Siema-Haus" (Haus Nr. 29)',
+  },
+  p09: {
+    title: "Pechgrün",
+    desc: 'Ziegenhüten bei den Linden in der Nähe des "Matzl-Huafs" (Haus Nr. 19) und des "Läin-Hauses" (Haus Nr. 20)',
+  },
+  p10: {
+    title: "Pechgrün",
+    desc: 'versumpfte Wiese "ban Gebhardt" (Haus Nr. 79) im Ortsteil "Vuaglsång" in Richtung Stelzengrün',
+  },
+  p11: { title: "Pechgrün", desc: "aus dem Gedächtnis heraus gezeichneter Ortsplan" },
+  p12: {
+    title: "Pechgrün",
+    desc: '"unteres Dorf" mit der hohen schlanken Pappel vor dem Schulgebäude (Haus Nr. 2) stehend',
+  },
+  p13: {
+    title: "Pechgrün",
+    desc: 'die Straße von Chodau führte entlang des "Kåstenteichs" in Richtung Dorf , im Hintergrund der Spitzberg',
+  },
+  p14: { title: "Pechgrün", desc: "Mußl-Haus." },
+  p15: {
+    title: "Pechgrün",
+    desc: '',
+  },
+  p16: { title: "Pechgrün", desc: '' },
+  p17: { title: "Pechgrün", desc: '' },
+  p18: { title: "Pechgrün", desc: '' },
+  p19: { title: "Pechgrün", desc: '' },
+  p20: { title: "Pechgrün", desc: '' },
+};
+
+const items = order
+  .filter((id) => smallMap.has(id) && fullMap.has(id))
+  .map((id) => ({
+    id,
+    small: smallMap.get(id),
+    full: fullMap.get(id),
+    title: metaById[id]?.title ?? id,
+    desc: metaById[id]?.desc ?? "",
+  }));
+---
+
+<BaseLayout title={chronik.title}>
+  <article class="page">
+    <header class="head">
+      <h1>{chronik.title}</h1>
+      <p class="subtitle">{chronik.subtitle}</p>
+    </header>
+
+    <section class="intro">
+      <p>
+        Gezeigt werden Bilder mit Motiven aus Pechgrün. Sie sind Ausdruck der künstlerischen Begabung Karl Redelbachs und
+        seiner tiefen Verbundenheit mit der Heimat – der Versuch, einen verschwundenen Ort sichtbar zu halten. Die
+        Abbildungen sind fotografische Reproduktionen dieser Bilder. Sie entstanden nach Originalen, die sich im privaten
+        Besitz befinden und mit Einwilligung abfotografiert wurden. Weitere Abbildungen basieren auf Reproduktionen aus
+        den drei Erinnerungsbänden <em>Pechgrün – ein verschüttetes Dorf. Geschichte und Erinnerungen</em>.
+      </p>
+      <p class="hint">Tipp: Klicke auf das große Bild für die Originalansicht.</p>
+    </section>
+
+    {items.length === 0 ? (
+      <p>
+        Keine Bilder gefunden. Prüfe bitte <code>src/assets/redelbach/gallery/</code>.
+      </p>
+    ) : (
+      <section class="viewer" data-gallery>
+        <div class="viewer-top">
+          <figure class="hero">
+            <button class="hero-btn" type="button" data-open aria-label="Originalansicht öffnen">
+              <div class="hero-frame">
+                <img src={items[0].small} alt={items[0].title} loading="eager" data-hero-img />
+              </div>
+            </button>
+
+            <figcaption class="caption" data-caption>
+              <span class="cap-title">{items[0].title}</span>
+              {items[0].desc ? <span class="cap-desc"> — {items[0].desc}</span> : null}
+            </figcaption>
+          </figure>
+
+          <div class="controls">
+            <button type="button" class="nav" data-prev aria-label="Vorheriges Bild">←</button>
+            <button type="button" class="nav" data-next aria-label="Nächstes Bild">→</button>
+          </div>
+        </div>
+
+        <div class="strip" data-strip aria-label="Bildauswahl">
+          {items.map((it, idx) => (
+            <button
+              class={"thumb" + (idx === 0 ? " is-active" : "")}
+              type="button"
+              data-thumb
+              data-index={idx}
+              aria-label={`Bild wählen: ${it.title}`}
+            >
+              <img src={it.small} alt="" loading="lazy" />
+            </button>
+          ))}
+        </div>
+
+        <dialog class="dlg" data-dialog>
+          <div class="dlg-inner">
+            <div class="dlg-head">
+              <div class="dlg-title" data-dlg-title>{items[0].title}</div>
+              <button type="button" class="dlg-close" data-close aria-label="Schließen">×</button>
+            </div>
+
+            <div class="dlg-body">
+              <img class="dlg-img" data-dlg-img src={items[0].full} alt={items[0].title} loading="lazy" />
+              {items[0].desc ? <div class="dlg-meta" data-dlg-meta>{items[0].desc}</div> : null}
+            </div>
+
+            <div class="dlg-foot">
+              <a class="dlg-dl" data-dlg-download href={items[0].full} download={`${items[0].id}.jpg`}>
+                Original herunterladen
+              </a>
+              <a class="dlg-open" data-dlg-open href={items[0].full} target="_blank" rel="noopener">
+                In neuem Tab öffnen
+              </a>
+            </div>
+          </div>
+        </dialog>
+
+        <script is:inline define:vars={{ items }}>
+          (() => {
+            const root = document.querySelector("[data-gallery]");
+            if (!root) return;
+
+            const heroImg = root.querySelector("[data-hero-img]");
+            const caption = root.querySelector("[data-caption]");
+            const prev = root.querySelector("[data-prev]");
+            const next = root.querySelector("[data-next]");
+            const thumbs = Array.from(root.querySelectorAll("[data-thumb]"));
+
+            const dlg = root.querySelector("[data-dialog]");
+            const openBtn = root.querySelector("[data-open]");
+            const closeBtn = root.querySelector("[data-close]");
+            const dlgImg = root.querySelector("[data-dlg-img]");
+            const dlgTitle = root.querySelector("[data-dlg-title]");
+            const dlgMeta = root.querySelector("[data-dlg-meta]");
+            const dlgDl = root.querySelector("[data-dlg-download]");
+            const dlgOpen = root.querySelector("[data-dlg-open]");
+
+            let index = 0;
+
+            const clamp = (i) => (i + items.length) % items.length;
+
+            const setActiveThumb = (i) => {
+              thumbs.forEach((t, k) => t.classList.toggle("is-active", k === i));
+              thumbs[i]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+            };
+
+            const renderCaption = (it) => {
+              caption.innerHTML = "";
+              const t = document.createElement("span");
+              t.className = "cap-title";
+              t.textContent = it.title;
+              caption.appendChild(t);
+
+              if (it.desc) {
+                const d = document.createElement("span");
+                d.className = "cap-desc";
+                d.textContent = " — " + it.desc;
+                caption.appendChild(d);
+              }
+            };
+
+            const render = (i) => {
+              const it = items[i];
+              if (!it) return;
+              index = i;
+
+              heroImg.src = it.small;
+              heroImg.alt = it.title;
+              renderCaption(it);
+
+              dlgImg.src = it.full;
+              dlgImg.alt = it.title;
+              dlgTitle.textContent = it.title;
+
+              if (dlgMeta) {
+                dlgMeta.textContent = it.desc || "";
+                dlgMeta.style.display = it.desc ? "" : "none";
+              }
+
+              dlgDl.href = it.full;
+              dlgDl.setAttribute("download", `${it.id}.jpg`);
+              dlgOpen.href = it.full;
+
+              setActiveThumb(i);
+            };
+
+            const goPrev = () => render(clamp(index - 1));
+            const goNext = () => render(clamp(index + 1));
+
+            prev.addEventListener("click", goPrev);
+            next.addEventListener("click", goNext);
+
+            thumbs.forEach((btn) =>
+              btn.addEventListener("click", () => render(Number(btn.dataset.index)))
+            );
+
+            openBtn.addEventListener("click", () => dlg.showModal());
+            closeBtn.addEventListener("click", () => dlg.close());
+            dlg.addEventListener("click", (e) => e.target === dlg && dlg.close());
+
+            // Keyboard navigation:
+            // - ArrowLeft / ArrowRight: prev/next (works with or without dialog open)
+            // - Escape: close dialog (if open)
+            const isTypingContext = (el) => {
+              if (!el) return false;
+              const tag = (el.tagName || "").toLowerCase();
+              return tag === "input" || tag === "textarea" || tag === "select" || el.isContentEditable;
+            };
+
+            const onKeyDown = (e) => {
+              if (e.defaultPrevented) return;
+              if (e.metaKey || e.ctrlKey || e.altKey) return; // don't hijack shortcuts
+              if (isTypingContext(document.activeElement)) return;
+
+              if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                goPrev();
+              } else if (e.key === "ArrowRight") {
+                e.preventDefault();
+                goNext();
+              } else if (e.key === "Escape") {
+                if (dlg && dlg.open) {
+                  e.preventDefault();
+                  dlg.close();
+                }
+              }
+            };
+
+            window.addEventListener("keydown", onKeyDown, { passive: false });
+
+            // cleanup when navigating with Astro view transitions (if used)
+            window.addEventListener("astro:before-swap", () => {
+              window.removeEventListener("keydown", onKeyDown);
+            });
+
+            render(0);
+          })();
+        </script>
+      </section>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .page {
+    width: 100%;
+    margin: 0;
+  }
+
+  .head .subtitle {
+    margin: 0.25rem 0 0.75rem;
+    opacity: 0.85;
+  }
+
+  /* Einleitung bewusst schmaler als Viewer */
+  .intro,
+  .intro p,
+  .hint {
+    max-width: 880px;
+  }
+
+  .intro {
+    margin: 0 0 1.25rem;
+  }
+
+  .hint {
+    opacity: 0.75;
+    margin-top: -0.25rem;
+  }
+
+  .viewer {
+    margin-top: 1.25rem;
+  }
+
+  .viewer-top {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .hero {
+    margin: 0;
+  }
+
+  .hero-btn {
+    all: unset;
+    display: block;
+    cursor: pointer;
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.03);
+  }
+
+  /* fixe Höhe – volle Sichtbarkeit */
+  .hero-frame {
+    height: 680px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.03);
+  }
+
+  .hero-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  @media (max-width: 900px) {
+    .hero-frame { height: 610px; }
+  }
+  @media (max-width: 520px) {
+    .hero-frame { height: 460px; }
+  }
+
+  .caption {
+    margin-top: 0.6rem;
+    font-size: 0.95rem;
+    opacity: 0.85;
+    line-height: 1.4;
+  }
+
+  .controls {
+    display: flex;
+    gap: 0.6rem;
+  }
+
+  .nav {
+    all: unset;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    padding: 0.45rem 0.65rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  /* ===========================================================
+     STRIP-FIX (robust gegen globales CSS)
+     =========================================================== */
+  .strip {
+    margin-top: 0.9rem;
+
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding-bottom: 6px;
+
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
+  .strip > .thumb {
+    all: unset;
+    cursor: pointer;
+
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    background: rgba(0, 0, 0, 0.03);
+
+    width: 110px;
+    height: 74px;
+
+    flex: 0 0 auto !important;
+    flex-shrink: 0 !important;
+
+    display: block;
+  }
+
+  .strip > .thumb img {
+    display: block;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: contain;
+    object-position: center;
+
+    max-width: none !important;
+  }
+
+  .thumb.is-active {
+    border-color: rgba(0, 0, 0, 0.35);
+  }
+
+  .dlg {
+    border: none;
+    padding: 0;
+    border-radius: 14px;
+    max-width: min(1000px, 92vw);
+    width: 92vw;
+  }
+
+  .dlg::backdrop {
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  .dlg-inner {
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .dlg-head {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0.9rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .dlg-body {
+    padding: 0.8rem;
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .dlg-img {
+    width: 100%;
+    max-height: 74vh;
+    object-fit: contain;
+    border-radius: 10px;
+  }
+
+  .dlg-meta {
+    margin-top: 0.6rem;
+    font-size: 0.95rem;
+    opacity: 0.8;
+  }
+
+  .dlg-foot {
+    display: flex;
+    gap: 10px;
+    padding: 0.75rem 0.9rem;
+    justify-content: flex-end;
+  }
+
+  .dlg-dl,
+  .dlg-open {
+    text-decoration: none;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    padding: 0.45rem 0.7rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.95);
+  }
+</style>

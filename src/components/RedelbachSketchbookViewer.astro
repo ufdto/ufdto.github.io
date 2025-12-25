@@ -1,0 +1,213 @@
+---
+/*
+  RedelbachSketchbookViewer.astro (final layout v3)
+
+  - Basislayout bleibt (Pfeil – Bild – Pfeil)
+  - Seitenbadge an Bildbox verankert
+  - Pfeile deutlich sichtbarer (auch disabled)
+*/
+
+const modules = import.meta.glob(
+  "../assets/redelbach/skizze-*.{jpg,jpeg,png,webp}",
+  { eager: true, import: "default", query: "?url" }
+) as Record<string, string>;
+
+const pages = Object.entries(modules)
+  .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
+  .map(([, url]) => url);
+
+const url = new URL(Astro.request.url);
+const initialIndex = Math.max(
+  0,
+  Math.min(pages.length - 1, (Number(url.searchParams.get("p")) || 1) - 1)
+);
+---
+
+<section class="rb-sketchbook" aria-label="Karl Redelbach – Skizzenheft">
+  {pages.length === 0 ? (
+    <p class="rb-empty">
+      Keine Seiten gefunden. Erwartet unter <code>src/assets/redelbach/</code> Dateien wie{" "}
+      <code>skizze-001.jpg</code>.
+    </p>
+  ) : (
+    <div class="rb-viewer">
+      <button class="rb-nav rb-prev" type="button" aria-label="Vorherige Seite">
+        ←
+      </button>
+
+      <figure class="rb-page">
+        <div class="rb-pagebadge" aria-hidden="true">
+          <span id="rbPageN">{initialIndex + 1}</span>
+          <span class="sep">/</span>
+          <span id="rbPageTotal">{pages.length}</span>
+        </div>
+
+        <img
+          id="rbPageImg"
+          src={pages[initialIndex]}
+          alt={`Skizzenheft – Seite ${initialIndex + 1}`}
+          loading="eager"
+          decoding="async"
+        />
+      </figure>
+
+      <button class="rb-nav rb-next" type="button" aria-label="Nächste Seite">
+        →
+      </button>
+    </div>
+  )}
+</section>
+
+<script define:vars={{ pages, initialIndex }}>
+  if (pages.length > 0) {
+    let index = initialIndex;
+
+    const img = document.getElementById("rbPageImg");
+    const pageN = document.getElementById("rbPageN");
+    const pageTotal = document.getElementById("rbPageTotal");
+    const prevBtn = document.querySelector(".rb-prev");
+    const nextBtn = document.querySelector(".rb-next");
+
+    function updateButtons() {
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === pages.length - 1;
+    }
+
+    function preload(i) {
+      if (!pages[i]) return;
+      const im = new Image();
+      im.src = pages[i];
+    }
+
+    function setPage(i) {
+      index = Math.max(0, Math.min(pages.length - 1, i));
+
+      img.src = pages[index];
+      img.alt = `Skizzenheft – Seite ${index + 1}`;
+      pageN.textContent = String(index + 1);
+      pageTotal.textContent = String(pages.length);
+
+      const u = new URL(window.location.href);
+      u.searchParams.set("p", String(index + 1));
+      history.replaceState(null, "", u);
+
+      updateButtons();
+      preload(index + 1);
+      preload(index - 1);
+    }
+
+    prevBtn.addEventListener("click", () => setPage(index - 1));
+    nextBtn.addEventListener("click", () => setPage(index + 1));
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") setPage(index - 1);
+      if (e.key === "ArrowRight") setPage(index + 1);
+    });
+
+    setPage(index);
+  }
+</script>
+
+<style>
+  .rb-empty {
+    max-width: 70ch;
+    opacity: 0.85;
+  }
+
+  .rb-viewer {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  .rb-page {
+    margin: 0;
+    display: grid;
+    justify-items: center;
+    position: relative;
+  }
+
+  .rb-page img {
+    max-height: 80vh;
+    max-width: 100%;
+    width: auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    user-select: none;
+    display: block;
+  }
+
+  .rb-pagebadge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-110%, 0);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.95rem;
+    color: rgba(0, 0, 0, 0.55);
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .rb-pagebadge #rbPageN {
+    font-weight: 650;
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .rb-pagebadge .sep,
+  .rb-pagebadge #rbPageTotal {
+    opacity: 0.65;
+  }
+
+  /* Pfeile: deutlich sichtbarer */
+  .rb-nav {
+    border: 1px solid rgba(0, 0, 0, 0.28);
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 999px;
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.25rem;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.78);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  }
+
+  .rb-nav:hover {
+    border-color: rgba(0, 0, 0, 0.40);
+    color: rgba(0, 0, 0, 0.92);
+  }
+
+  /* Disabled: sichtbar, aber klar "inaktiv" */
+  .rb-nav:disabled {
+    opacity: 0.55;              /* vorher viel zu niedrig */
+    cursor: default;
+    color: rgba(0, 0, 0, 0.65);
+    box-shadow: none;
+  }
+
+  @media (max-width: 700px) {
+    .rb-pagebadge {
+      transform: translate(0, -140%);
+      left: 0;
+    }
+
+    .rb-viewer {
+      grid-template-columns: 1fr;
+    }
+
+    .rb-prev,
+    .rb-next {
+      width: 100%;
+      height: 2.75rem;
+      border-radius: 14px;
+    }
+
+    .rb-prev { order: 2; }
+    .rb-next { order: 3; }
+    .rb-page { order: 1; }
+  }
+</style>

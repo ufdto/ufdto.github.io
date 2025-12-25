@@ -1,0 +1,301 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export const chronik = {
+  title: "Büst va Pechgräin?",
+  subtitle: "Ein Erinnerungs­gedicht in egerländischer Sprache",
+  date: "2025-12-23",
+  bereich: "Redelbach",
+  href: "/redelbach/gedicht",
+  order: 2,
+};
+
+const author = "Karl Redelbach";
+const sourceShort =
+  "Entstanden vor 1989. Veröffentlichung hier als Dokument der Erinnerung.";
+---
+
+<BaseLayout title={chronik.title}>
+  <article class="text-ort">
+    <header class="head">
+      <h1>{chronik.title}</h1>
+
+      <p class="subtitle">{chronik.subtitle}</p>
+
+      <p class="meta">
+        <span class="author">{author}</span>
+        <span class="dot">·</span>
+        <span class="source">{sourceShort}</span>
+      </p>
+    </header>
+
+    <!-- Einleitung -->
+    <section class="text">
+      <p>
+        Dieses Gedicht ist kein Versuch, Pechgrün zu beschreiben oder zu erklären.
+        Es besteht fast ausschließlich aus Fragen. Karl Redelbach ruft Orte,
+        Namen, Wege und Erinnerungen auf – ohne sie aufzulösen, ohne sie zu
+        ordnen, ohne zu behaupten, dass sie vollständig erinnerbar wären.
+      </p>
+
+      <p>
+        Der Text entstand Jahrzehnte nach der Zerstörung des Dorfes und hält
+        einen Moment fest, in dem auch die eigene Erinnerung bereits brüchig
+        geworden ist. Heute lesen wir dieses Gedicht erneut – wiederum Jahrzehnte
+        später. Es zeigt nicht Pechgrün selbst, sondern einen zeitgebundenen
+        Blick zurück: ein Erinnern, das sich seiner eigenen Grenzen bewusst ist.
+      </p>
+    </section>
+
+    <!-- Gedicht Original -->
+    <section class="text">
+      <div class="poem">
+Büst va Pechgräin? – ôf bi(n) sua gout,
+u sooch ma: Wåu wår d’ Hirt’nhout,
+wåu d’ Nazn’s Birklå, Mazl’s Bühl,
+da Kutschabarch u d’ Wöihamühl?
+
+Wåu wår d’ Leit’n, d’ Örlseich,
+da Hechtenteich, da Herrenteich u da Kastenteich?
+Wåu håut da Fleisch a’ Schweinla g’schlåcht,
+u wåu håut d’ Strauß a’ Krümming g’måcht?
+
+Wåu wår d’ Pechgräina Zuckerl-Buud’,
+u wåu wår s Haus van Schmied Gudd,
+wåu ban Gla(r)las, Girgn u Mazla?
+Wåißt nuu deina Schwämmaplazla?
+
+Wer håut g’rasiert u d’ Håu g’schniid’tn,
+u wer håut s Taut’n glock’l glüt’tn?
+Wåu wår d’ Läuch, wåu d’ Bär’nhout,
+u wåu wår s schönste Hoos’nkraut?
+
+Wer wår Pfåra, wer wår Lehr’a,
+wer wår Feia(r)ess’n-Kehra?
+Da Vuag’l Tone, s Körwl, d’ Moola,
+die golde Leit’n, d’ Flåß u d’ Rohla,
+da Raabsoog, d’ Tråchta, s Rinn’l, d’ Schlåmm,
+dees allas iis da gwiiß neat fremd.
+
+Wenn wår’n s Fest va Dotterwies?
+Wåißt, wenn’s in Chuada g’wes’n iis?
+Wöi wår d’ Förb va enkan Haisla?
+
+Wåu wår ban Fried’l, wåu ban Maisla,
+ban Hannrich, Bauma, Maasta, Somma,
+ban Schousta, Wick’n, Wåst’l, Homma,
+ban Maastawenz’l, Däävat, Låi(n)?
+Wer wår da Tischla va Pechgräin?
+
+Wåißt a wåu d’ Hoid’l-Büschla wår’n?
+Wåu iis d’ Neideka Katt’l g’fahr’n?
+Sooch, wåu wår da Stärkaneia?
+Wåu wår’n un’ra Kahnasfeia?
+
+Wåu wår ban Mussla, wåu ban Häu?
+Denk’ nå amal a bißerl nåu.
+
+Ich wåiß, öt’z wird-das långsam z’vül,
+döi Fråicherei, dees Aafgezühl.
+Denkst sicha: „Låu ma doch ma Rouh!“
+Ich will-das soog’n, vawares tou,
+u wåiß, ma(n Antwort wirst vaståh(n):
+Ich will erinner’n oa(n Pechgräin.
+
+Åf fräich ii di(ch heint wieda-a-mal,
+woos d’ nuu all’s wåißt va dazumål.
+Koast nuu s’ troocha, troocha Tåd aas?
+Probier’s amål, na sua, zan Gschpaåß.
+
+Woos hum Austern d’ Mål(d)a g’sunga?
+Wöi wår da Text, u wöi håut’s klunga?
+Wåißt nu, wer wår da Schnoowlhåcka?
+Sooch ma, wer wår da Zuuwa-Knåcka,
+da Robesberg u d’ Flögensich,
+da Sauteych, da Mühlteich u Kläiteich?
+
+Wöivül Kind(da wår’n ban Siehr?
+Denk’ drüwa nåu, u spikahar.
+Wöivül wår’n s ban Friedla Kind(a)?
+Koan(s)te nu af d’ Näima b’sinna?
+
+Kennst d’ Näima nu, u wåißt wöivül,
+wår’n Kind(da in da Wöihamühl?
+Gell, dåu moufst scho(n iwalägn’?
+Wåu iis a Pfaa in Teich drinn g’leg’n?
+
+Die Gunga wer’n dees nimma wiss’n,
+döi hum dåu nuu in d’ Wind’l g’sch…
+
+Ich wåiß oft selber nimma gwiiß,
+ob, woos ii wåiß, a richte iis.
+Bin a scho(n bål(d) a ålta Moa(n,
+denk’ oowa immer nu gern droa(n,
+wöi mänchas wår, wöi’s g’heißen håut,
+Fråich mi: wer lebt nu, wer iis tout?
+
+u enk soll’s neat anschat gäh(n:
+Denkt’s nå a bißl oa(n Pechgräin!
+      </div>
+    </section>
+
+    <!-- Übersetzung -->
+    <section class="text">
+      <h2>Sachliche Übersetzung</h2>
+
+      <p>
+        Die folgende Übersetzung versucht nicht, Klang oder Dialekt nachzubilden.
+        Sie übersetzt nur so weit, wie sich Bedeutungen heute noch sicher
+        erschließen lassen. Eigennamen und unklare Begriffe bleiben bewusst
+        stehen.
+      </p>
+
+      <p>
+        Bist du aus Pechgrün? Dann sag mir: Wo war die Hirt’nhout, wo Nazns
+        Birklå, Mazls Bühl, der Kutscherberg und die Wehrmühle? Wo waren die
+        Leit’n, das Örlseich, der Hechtenteich, der Herrenteich und der
+        Kastenteich? Wo hat der Fleischer ein Schwein geschlachtet, und wo machte
+        die Straße ihre Kurve?
+      </p>
+
+      <p>
+        Wo war die Pechgrüner Zuckerbude, wo das Haus von Schmied Gudd, wo beim
+        Gla(r)las, Girgn und Mazla? Weißt du noch deine Pilzplätze?
+      </p>
+
+      <p>
+        Wo war die Läuch, wo das Bär’nhout, wo das schönste Hasenkraut? Wer war
+        Pfarrer, wer Lehrer, wer der Feia(r)ess’n-Kehra? Die Goldene Leit’n, die
+        Flåß, die Rohlau, der Raabsoog, die Tråchta, das Rinnl, der Schlåmm – das
+        alles ist dir gewiss nicht fremd.
+      </p>
+
+      <p>
+        Wann war das Fest von Dotterwies? Weißt du noch, wann es in Chodau war?
+        Wie war die Farbe eurer Häuser? Wo lagen die Häuser beim Friedl, beim
+        Meisler, beim Hannrich, Bauma, Maasta, Somma, beim Schousta, Wick’n,
+        Wåst’l, Homma, beim Maastawenz’l, Däävat, Låi(n)? Wer war der Tischler von
+        Pechgrün?
+      </p>
+
+      <p>
+        Weißt du noch, wo die Heidelbeerbüsche waren? Wo fuhr die Neudeker
+        Katt’l? Wo war die Stärkaneia, wo unsere Kahnasfeia? Wo war es beim
+        Mussla, wo beim Häu? Denk noch einmal ein wenig nach.
+      </p>
+
+      <p>
+        Ich weiß, jetzt wird das alles zu viel – diese Fragerei, dieses
+        Aufzähl(en). Du denkst vielleicht: Lass mich doch in Ruhe. Ich sage das
+        ehrlich: Ich will an Pechgrün erinnern. Kannst du das noch austragen,
+        noch hervorholen? Probier es – einfach so, zum Spaß.
+      </p>
+
+      <p>
+        Was haben die Mädchen an Ostern gesungen? Wie war der Text, wie hat es
+        geklungen? Weißt du noch, wer der Schnoowlhåcka war, der Zuuwa-Knåcka,
+        der Robesberg und die Flögensich, der Sauteich, der Mühlteich und der
+        Kleeteich?
+      </p>
+
+      <p>
+        Wie viele Kinder waren es beim Siehr, bei Friedls Kindern, in der
+        Wehrmühle? Kennst du die Namen noch? Die Jungen werden das alles nicht
+        mehr wissen – sie lagen damals noch in den Windeln.
+      </p>
+
+      <p>
+        Ich weiß selbst oft nicht mehr genau, ob das, was ich weiß, richtig ist.
+        Ich bin ein alter Mann, denke aber immer noch gern daran, wie manches
+        war, wie es geheißen hat. Denkt noch ein bisschen an Pechgrün.
+      </p>
+    </section>
+
+    <!-- Interpretation -->
+    <section class="text">
+      <h2>Interpretation und Bedeutung heute</h2>
+
+      <p>
+        Dieses Gedicht ist kein klassisches Heimatgedicht.
+        Es verherrlicht nichts, erklärt nichts und erzählt keine abgeschlossene Geschichte.
+        Stattdessen besteht es fast ausschließlich aus Fragen. Karl Redelbach beschreibt
+        Pechgrün nicht – er ruft es auf.
+      </p>
+
+      <p>
+        Auffällig ist dabei, dass der Autor nicht so schreibt, als verfüge er über
+        gesichertes Wissen. Im Gegenteil: Er fragt immer wieder, zögernd, tastend,
+        fast entschuldigend. Weißt du noch? Wo war das? Wie war das? Wer war das?
+        Erinnerung erscheint hier nicht als Besitz, sondern als etwas Fragiles,
+        Unvollständiges, das jederzeit verloren gehen kann.
+      </p>
+
+      <p>
+        Der Text lebt von Namen: Flurnamen, Hausnamen, Übernamen, kleine Orte,
+        Wege, Teiche. Sie werden nicht erklärt, nicht eingeordnet, nicht übersetzt.
+        Für heutige Leser bleiben sie größtenteils rätselhaft. Und genau darin liegt
+        keine Schwäche, sondern eine zentrale Aussage dieses Gedichts: Erinnerung
+        funktioniert nicht über Erklärungen, sondern über Selbstverständlichkeit.
+        Was einst keiner Erklärung bedurfte, ist heute nicht mehr zugänglich.
+      </p>
+
+      <p>
+        Das Egerländerische ist dabei kein folkloristisches Stilmittel. Es ist Teil
+        der verlorenen Welt selbst. Der Dialekt erzeugt ein Klangbild, das man lesen
+        kann, ohne es vollständig zu verstehen. Auch hier wird nichts repariert:
+        Der Text macht sichtbar, dass Sprache selbst Teil dessen ist, was
+        verschwunden ist.
+      </p>
+
+      <p>
+        Wichtig ist auch der zeitliche Abstand, den dieses Gedicht bereits in sich trägt.
+        Karl Redelbach schreibt nicht unmittelbar aus dem Erleben heraus. Das Gedicht
+        entstand Jahrzehnte nach der Zerstörung Pechgrüns – zu einem Zeitpunkt, an dem
+        auch seine eigene Erinnerung bereits unsicher geworden ist. Er sagt das selbst.
+        Er zweifelt, korrigiert sich, fragt weiter. Der Text ist damit kein unmittelbares
+        Erinnern, sondern bereits ein Rückblick auf das Erinnern selbst.
+      </p>
+
+      <p>
+        Heute lesen wir diesen Text noch einmal Jahrzehnte später. Damit entsteht eine
+        zweite Distanz. Wir sehen nicht Pechgrün, wir sehen auch nicht mehr das lebendige
+        Dorfgedächtnis. Wir sehen, wie ein Mensch sich erinnerte, als auch er selbst schon
+        spürte, dass vieles verloren geht – Namen, Orte, Zusammenhänge, Menschen.
+      </p>
+
+      <p>
+        Gerade darin liegt die besondere Kraft dieses Gedichts. Es bewahrt keinen Ort.
+        Es bewahrt eine Haltung gegenüber dem Vergessen. Es zeigt, wie Erinnerung
+        aussieht, wenn man weiß, dass sie endlich ist.
+      </p>
+
+      <p>
+        Warum veröffentlichen wir diesen Text heute?
+        Nicht, um Pechgrün zu rekonstruieren. Nicht, um Namen aufzulösen oder Karten zu
+        zeichnen. Sondern um sichtbar zu machen, dass Erinnerung selbst eine Spur ist –
+        eine, die genauso brüchig ist wie die Landschaft, in der Pechgrün einmal lag.
+      </p>
+
+      <p>
+        Dieses Gedicht erklärt Pechgrün nicht.
+        Aber es zeigt, warum es wichtig ist, sich überhaupt noch an Pechgrün zu erinnern.
+      </p>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+.text-ort {
+  width: min(860px, 100%);
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.poem {
+  white-space: pre-line;
+  margin: 1.6rem 0 2rem 2rem;
+  max-width: 40ch;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+</style>
