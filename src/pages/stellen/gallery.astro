@@ -1,0 +1,493 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import rawDescriptorsById from "../../assets/haeuser/descriptors.byId.json";
+import rawHousesByPhoto from "../../assets/haeuser/houses.byPhoto.json";
+
+export const chronik = {
+  title: "Pechgrün – Häuser",
+  subtitle: "Fotografien und Karten der ehemaligen Ortschaft Pechgrün",
+  date: "2025-12-25",
+  bereich: "Stellen & Gebäude",
+  href: "/stellen/gallery",
+  order: 3,
+};
+
+const PORTRAIT_H = 520;   // fixe Höhe nur Portrait
+
+const descriptorsById = rawDescriptorsById as Record<string, string>;
+const housesByPhoto = rawHousesByPhoto as Record<string, string[]>;
+
+type UrlMods = Record<string, string>;
+
+const fullMods = import.meta.glob("/src/assets/haeuser/*-full.jpg", {
+  eager: true,
+  query: "?url",
+  import: "default",
+}) as UrlMods;
+
+const smallMods = import.meta.glob("/src/assets/haeuser/small/*-small.jpg", {
+  eager: true,
+  query: "?url",
+  import: "default",
+}) as UrlMods;
+
+function buildUrlMap(mods: UrlMods): Map<string, string> {
+  const map = new Map<string, string>();
+  for (const [path, url] of Object.entries(mods)) {
+    const file = path.split("/").pop() ?? "";
+    const id = file.replace("-small.jpg", "").replace("-full.jpg", "");
+    map.set(id, url);
+  }
+  return map;
+}
+
+const fullMap = buildUrlMap(fullMods);
+const smallMap = buildUrlMap(smallMods);
+
+const COUNT = 92;
+const order: string[] = Array.from({ length: COUNT }, (_, i) =>
+  `h${String(i + 1).padStart(3, "0")}`
+);
+
+type Item = {
+  id: string;
+  small: string;
+  full: string;
+  title: string;
+  desc: string;
+  houses: string[];
+};
+
+const items: Item[] = order
+  .filter((id) => smallMap.has(id) && fullMap.has(id))
+  .map((id) => ({
+    id,
+    small: smallMap.get(id)!,
+    full: fullMap.get(id)!,
+    title: id.toUpperCase(),
+    desc: typeof descriptorsById[id] === "string" ? descriptorsById[id] : "",
+    houses: Array.isArray(housesByPhoto[id]) ? housesByPhoto[id] : [],
+  }));
+
+const splitLines = (s: string) => String(s || "").split(/\r?\n/);
+---
+
+<BaseLayout title={chronik.title}>
+  <article class="page">
+    <header class="head">
+      <h1>{chronik.title}</h1>
+      <p class="subtitle">{chronik.subtitle}</p>
+    </header>
+
+    <section class="intro">
+      <p>
+        Diese Galerie versammelt alle mir bekannten Fotografien und Karten, die die ehemalige Ortschaft Pechgrün und ihre Häuser zeigen. Das Bildmaterial stammt aus den drei Pechgrün-Bänden sowie aus einer privaten Sammlung; ein wesentlicher Teil der Farbfotografien wurde mir von Miloš Bělohlávek, dem früheren Historiker der Kreisstadt Chodau, zur Verfügung gestellt. Die Aufnahmen entstanden zu einer Zeit, als Pechgrün bereits nicht mehr bewohnt war, vermutlich kurz vor dem Abriss Ende der 1960er-Jahre, und zeigen den Ort in seinem letzten, vielfach ungepflegten Zustand. Die Bildqualität ist oft eingeschränkt, dennoch vermitteln die Fotografien – ergänzt um Karten zur Orientierung – einen Eindruck der Häuser, in denen Menschen gelebt haben. Wo mehrere Gebäude erkennbar sind, wurden die Hausnummern auf Grundlage historischer Karten und Luftbilder recherchiert und ergänzt; der Filter ermöglicht es, die wenigen vorhandenen Bilder einzelner Häuser gezielt aufzufinden.
+      </p>
+      <p class="hint">
+        Tipp: Mit den Pfeiltasten ← / → wechseln oder über die Thumbnails oben direkt springen.
+      </p>
+    </section>
+
+    {items.length === 0 ? (
+      <p>Keine Bilder gefunden. Prüfe bitte <code>src/assets/haeuser/</code>.</p>
+    ) : (
+      <section class="viewer viewer-wrap" data-gallery>
+        <div class="frame">
+
+          {/* Filter + Hinweise + Treffer: eine Zeile */}
+          <div class="filterbar" aria-label="Filter">
+            <label class="filterlabel" for="houseFilter">Hausnummer-Filter:</label>
+
+            <input
+              id="houseFilter"
+              class="filterinput"
+              type="text"
+              autocomplete="off"
+              inputmode="text"
+              placeholder=""
+            />
+
+            {/* ✅ gleicher Stil wie Treffer */}
+            <div class="filtersyntax" aria-hidden="true">
+              z.B. 24, "-", ""
+            </div>
+
+            <span class="spacer" aria-hidden="true"></span>
+
+            <div class="filtercount">
+              Treffer: <span data-hit-count>{items.length}</span> / {items.length}
+            </div>
+          </div>
+
+          <div class="strip-scroll" aria-label="Bildauswahl">
+            <div class="strip" data-strip>
+              {items.map((it, idx) => (
+                <button
+                  class={"thumb" + (idx === 0 ? " is-active" : "")}
+                  type="button"
+                  data-thumb
+                  data-index={idx}
+                  data-houses={it.houses.join(",")}
+                  aria-label={`Bild wählen: ${it.id.toUpperCase()}`}
+                  title={it.id.toUpperCase()}
+                >
+                  <img src={it.small} alt="" loading="lazy" />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <figure class="hero">
+            <button
+              class="hero-btn"
+              type="button"
+              data-open-full
+              aria-label="In neuem Tab (volle Größe) öffnen"
+              title="In neuem Tab (volle Größe) öffnen"
+            >
+              <div class="hero-frame is-landscape" data-hero-frame>
+                <img src={items[0].small} alt={items[0].title} loading="eager" data-hero-img />
+              </div>
+            </button>
+
+            <figcaption class="caption" data-caption>
+              {items[0].desc ? (
+                <span class="cap-desc">
+                  {splitLines(items[0].desc).map((line, i) => (
+                    <>
+                      {i > 0 ? <br /> : null}
+                      {line}
+                    </>
+                  ))}
+                </span>
+              ) : null}
+            </figcaption>
+          </figure>
+        </div>
+
+        <script is:inline define:vars={{ items, PORTRAIT_H }}>
+          (() => {
+            const root = document.querySelector("[data-gallery]");
+            if (!root) return;
+
+            const heroFrame = root.querySelector("[data-hero-frame]");
+            const heroImg = root.querySelector("[data-hero-img]");
+            const caption = root.querySelector("[data-caption]");
+            const thumbs = Array.from(root.querySelectorAll("[data-thumb]"));
+
+            const openFullBtn = root.querySelector("[data-open-full]");
+
+            const filterInput = root.querySelector("#houseFilter");
+            const hitCountEl = root.querySelector("[data-hit-count]");
+
+            let index = 0;
+            let filtered = items.map((_, i) => i);
+
+            const normalize = (s) => String(s ?? "").trim();
+
+            const clampInFiltered = (pos) => {
+              const n = filtered.length;
+              if (n <= 0) return 0;
+              return (pos + n) % n;
+            };
+
+            // Variable Thumb Widths (aspect-ratio based)
+            const THUMB_H = 74;
+            const THUMB_MIN_W = 52;
+            const THUMB_MAX_W = 140;
+            const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+            const sizeThumbsByAspect = () => {
+              thumbs.forEach((btn) => {
+                const imgEl = btn.querySelector("img");
+                if (!imgEl) return;
+                const src = imgEl.getAttribute("src");
+                if (!src) return;
+
+                const probe = new Image();
+                probe.onload = () => {
+                  const w = probe.naturalWidth || 1;
+                  const h = probe.naturalHeight || 1;
+                  const ratio = w / h;
+                  const targetW = clamp(Math.round(THUMB_H * ratio), THUMB_MIN_W, THUMB_MAX_W);
+                  btn.style.width = `${targetW}px`;
+                  btn.style.height = `${THUMB_H}px`;
+                };
+                probe.src = src;
+              });
+            };
+
+            const setActiveThumb = (i) => {
+              thumbs.forEach((t, k) => t.classList.toggle("is-active", k === i));
+              thumbs[i]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+            };
+
+            const renderCaption = (text) => {
+              caption.innerHTML = "";
+              if (!text) return;
+              String(text).split(/\r?\n/).forEach((line, i) => {
+                if (i > 0) caption.appendChild(document.createElement("br"));
+                caption.appendChild(document.createTextNode(line));
+              });
+            };
+
+            const applyOrientationFor = (src) => {
+              const probe = new Image();
+              probe.onload = () => {
+                const portrait = probe.naturalHeight > probe.naturalWidth;
+                heroFrame.classList.toggle("is-portrait", portrait);
+                heroFrame.classList.toggle("is-landscape", !portrait);
+              };
+              probe.src = src;
+            };
+
+            const openFullInNewTab = () => {
+              const it = items[index];
+              if (!it?.full) return;
+              window.open(it.full, "_blank", "noopener");
+            };
+
+            const render = (i) => {
+              const it = items[i];
+              if (!it) return;
+              index = i;
+
+              applyOrientationFor(it.small);
+
+              heroImg.src = it.small;
+              heroImg.alt = it.title;
+
+              renderCaption(it.desc);
+
+              setActiveThumb(i);
+            };
+
+            thumbs.forEach((btn) =>
+              btn.addEventListener("click", () => {
+                const i = Number(btn.dataset.index);
+                if (!filtered.includes(i)) return;
+                render(i);
+              })
+            );
+
+            openFullBtn?.addEventListener("click", openFullInNewTab);
+
+            // Filter Logic:
+            // ""  => alle
+            // "-" => nur Bilder ohne Hausnummern
+            // sonst => exakter Match
+            const applyFilter = () => {
+              const qRaw = normalize(filterInput?.value);
+              const wantNoHouse = qRaw === "-";
+
+              filtered = [];
+
+              items.forEach((it, i) => {
+                const houses = Array.isArray(it.houses) ? it.houses : [];
+                const ok =
+                  qRaw === ""
+                    ? true
+                    : wantNoHouse
+                      ? houses.length === 0
+                      : houses.includes(qRaw);
+
+                thumbs[i].style.display = ok ? "" : "none";
+                if (ok) filtered.push(i);
+              });
+
+              if (hitCountEl) hitCountEl.textContent = String(filtered.length);
+
+              if (filtered.length > 0) {
+                if (!filtered.includes(index)) render(filtered[0]);
+              } else {
+                thumbs.forEach((t) => t.classList.remove("is-active"));
+              }
+            };
+
+            filterInput?.addEventListener("input", applyFilter);
+
+            const onKeyDown = (e) => {
+              if (e.metaKey || e.ctrlKey || e.altKey) return;
+              if (filtered.length === 0) return;
+
+              const pos = filtered.indexOf(index);
+              const curPos = pos >= 0 ? pos : 0;
+
+              if (e.key === "ArrowLeft") {
+                const nextPos = clampInFiltered(curPos - 1);
+                render(filtered[nextPos]);
+              } else if (e.key === "ArrowRight") {
+                const nextPos = clampInFiltered(curPos + 1);
+                render(filtered[nextPos]);
+              }
+            };
+
+            window.addEventListener("keydown", onKeyDown, { passive: false });
+            window.addEventListener("astro:before-swap", () =>
+              window.removeEventListener("keydown", onKeyDown)
+            );
+
+            render(0);
+            sizeThumbsByAspect();
+            applyFilter();
+          })();
+        </script>
+      </section>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .page { width: 100%; margin: 0; }
+  .head .subtitle { margin: 0.25rem 0 0.75rem; opacity: 0.85; }
+
+  .intro, .intro p, .hint { max-width: 800px; }
+  .intro { margin: 0 0 1rem; }
+  .hint { opacity: 0.75; margin-top: -0.25rem; }
+
+  .viewer-wrap {
+    max-width: 800px;
+    width: min(100%, 800px);
+    margin: 0;
+    padding: 0;
+  }
+
+  .frame { width: 100%; }
+
+  .filterbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 0.45rem;
+  }
+
+  .filterlabel {
+    opacity: 0.85;
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+
+  .filterinput {
+    width: 170px;          /* etwas kürzer, damit Hint Platz hat */
+    max-width: 45vw;
+    padding: 8px 10px;
+    border: 1px solid rgba(0,0,0,0.18);
+    border-radius: 10px;
+    background: #fff;
+    outline: none;
+    box-shadow: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .filterinput:focus,
+  .filterinput:focus-visible {
+    outline: none;
+    box-shadow: none;
+    border-color: rgba(0,0,0,0.25);
+  }
+
+  /* ✅ exakt wie Treffer */
+  .filtersyntax {
+    opacity: 0.75;        /* wie .filtercount */
+    font-size: 0.95rem;   /* wie .filtercount */
+    white-space: nowrap;
+  }
+
+  .spacer { flex: 1 1 auto; min-width: 0; }
+
+  .filtercount {
+    opacity: 0.75;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  .strip-scroll {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 6px;
+    margin: 0 0 0.75rem;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
+  .strip {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    width: max-content;
+  }
+
+  .thumb {
+    all: unset;
+    cursor: pointer;
+    display: block;
+    width: auto;
+    height: 74px;
+    flex: 0 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+    border: none;
+    background: rgba(0,0,0,0.03);
+  }
+
+  .thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    max-width: none;
+  }
+
+  .thumb.is-active { border: none; }
+
+  .thumb:focus,
+  .thumb:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .hero { margin: 0; }
+  .hero-btn {
+    all: unset;
+    display: block;
+    cursor: pointer;
+    width: 100%;
+    background: transparent;
+  }
+
+  .hero-frame { width: 100%; background: transparent; }
+
+  .hero-frame.is-landscape img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+  }
+
+  .hero-frame.is-portrait {
+    height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .hero-frame.is-portrait img {
+    display: block;
+    height: 100%;
+    width: auto;
+    border-radius: 14px;
+  }
+
+  .caption {
+    margin-top: 0.6rem;
+    font-size: 0.95rem;
+    opacity: 0.85;
+    line-height: 1.4;
+    height: 5.6em;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+  }
+</style>

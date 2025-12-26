@@ -4,7 +4,7 @@ import { getCollection } from "astro:content";
 
 // Collections
 const landschaften = await getCollection("landschaft");
-const orte = await getCollection("orte");
+const orte = await getCollection("stellen");
 const ortschaften = await getCollection("ortschaften");
 
 // Spezielle Seiten
@@ -63,7 +63,7 @@ const landschaftenSorted = [...landschaften].sort((a, b) => {
 
     <p>
       Diese Seite ist der Einstieg in die Website. Die Bereiche darunter zeigen
-      verschiedene Spuren, die zu Pechgrün führen: über Landschaft, Orte,
+      verschiedene Spuren, die zu Pechgrün führen: über Landschaft, Stellen & Gebäude,
       Dokumente, Texte, Bilder und Menschen.
     </p>
 
@@ -104,10 +104,10 @@ const landschaftenSorted = [...landschaften].sort((a, b) => {
       </div>
     </section>
 
-    <!-- Orte -->
+    <!-- Stellen & Gebäude -->
     <section class="acc">
       <button class="acc-head" type="button" aria-expanded="true">
-        <span class="acc-title">Orte</span>
+        <span class="acc-title">Stellen & Gebäude</span>
         <span class="acc-right">
           <span class="acc-meta">
             {(orte.length + 1).toLocaleString("de-DE")} Einträge
@@ -127,7 +127,7 @@ const landschaftenSorted = [...landschaften].sort((a, b) => {
             .sort((a, b) => a.data.title.localeCompare(b.data.title, "de"))
             .map((e) => (
               <li>
-                <a href={`/orte/${e.slug}`}>{e.data.title}</a>
+                <a href={`/stellen/`}>{e.data.title}</a>
                 {e.data.subtitle ? <span> — {e.data.subtitle}</span> : null}
               </li>
             ))}

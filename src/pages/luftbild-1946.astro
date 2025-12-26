@@ -5,10 +5,10 @@ import { getCollection } from "astro:content";
 // Damit es in der Chronik auftaucht:
 export const chronik = {
   title: "Luftbild 1946",
-  subtitle: "Deep Zoom – Marker führen zu Orten",
+  subtitle: "Deep Zoom – Marker führen zu Stellen & Gebäuden",
   date: "2025-12-18",
   order: 1,
-  bereich: "Orte",
+  bereich: "Stellen & Gebäude",
   href: "/luftbild-1946",
 };
 
@@ -18,15 +18,15 @@ const tileSource = "/tiles/luftbild-1946/1946.dzi";
 const centerPoint = { x: 4063, y: 6986 };
 const startZoomFactor = 5.0;
 
-// Marker aus src/content/orte/*.md
-const entries = await getCollection("orte");
+// Marker aus src/content/stellen/*.md
+const entries = await getCollection("stellen");
 const points = entries.map((e) => ({
   slug: e.slug,
   title: e.data.title as string,
   label: String((e.data as any).label ?? ""), // Textlabel, z.B. "10A"
   x: (e.data as any).x as number,
   y: (e.data as any).y as number,
-  href: `/orte/${e.slug}`,
+  href: `/stellen/`,
 }));
 ---
 

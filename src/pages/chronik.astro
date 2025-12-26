@@ -20,8 +20,8 @@ const landschaftItems = entriesLandschaft.map((e) => {
   };
 });
 
-// 2) Orte
-const entriesOrte = await getCollection("orte");
+// 2) Stellen & Gebäude
+const entriesOrte = await getCollection("stellen");
 const orteItems = entriesOrte.map((e) => {
   const d = (e.data.updated ?? e.data.date) as Date;
   return {
@@ -30,8 +30,8 @@ const orteItems = entriesOrte.map((e) => {
     subtitle: (e.data.subtitle as string | undefined) ?? "",
     date: d,
     isUpdated: Boolean(e.data.updated),
-    bereich: "Orte",
-    href: `/orte/${e.slug}`,
+    bereich: "Stellen & Gebäude",
+    href: `/stellen/`,
     order: typeof e.data.order === "number" ? e.data.order : 0,
   };
 });
@@ -53,7 +53,7 @@ const ortschaftenItems = entriesOrtschaften.map((e) => {
 });
 
 // 4) Astro-Seiten mit export const chronik = {...}
-// ✅ WICHTIG: rekursiv, damit auch /pages/orte/... gefunden wird
+// ✅ WICHTIG: rekursiv, damit auch /pages/stellen/... gefunden wird
 const pageModules = import.meta.glob("./**/*.astro", { eager: true }) as Record<
   string,
   any
@@ -111,7 +111,7 @@ const items = [
           und zugleich auch ältere Inhalte wiederfinden. Da die Liste mit der
           Zeit lang werden kann, gibt es den Filter: Er durchsucht Titel und
           Untertitel und hilft dir, die Einträge einzugrenzen – zum Beispiel
-          nach einem Bereich wie „Landschaft“, „Orte“ oder „Ortschaften“, oder
+          nach einem Bereich wie „Landschaft“, „Stellen & Gebäude“ oder „Ortschaften“, oder
           nach einem Stichwort, das du im Titel oder Untertitel erwartest.
         </p>
       </section>

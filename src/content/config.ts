@@ -16,9 +16,11 @@ const base = z.object({
 });
 
 /**
- * Orte im Luftbild (Häuser etc.)
+ * Stellen & Gebäude
+ * =================
+ * Häuser, Bauwerke und markante Stellen
  */
-const orte = base.extend({
+const stellen = base.extend({
   label: z.string().min(1),
   x: z.number(),
   y: z.number(),
@@ -44,9 +46,9 @@ export const collections = {
     schema: base,
   }),
 
-  orte: defineCollection({
+  stellen: defineCollection({
     type: "content",
-    schema: orte,
+    schema: stellen,
   }),
 
   ortschaften: defineCollection({
