@@ -16,14 +16,21 @@ export const chronik = {
 
 // Marker direkt aus src/content/ortschaften/*.md
 const entries = await getCollection("ortschaften");
-const markers = entries.map((e) => ({
-  id: e.slug,
-  x: e.data.x as number,
-  y: e.data.y as number,
-  label: e.data.label as string,
-  title: e.data.title as string,
-  href: `/ortschaften/${e.slug}`,
-}));
+const markers = entries.map((e) => {
+  const d = e.data as any;
+  const title = String(d.title ?? "");
+  const subtitle = String(d.subtitle ?? "");
+
+  return {
+    id: e.slug,
+    x: d.x as number,
+    y: d.y as number,
+    label: String(d.label ?? ""),
+    title,
+    subtitle, // <-- neu
+    href: `/ortschaften/${e.slug}`,
+  };
+});
 ---
 
 <BaseLayout title="Ortschaften um Pechgrün">
@@ -42,17 +49,11 @@ const markers = entries.map((e) => ({
       <h2>Hinweis zur Bedienung</h2>
       <ul>
         <li><strong>Zoomen:</strong> Mausrad oder Trackpad-Geste</li>
-        <li>
-          <strong>Verschieben:</strong> klicken / gedrückt halten und ziehen
-        </li>
-        <li>
-          <strong>Marker:</strong> über den Button rechts unten ein- und ausblenden
-        </li>
+        <li><strong>Verschieben:</strong> klicken / gedrückt halten und ziehen</li>
+        <li><strong>Marker:</strong> über den Button rechts unten ein- und ausblenden</li>
         <li>
           <strong>Autor-Funktion:</strong>
-          <span style="white-space:nowrap;"
-            >Option&nbsp;/&nbsp;Alt&nbsp;+&nbsp;Klick</span
-          >
+          <span style="white-space:nowrap;">Option&nbsp;/&nbsp;Alt&nbsp;+&nbsp;Klick</span>
           zeigt die Bildkoordinaten an (werden ins Clipboard kopiert)
         </li>
       </ul>

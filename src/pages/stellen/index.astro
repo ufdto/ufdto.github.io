@@ -2,6 +2,10 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
+// base-safe URL prefix ("/" in dev, "/pechgruen-website/" on GitHub Pages build when base is set)
+const BASE = import.meta.env.BASE_URL;
+const u = (p: string) => `${BASE}${p.replace(/^\/+/, "")}`;
+
 // Damit es in der Chronik auftaucht:
 export const chronik = {
   title: "Stellen & Gebäude",
@@ -23,6 +27,7 @@ const entries = await getCollection("stellen");
 const points = entries.map((e) => ({
   slug: e.slug,
   title: e.data.title as string,
+  subtitle: String((e.data as any).subtitle ?? ""), // <-- NEU: Subtitle aus Frontmatter
   label: String((e.data as any).label ?? ""), // Textlabel, z.B. "10A"
   x: (e.data as any).x as number,
   y: (e.data as any).y as number,
@@ -132,7 +137,8 @@ const points = entries.map((e) => ({
     <!-- GLOBAL: Overlays klickbar -->
     <style is:global>
       #osd .openseadragon-overlay,
-      #osd .openseadragon-overlay a {
+      #osd .openseadragon-overlay a,
+      #osd .openseadragon-overlay button {
         pointer-events: auto !important;
       }
     </style>
@@ -201,7 +207,8 @@ const points = entries.map((e) => ({
     </section>
   </main>
 
-  <script is:inline src="/vendor/openseadragon.min.js"></script>
+  <!-- base-safe vendor path -->
+  <script is:inline src={u("vendor/openseadragon.min.js")}></script>
 
   <script define:vars={{ tileSource, centerPoint, startZoomFactor, points }}>
     // @ts-ignore
@@ -227,11 +234,87 @@ const points = entries.map((e) => ({
       },
     });
 
-    // Marker: deterministischer Klick + keine "Ziel-Element"-Zufälle innerhalb des SVG
-    function makeSvgMarker(label, title, href) {
-      const wrap = document.createElement("a");
-      wrap.href = href;
-      wrap.title = title;
+    /* ---------------------------
+       Tooltip-Layer (zweizeilig)
+       --------------------------- */
+    const tip = document.createElement("div");
+    tip.id = "marker-tip";
+    tip.style.position = "absolute";
+    tip.style.zIndex = "20";
+    tip.style.pointerEvents = "none";
+    tip.style.display = "none";
+    tip.style.maxWidth = "360px";
+    tip.style.padding = "8px 10px";
+    tip.style.borderRadius = "12px";
+    tip.style.border = "1px solid rgba(0,0,0,0.25)";
+    tip.style.background = "rgba(255,255,255,0.92)";
+    tip.style.backdropFilter = "blur(4px)";
+    tip.style.boxShadow = "0 8px 22px rgba(0,0,0,0.20)";
+    tip.style.font =
+      "13px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+    tip.style.color = "#111";
+    host.appendChild(tip);
+
+    function escapeHtml(s) {
+      return String(s)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function showTip(title, subtitle, clientX, clientY) {
+      const r = host.getBoundingClientRect();
+      const t = title || "";
+      const s = subtitle || "";
+
+      tip.innerHTML = `
+        <div style="font-size:14px; font-weight:600; line-height:1.15;">
+          ${escapeHtml(t)}
+        </div>
+        ${
+          s
+            ? `<div style="font-size:12px; opacity:0.85; line-height:1.2; margin-top:2px;">
+                 ${escapeHtml(s)}
+               </div>`
+            : ""
+        }
+      `;
+
+      tip.style.display = "block";
+
+      // Startposition nahe Cursor
+      const pad = 8;
+      let x = clientX - r.left + 12;
+      let y = clientY - r.top - 12;
+
+      tip.style.left = `${x}px`;
+      tip.style.top = `${y}px`;
+
+      // Clamp in Container (nachdem der Inhalt drin ist)
+      const tr = tip.getBoundingClientRect();
+      const maxX = r.width - tr.width - pad;
+      const maxY = r.height - tr.height - pad;
+
+      x = Math.max(pad, Math.min(x, maxX));
+      y = Math.max(pad, Math.min(y, maxY));
+
+      tip.style.left = `${x}px`;
+      tip.style.top = `${y}px`;
+    }
+
+    function hideTip() {
+      tip.style.display = "none";
+    }
+
+    /* -----------------------------------------
+       Marker: Button statt <a> (keine Statusbar)
+       ----------------------------------------- */
+    function makeSvgMarker(label, title, subtitle, href) {
+      const wrap = document.createElement("button");
+      wrap.type = "button";
+
       wrap.style.width = "30px";
       wrap.style.height = "30px";
       wrap.style.display = "block";
@@ -239,11 +322,29 @@ const points = entries.map((e) => ({
       wrap.style.cursor = "pointer";
       wrap.style.textDecoration = "none";
       wrap.style.touchAction = "manipulation";
+      wrap.style.padding = "0";
+      wrap.style.border = "0";
+      wrap.style.background = "transparent";
+
+      const aria = subtitle ? `${title} – ${subtitle}` : title;
+      wrap.setAttribute("aria-label", aria);
+
+      // Tooltip (Hover)
+      wrap.addEventListener("pointerenter", (e) => {
+        showTip(title, subtitle, e.clientX, e.clientY);
+      });
+      wrap.addEventListener("pointermove", (e) => {
+        showTip(title, subtitle, e.clientX, e.clientY);
+      });
+      wrap.addEventListener("pointerleave", () => {
+        hideTip();
+      });
 
       const go = (e) => {
         e.preventDefault();
         e.stopPropagation();
         if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+        hideTip();
         window.location.assign(href);
       };
 
@@ -251,7 +352,7 @@ const points = entries.map((e) => ({
       wrap.addEventListener("pointerdown", go, true);
       wrap.addEventListener("click", go, true);
 
-      // pointer-events:none im SVG: damit Klick immer am <a> landet
+      // pointer-events:none im SVG: damit Klick immer am Button landet
       wrap.innerHTML = `
         <svg width="30" height="30" viewBox="0 0 30 30" style="pointer-events:none;">
           <circle cx="15" cy="15" r="13" fill="#fff" stroke="#000" stroke-width="1"/>
@@ -270,7 +371,7 @@ const points = entries.map((e) => ({
         const imgPt = new OSD.Point(p.x, p.y);
         const vpPt = item.imageToViewportCoordinates(imgPt);
         viewer.addOverlay({
-          element: makeSvgMarker(p.label, p.title, p.href),
+          element: makeSvgMarker(p.label, p.title, p.subtitle, p.href),
           location: vpPt,
           placement: OSD.Placement.CENTER,
         });
@@ -280,7 +381,10 @@ const points = entries.map((e) => ({
     function setMarkersVisible(v) {
       markersVisible = v;
       if (v) addMarkers();
-      else viewer.clearOverlays();
+      else {
+        viewer.clearOverlays();
+        hideTip();
+      }
 
       toggleBtn.textContent = v ? "Marker ausblenden" : "Marker einblenden";
       toggleBtn.setAttribute("aria-pressed", String(!v));
@@ -315,19 +419,16 @@ const points = entries.map((e) => ({
     }
 
     viewer.addHandler("canvas-click", (ev) => {
-      // OSD liefert das echte Browser-Event in ev.originalEvent
       const oe = ev && ev.originalEvent;
       const isOption = !!(oe && oe.altKey); // Option auf macOS = altKey
       if (!isOption) return;
 
-      // Falls OSD etwas anderes tun wollte: unterbinden
       ev.preventDefaultAction = true;
       if (oe && oe.stopPropagation) oe.stopPropagation();
 
       const currentItem = viewer.world.getItemAt(0);
       if (!currentItem) return;
 
-      // Klickposition (Pixel im Viewer) -> Viewport -> Bildkoordinaten
       const webPoint = ev.position; // Pixel relativ zum Viewer-Element
       const vpPoint = viewer.viewport.pointFromPixel(webPoint);
       const imgPoint = currentItem.viewportToImageCoordinates(vpPoint);
