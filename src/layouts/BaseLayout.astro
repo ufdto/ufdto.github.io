@@ -23,30 +23,216 @@ const { title = "Pechgrün", description = "" } = Astro.props;
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
 
-<header class="site-header">
-  <div class="header-inner">
-    <div class="brand">
-      <a href="/" class="brand-link">Pechgrün</a>
-    </div>
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand">
+          <a href="/" class="brand-link">Pechgrün</a>
+        </div>
 
-    <nav class="top-nav" aria-label="Hauptnavigation">
-      <a href="/inhalte">Einstieg</a>
-      <span class="sep">·</span>
+        <nav class="top-nav" aria-label="Hauptnavigation">
+          <a href="/inhalte">Einstieg</a>
+          <span class="sep">·</span>
 
-      <a href="/chronik">Entstehung</a>
-      <span class="sep">·</span>
+          <a href="/chronik">Entstehung</a>
+          <span class="sep">·</span>
 
-      <a href="/quellen">Quellen</a>
-      <span class="sep">·</span>
+          <a href="/quellen">Quellen</a>
+          <span class="sep">·</span>
 
-      <a href="/impressum">Über diese Website</a>
-    </nav>
-  </div>
-</header>
+          <a href="/impressum">Über diese Website</a>
+
+          <!-- Language help flags (EN / CZ) -->
+          <span class="sep">·</span>
+          <button
+            class="lang-flag"
+            type="button"
+            data-lang="en"
+            aria-label="How to translate this website (English)"
+            title="How to translate this website"
+          >
+            🇬🇧
+          </button>
+          <button
+            class="lang-flag"
+            type="button"
+            data-lang="cs"
+            aria-label="Jak přeložit tuto webovou stránku (Čeština)"
+            title="Jak přeložit tuto webovou stránku"
+          >
+            🇨🇿
+          </button>
+        </nav>
+      </div>
+    </header>
 
     <main id="main" class="main">
       <slot />
     </main>
+
+    <!-- Translation help modal (hidden by default) -->
+    <div class="lang-modal" id="langModal" aria-hidden="true">
+      <div class="lang-modal__backdrop" data-close="true" aria-hidden="true">
+      </div>
+
+      <div
+        class="lang-modal__panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="langModalTitle"
+        tabindex="-1"
+      >
+        <div class="lang-modal__header">
+          <h2 class="lang-modal__title" id="langModalTitle"></h2>
+          <button
+            class="lang-modal__close"
+            type="button"
+            data-close="true"
+            aria-label="Close"
+            title="Close"
+          >
+            ×
+          </button>
+        </div>
+
+        <div class="lang-modal__body" id="langModalBody"></div>
+      </div>
+    </div>
+
+    <script is:inline>
+      (function () {
+        const modal = document.getElementById("langModal");
+        const panel = modal ? modal.querySelector(".lang-modal__panel") : null;
+        const titleEl = document.getElementById("langModalTitle");
+        const bodyEl = document.getElementById("langModalBody");
+        const triggers = document.querySelectorAll(".lang-flag");
+        const closeEls = modal
+          ? modal.querySelectorAll('[data-close="true"]')
+          : [];
+
+        let lastFocus = null;
+
+        const CONTENT = {
+          en: {
+            title: "Translate this website",
+            body: `
+              <p><strong>This website is written in German.</strong><br>
+              It deals with the history of a German-speaking village.
+              If you prefer English, your browser can translate the texts automatically.</p>
+
+              <p><strong>How it usually works:</strong></p>
+              <ul>
+                <li>Many browsers show an automatic message offering to translate the page.</li>
+                <li>If not, right-click on the text and choose “Translate”.</li>
+              </ul>
+
+              <p><strong>Depending on the browser:</strong></p>
+              <ul>
+                <li><strong>Chrome / Edge:</strong> Right-click → “Translate” or use the translate icon in the address bar.</li>
+                <li><strong>Safari (Mac, iPhone, iPad):</strong> Click <strong>aA</strong> in the address bar → “Translate Website” (if available).</li>
+                <li><strong>Firefox:</strong> Right-click → “Translate Page” (depending on settings).</li>
+              </ul>
+
+              <p><strong>Note:</strong><br>
+              Automatic translations are helpful, but place names, dialect words and historical terms may not always be translated accurately.
+              The German original is the reference.</p>
+            `,
+          },
+
+          cs: {
+            title: "Překlad této webové stránky",
+            body: `
+              <p><strong>Tato webová stránka je napsána v němčině.</strong><br>
+              Zabývá se historií německy mluvící obce.
+              Pokud dáváš přednost češtině, může tvůj prohlížeč texty automaticky přeložit.</p>
+
+              <p><strong>Jak to obvykle funguje:</strong></p>
+              <ul>
+                <li>Mnoho prohlížečů automaticky nabídne překlad stránky.</li>
+                <li>Pokud ne, klikni pravým tlačítkem myši na text a zvol „Přeložit“.</li>
+              </ul>
+
+              <p><strong>Podle typu prohlížeče:</strong></p>
+              <ul>
+                <li><strong>Chrome / Edge:</strong> Pravým tlačítkem → „Přeložit“ nebo ikona překladu v adresním řádku.</li>
+                <li><strong>Safari (Mac, iPhone, iPad):</strong> V adresním řádku klikni na <strong>aA</strong> → „Přeložit web“ (pokud je k dispozici).</li>
+                <li><strong>Firefox:</strong> Pravým tlačítkem → „Přeložit stránku“ (dle nastavení).</li>
+              </ul>
+
+              <p><strong>Poznámka:</strong><br>
+              Automatický překlad pomáhá porozumění, ale názvy míst, nářeční výrazy a historické pojmy nemusí být vždy přeloženy přesně.
+              Německý originál je výchozí verzí této stránky.</p>
+            `,
+          },
+        };
+
+        function openModal(lang) {
+          if (!modal || !panel || !titleEl || !bodyEl) return;
+
+          const data = CONTENT[lang] || CONTENT.en;
+
+          titleEl.textContent = data.title;
+          bodyEl.innerHTML = data.body;
+
+          lastFocus = document.activeElement;
+
+          modal.classList.add("is-open");
+          modal.setAttribute("aria-hidden", "false");
+
+          // Focus dialog for accessibility
+          panel.focus();
+
+          // Prevent background scrolling
+          document.documentElement.classList.add("no-scroll");
+          document.body.classList.add("no-scroll");
+        }
+
+        function closeModal() {
+          if (!modal) return;
+
+          modal.classList.remove("is-open");
+          modal.setAttribute("aria-hidden", "true");
+
+          document.documentElement.classList.remove("no-scroll");
+          document.body.classList.remove("no-scroll");
+
+          if (lastFocus && typeof lastFocus.focus === "function") {
+            lastFocus.focus();
+          }
+        }
+
+        // Open on flag click
+        triggers.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const lang = btn.getAttribute("data-lang") || "en";
+            openModal(lang);
+          });
+        });
+
+        // Close buttons + backdrop
+        closeEls.forEach((el) => {
+          el.addEventListener("click", closeModal);
+        });
+
+        // Click outside panel closes (but clicks inside panel do not)
+        if (modal && panel) {
+          modal.addEventListener("click", (e) => {
+            if (e.target === modal) closeModal();
+          });
+          panel.addEventListener("click", (e) => e.stopPropagation());
+        }
+
+        // ESC closes
+        document.addEventListener("keydown", (e) => {
+          if (
+            e.key === "Escape" &&
+            modal &&
+            modal.classList.contains("is-open")
+          ) {
+            closeModal();
+          }
+        });
+      })();
+    </script>
 
     <style>
       /* ---------- Base reset ---------- */
@@ -229,6 +415,129 @@ const { title = "Pechgrün", description = "" } = Astro.props;
         max-width: none !important;
         object-fit: contain;
         display: block;
+      }
+    </style>
+
+    <!-- IMPORTANT: UI styles must be global so Astro scoping can't break them -->
+    <style is:global>
+      /* Flag buttons – no frame, larger, subtle hover */
+      .lang-flag {
+        appearance: none;
+        -webkit-appearance: none;
+        border: 0 !important;
+        background: transparent !important;
+        padding: 0.00rem 0.00rem;
+        margin: 0;
+        cursor: pointer;
+        font-size: 1.35rem;
+        line-height: 1;
+        opacity: 0.9;
+        transform: translateY(1px);
+      }
+      .lang-flag:hover {
+        opacity: 1;
+        filter: saturate(1.05);
+      }
+      .lang-flag:focus-visible {
+        outline: 2px solid rgba(0, 0, 0, 0.35);
+        outline-offset: 2px;
+        border-radius: 8px;
+      }
+
+      /* Prevent background scroll when modal open */
+      html.no-scroll,
+      body.no-scroll {
+        overflow: hidden !important;
+      }
+
+      /* Modal overlay */
+      .lang-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        display: none;
+      }
+      .lang-modal.is-open {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 7vh 1rem 2rem;
+      }
+
+      .lang-modal__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35);
+      }
+
+      .lang-modal__panel {
+        position: relative;
+        width: min(760px, 100%);
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.25);
+        padding: 1rem 1.15rem 1.1rem;
+        z-index: 1;
+      }
+
+      .lang-modal__header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 0.25rem;
+      }
+
+      /* Title: intentionally larger so it reads like a page title */
+      .lang-modal__title {
+        font-size: 2.5rem;
+        line-height: 1.12;
+        font-weight: 700;
+        margin: 0 0 0.6rem 0;
+      }
+
+      .lang-modal__close {
+        appearance: none;
+        -webkit-appearance: none;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        font-size: 1.6rem;
+        line-height: 1;
+        padding: 0.1rem 0.35rem;
+        opacity: 0.7;
+      }
+      .lang-modal__close:hover {
+        opacity: 1;
+      }
+      .lang-modal__close:focus-visible {
+        outline: 2px solid rgba(0, 0, 0, 0.35);
+        outline-offset: 2px;
+        border-radius: 10px;
+      }
+
+      /* Rhythm in modal content: calmer, more structured */
+      .lang-modal__body p {
+        margin: 0 0 0.6rem;
+      }
+
+      /* Pull list closer to its preceding label paragraph */
+      .lang-modal__body p + ul {
+        margin-top: -0.25rem;
+      }
+
+      .lang-modal__body ul {
+        margin: 0 0 0.9rem 1.15rem;
+        padding: 0;
+      }
+
+      .lang-modal__body li {
+        margin: 0.2rem 0;
+      }
+
+      /* Überschrift (p) + Liste im Modal enger zusammenziehen */
+      .lang-modal__body p + ul {
+        margin-top: -0.35rem;
       }
     </style>
   </body>

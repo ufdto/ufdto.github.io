@@ -1,101 +1,92 @@
 id,nr,title,subtitle,x,y
-flur-001,1,Chodaublick,"Aussichtspunkt auf dem Föllerberg (616,3 m). Früher sehr beliebtes Ausflugsziel bei den Chodauer Bürgern, heute etwas in Vergessenheit geraten und ziemlich zugewachsen.",2104,4293
-flur-002,2,Alte Leitn,"Historischer Weg von Ober-Chodau nach Pechgrün über die ""Leitn"", einem 465 m hohen Bergrücken der zwischen den beiden Orten lag. Heute ist noch ein Teil der Eichenallee erhalten, die allerdings nur noch an den Rand der ""Smolnická výsypka"" Abraumhalde führt.",7826,9093
-flur-003,3,Hechtenteich,Früherer Mühlteich. Im Winter Schlittschuharena der Pechgrüner Jugend.,6690,4138
-flur-004,4,Meißl Huaf,Hof Der Familie Josef Rossmeißl.,6539,4017
-flur-005,5,Titel 5,Untertitel 5,7850,3842
-flur-006,6,Titel 6,Untertitel 6,1421,578
-flur-007,7,Titel 7,Untertitel 7,3638,3358
-flur-008,8,Titel 8,Untertitel 8,3696,5799
-flur-009,9,Titel 9,Untertitel 9,1933,6182
-flur-010,10,Titel 10,Untertitel 10,6998,3115
-flur-011,11,Titel 11,Untertitel 11,5333,2049
-flur-012,12,Titel 12,Untertitel 12,7500,7056
-flur-013,13,Titel 13,Untertitel 13,7214,3292
-flur-014,14,Titel 14,Untertitel 14,4831,4353
-flur-015,15,Titel 15,Untertitel 15,455,2673
-flur-016,16,Titel 16,Untertitel 16,3473,8217
-flur-017,17,Titel 17,Untertitel 17,6657,4700
-flur-018,18,Titel 18,Untertitel 18,7868,717
-flur-019,19,Titel 19,Untertitel 19,6860,5927
-flur-020,20,Titel 20,Untertitel 20,5731,5894
-flur-021,21,Titel 21,Untertitel 21,8466,3480
-flur-022,22,Titel 22,Untertitel 22,1063,7178
-flur-023,23,Titel 23,Untertitel 23,5909,6178
-flur-024,24,Titel 24,Untertitel 24,6105,557
-flur-025,25,Titel 25,Untertitel 25,5595,7797
-flur-026,26,Titel 26,Untertitel 26,6846,3927
-flur-027,27,Titel 27,Untertitel 27,4366,298
-flur-028,28,Titel 28,Untertitel 28,2104,3224
-flur-029,29,Titel 29,Untertitel 29,7907,6303
-flur-030,30,Titel 30,Untertitel 30,2572,5690
-flur-031,31,Titel 31,Untertitel 31,3153,4543
-flur-032,32,Titel 32,Untertitel 32,5123,8936
-flur-033,33,Titel 33,Untertitel 33,1191,907
-flur-034,34,Titel 34,Untertitel 34,4003,3862
-flur-035,35,Titel 35,Untertitel 35,3006,7534
-flur-036,36,Titel 36,Untertitel 36,5015,8068
-flur-037,37,Titel 37,Untertitel 37,5508,6171
-flur-038,38,Titel 38,Untertitel 38,262,627
-flur-039,39,Titel 39,Untertitel 39,4813,2688
-flur-040,40,Titel 40,Untertitel 40,9380,6227
-flur-041,41,Titel 41,Untertitel 41,5154,1918
-flur-042,42,Titel 42,Untertitel 42,1287,7213
-flur-043,43,Titel 43,Untertitel 43,6796,5310
-flur-044,44,Titel 44,Untertitel 44,7225,2337
-flur-045,45,Titel 45,Untertitel 45,3879,4505
-flur-046,46,Titel 46,Untertitel 46,8341,5546
-flur-047,47,Titel 47,Untertitel 47,1599,7935
-flur-048,48,Titel 48,Untertitel 48,7004,2333
-flur-049,49,Titel 49,Untertitel 49,1991,2655
-flur-050,50,Titel 50,Untertitel 50,1805,3684
-flur-051,51,Titel 51,Untertitel 51,3797,2509
-flur-052,52,Titel 52,Untertitel 52,8481,2823
-flur-053,53,Titel 53,Untertitel 53,6414,5751
-flur-054,54,Titel 54,Untertitel 54,8167,623
-flur-055,55,Titel 55,Untertitel 55,2405,9507
-flur-056,56,Titel 56,Untertitel 56,6344,5066
-flur-057,57,Titel 57,Untertitel 57,883,6042
-flur-058,58,Titel 58,Untertitel 58,9915,5345
-flur-059,59,Titel 59,Untertitel 59,3527,2199
-flur-060,60,Titel 60,Untertitel 60,1021,4669
-flur-061,61,Titel 61,Untertitel 61,1066,1365
-flur-062,62,Titel 62,Untertitel 62,7833,8295
-flur-063,63,Titel 63,Untertitel 63,5477,8927
-flur-064,64,Titel 64,Untertitel 64,8818,6493
-flur-065,65,Titel 65,Untertitel 65,8585,1644
-flur-066,66,Titel 66,Untertitel 66,5128,875
-flur-067,67,Titel 67,Untertitel 67,2397,7473
-flur-068,68,Titel 68,Untertitel 68,9097,7458
-flur-069,69,Titel 69,Untertitel 69,8682,709
-flur-070,70,Titel 70,Untertitel 70,6756,9995
-flur-071,71,Titel 71,Untertitel 71,2704,3390
-flur-072,72,Titel 72,Untertitel 72,1022,2164
-flur-073,73,Titel 73,Untertitel 73,8564,4776
-flur-074,74,Titel 74,Untertitel 74,5322,230
-flur-075,75,Titel 75,Untertitel 75,5511,8501
-flur-076,76,Titel 76,Untertitel 76,6147,7534
-flur-077,77,Titel 77,Untertitel 77,7361,302
-flur-078,78,Titel 78,Untertitel 78,7032,5743
-flur-079,79,Titel 79,Untertitel 79,1624,6695
-flur-080,80,Titel 80,Untertitel 80,5999,3070
-flur-081,81,Titel 81,Untertitel 81,4058,6887
-flur-082,82,Titel 82,Untertitel 82,7297,7723
-flur-083,83,Titel 83,Untertitel 83,5634,1601
-flur-084,84,Titel 84,Untertitel 84,5752,2704
-flur-085,85,Titel 85,Untertitel 85,6764,5376
-flur-086,86,Titel 86,Untertitel 86,5807,853
-flur-087,87,Titel 87,Untertitel 87,2196,4779
-flur-088,88,Titel 88,Untertitel 88,6035,2747
-flur-089,89,Titel 89,Untertitel 89,5252,7399
-flur-090,90,Titel 90,Untertitel 90,5153,4039
-flur-091,91,Titel 91,Untertitel 91,2665,3637
-flur-092,92,Titel 92,Untertitel 92,5003,7955
-flur-093,93,Titel 93,Untertitel 93,8829,184
-flur-094,94,Titel 94,Untertitel 94,5417,6502
-flur-095,95,Titel 95,Untertitel 95,7918,5451
-flur-096,96,Titel 96,Untertitel 96,1886,4380
-flur-097,97,Titel 97,Untertitel 97,3272,9714
-flur-098,98,Titel 98,Untertitel 98,9516,186
-flur-099,99,Titel 99,Untertitel 99,9419,7597
-flur-100,100,Titel 100,Untertitel 100,1422,3301
+flur-001,1,Spitzberg,"618 m hoher markant spitziger Berg oberhalb der Wehrmühle, in Richtung Kösteldorf gelegen.",5284,1732
+flur-002,2,Wejam(ü)hl,"Wehrmühle: Idyllisch im Schwarzebachtal gelegene alte Getreidemühle, die bereits im 17-ten Jahrhundert existierte.",5232,2354
+flur-003,3,Åffenfölsn,"Affenfelsen: Freiliegender Felsen oberhalb des Schwarzebaches in der Nähe der Wehrmühle, der heute teilweise verschüttet und zugewachsen ist. War fruuher beliebtes Ausflugsziel, insbesondere Schulklassen.",5602,2700
+flur-004,4,Rouwasberch,"Robesberg – 555 m hoher Berg nördlich von Pechgrün, zwischen Spizberg (618 m) und Fuchsberg (576 m) gelegen.",5919,2282
+flur-005,5,Long Wies,"Lange Wiese: schmal und langgezogen, oft entlang eines Bachs, entlang eines Wegs, in einer Senke, am Rand einer Leitn.",6340,2316
+flur-006,6,Spitzeich,"Keilförmig, steil, aufstrebender Hang.",5628,1772
+flur-007,7,Weg nach Kösteldorf,Kösteldorf ist ein nördlich und oberhalb gelegenes Nachbardorf von Pechgrün.,5881,1899
+flur-008,8,Kahlhau,"Flurname für einen Bergrücken oder eine Fläche, die durch vollständigen Holzeinschlag kahl lag.",5848,1252
+flur-009,9,Krebsn Reimla,"Eine kleine Geländekante oder Böschung bei einer Stelle, wo Bach Krebse vorkamen oder gefangen wurden.",6669,1688
+flur-010,10,Graußa Hau,"Ein großes Waldstück, das (einmal) stark oder vollständig geschlagen wurde.",6737,1835
+flur-011,11,Hauchrat,"Ein extrem steiler Hang oder Abfall, auf dem man leicht ausrutscht oder abrutscht.",7087,1671
+flur-012,12,Fuchsberg,576 m hoher Berg am Weg in westlicher Richtung gelegen zwischen Wehrmühle und Tal des Wolfschlagbachs.,7415,2069
+flur-013,13,Siehr Felsen,Felsen in der Nähe des Fuchsbergs in den der Pechgrüner Heinrich Siehr (Schulfreund meines Onkels) 1938 seinen Name eingeritzt hat . Heinrich ist im 2. Weltkrieg gefallen.,8064,2035
+flur-014,14,Katzenglimmerloch,"Sinngemäß etwa „Katzen-Glimmerloch“ – eine kleine Mulde mit silbrig schimmerndem Untergrund, meist durch Glimmer oder helle Minerale). Katze“ ist hier – wie oft im Dialekt – kein Tierbezug, sondern: Verkleinerung, Bildhaftigkeit, etwas Unscheinbares, aber Auffälliges.",8221,1793
+flur-015,15,Gmuirang,"Gemauerter Rain: gmui(r)t / gmuir- = gemauert, rong / rang / rain = Rain → Grenzstreifen, Kante, schmale Böschung.",8016,1732
+flur-016,16,Wolfschlagbach,"Bach, der durch den „Wolfschlag“ (eine ehemalige Rodungs- bzw. Einschlagsfläche) fließt.",7757,1314
+flur-017,17,Raubsack,"Ausgelaugter, ertragsschwacher Boden; „ausgeraubte“ Fläche.",9844,2193
+flur-018,18,Trachter,"Trichterförmige Senke oder Engstelle, in der sich Wege oder Wasser sammeln.",9982,3226
+flur-019,19,Wolfsberg,"496 m hoher Berg, heute von Pechgrüner Abraumhalde vollständig verschluckt.",8360,2909
+flur-020,20,Zichaunerwold,"""Zigeunerwald"": Bezeichnung eines abgelegenen Waldstücks, das man mit durchziehenden oder lagernden Gruppen verband.",8728,3214
+flur-021,21,Kralers,"Uneben, zerklüftet, verwachsen; schwer begehbares oder unruhiges Gelände.",8902,2901
+flur-022,22,Hoidlbüsch,Holunderbusch oder -gebüsch; Hinweis auf frühere Siedlungs- oder Wegnähe.,7912,2544
+flur-023,23,Poschetzauer Wallerl,Kleiner Erdwall an der Flurgrenze; benannt nach Nutzern oder Besitzern aus dem Ort Poschetzau.,8012,2933
+flur-024,24,Erlseich,"Eine dauerhaft feuchte, sumpfige Senke, in der Erlen wachsen – oft mit quelligem Wasser oder Staunässe.",7634,2879
+flur-025,25,Masta Wenzl's Bühlerl,"Eine kleine, rundliche Geländeerhebung / Kuppe, die dem Masta, Wenzl gehörte.",7728,4162
+flur-026,26,Obere Hirtenhoud,"Hirtenhoud = Hirtenhut / Hirtenplatz / Hirtenstandort, also der Ort auf dem der Hirte das Vieh hütete.",7921,3529
+flur-027,27,Hirtenhoud,"Hirtenhoud = Hirtenhut / Hirtenplatz / Hirtenstandort, also der Ort auf dem der Hirte das Vieh hütete.",8613,3974
+flur-028,28,Untere Hirtenhoud,"Hirtenhoud = Hirtenhut / Hirtenplatz / Hirtenstandort, also der Ort auf dem der Hirte das Vieh hütete.",9108,4056
+flur-029,29,am wöidich'n Ochsn,"""wilder Ochse"": nicht wörtlich (kein Tier), sondern bildhaft für einen großen, grob geformten, auffälligen Stein oder Felsblock, der an einen Ochsen erinnert.",7030,3981
+flur-030,30,Neibauern Wallerla,"Eine niedrige Geländeerhebung oder Aufschüttung, die man mit dem Neubauern verband.",6874,3638
+flur-031,31,Gagl Teich,"Nasse Senke mit Gagelbewuchs; Hinweis auf saure, moorige Bodenverhältnisse. Gagel ist ein typischer Moorstrauch.",6582,3488
+flur-032,32,Nazenbirkla,"Kleine birkenbestandene Fläche; benannt nach Vinzenz („Naatzn“) Rossmeisl, einem Urgroßvater von Claus.",7045,3866
+flur-033,33,Fuxlöcher,Stelle mit mehreren Fuchsbauen bzw. natürlichen Tierhöhlen.,7681,3178
+flur-034,34,Owastteich,„Oberster Teich“ / „oberer Teich“: also der oben gelegene Teich im Gelände.,8662,5605
+flur-035,35,Bärnhaut,"""Bärenhaut"" (nicht wörtlich sondern bildhaft): unregelmäßige, ausgebreitete Fläche – oft groß, unförmig, zerzaust im Randbereich.",7429,4758
+flur-036,36,åf da Luft,"Eine erhöhte, offene Lage: windig, ungeschützt, ohne Wald, oberhalb des Dorfes oder der Tallage.",7044,5137
+flur-037,37,Loahmteichl und -wiesl,Lehmgrube mit Wasser und Wiese auf lehmigem Boden.,7109,4921
+flur-038,38,Boofen,Boofen bedeutet Hang / obere Hangfläche / Anhöhe im Sinn von „oben gelegen“.,7641,5139
+flur-039,39,Saierteich,Sauteich – Teil der von den Zisterziensern angelegten Teichlandschaft.,7617,5909
+flur-040,40,Mühlteich,Teil der von den Zisterziensern angelegten Teichlandschaft.,7741,6666
+flur-041,41,Hirschteich,Teil der von den Zisterziensern angelegten Teichlandschaft.,8067,6500
+flur-042,42,Fliegenseich,"Sumpfige, stehende Nässe mit starkem Fliegen- oder Mückenaufkommen.",8435,6158
+flur-043,43,Rathteich (leer),Trockengelegter Gemeindeteich – Teil der von den Zisterziensern angelegten Teichlandschaft.,7859,7066
+flur-044,44,Kläiteich,Klee oder Lehmteich – Teil der von den Zisterziensern angelegten Teichlandschaft.,6372,6709
+flur-045,45,Kläibirkla,Kleine birkenbestandene Fläche auf lehmigem Boden.,6448,7115
+flur-046,46,Kåstenteich,Kastenteich – Teil der von den Zisterziensern angelegten Teichlandschaft.,7250,6251
+flur-047,47,Herrenteich,Teil der von den Zisterziensern angelegten Teichlandschaft.,6724,6250
+flur-048,48,Frauenteich,Teil der von den Zisterziensern angelegten Teichlandschaft.,6362,5855
+flur-049,49,Muckerteich,Mückenteich.,6217,5516
+flur-050,50,Säiteich,Sauteich ?,5678,5885
+flur-051,51,Obere Leitn,"Historischer Weg von Ober-Chodau nach Pechgrün über die ""Leitn"", einem 465 m hohen Bergrücken der zwischen den beiden Orten lag. Heute ist noch ein Teil der Eichenallee erhalten, die allerdings nur noch an den Rand der ""Smolnická výsypka"" Abraumhalde führt.",7826,9093
+flur-052,52,Leitn,"Chodauer Hausberg (460 m), über den man gehen/fahren musste um nach Pechgrün zu gelangen. Allgemeine Bedeutung: Gelände, das merklich geneigt ist, schwer zu bewirtschaften, oft Übergang zwischen Hoch- und Tieflage.",7294,8820
+flur-053,53,Birkwies,Eine Wiese mit Birkenbestand oder starkem Birkenaufwuchs.,6343,4940
+flur-054,54,Vuaglsång,"Ortsteil von Pechgrün: Vuaglsång = ""Vogelsang"", also eine Stelle, an der viele Vögel singen.",5964,4887
+flur-055,55,Fuatzwinkl,"Ortsteil von Pechgrün: Fuatz = Dreck, Gatsch, Mist, unbrauchbares Zeug.",6494,4683
+flur-056,56,Schulberg,Weg bei der Pechgrüner Schule der bergauf zur Dorfkapelle führte.,6742,4433
+flur-057,57,Kutscherberch,Früherer Mühlteich. Im Winter Schlittschuharena der Pechgrüner Jugend.,6656,4407
+flur-058,58,Hechtenteich,Hat früher einmal ein Mühle miot Wasser versorgt.,6690,4138
+flur-059,59,Meislberch,Hügel auf dem das Haus der Familie Josef Roßmeisel stand.,6310,3819
+flur-060,60,Linden,"Auf dem Stück Land, das vom »Büllerlweg« und dem Fuhrweg begrenzt wurde, standen die »Linden«, drei uralte Bäume (Pechgrüner Wahrzeichen). Unter den ersten beiden Linden war ein Marterl errichtet. Zwischen der zweiten und dritten hatte sich durch jahrhundertelanges Befahren ein Weg in den Hof tief ins Erdreich eingegraben. Auf diesem Weg gelangte man nach dem Passieren des »Matzlhuafs« wieder zum »Läi(n)huaf«. Die drei Bäume wurden vermutlich während des Dreißigjährigen Krieges, oder kurz nach seiner Beendigung gepflanzt. Etwa 330 Jahre später, am 12. Februar 1976 wurden die Linden von den Tschechen gefällt.",6090,4267
+flur-061,61,Låuchrong,"Flaches Stück Land, das steil zum Schwarzebach abfiel.",5901,3982
+flur-062,62,s Rinnerl,"""kleines Rinnsal / kleine Geländerinne / schmale Abflussmulde"": hier beliebte Trinkwasserquelle in Pechgrün.",6065,3815
+flur-063,63,Matzl's Bühlerl,"Eine kleine Geländekuppe, benannt nach einer Person (Matzl).",5766,4277
+flur-064,64,Euin Baint,"Größeres Wiesengrundstück mit einer sumpfigen ""Suttl"" (sumpfige, schmutzige Stelle im Gelände), das dem ""Euin"" Bauern gehörte.",5773,4899
+flur-065,65,Pfarrteich,"Der Damm des »Pfårrteichs« war zur Hälfte mit Stauden bewachsen. In seiner Mitte stand ein alter Holzbirnbaum. Die zweite Hälfte des Dammes war bis zu Ullmanns Behelfsheim mit noch jungen Eichen bepflanzt. Im »Pfårrteich« tummelten sich die kleinen Buben, Mädchen und jene Erwachsene, die das Schwimmen erst erlernten.",5432,4498
+flur-066,66,Stårkeneierteich,"„Storchen­eier Teich“ (aber nicht wörtlich, sondern bildhaft): Wasserstelle in einem Gebiet mit auffälligen, rundlichen Steinen / Knollen.",5115,4373
+flur-067,67,Segelteich,"Trockengelegter Teich des ""Segel Huafs"".",5102,4780
+flur-068,68,Segelwallerl,"Wallerl = kleiner Erdwall oder Aufwurf, meist als Grenze oder Geländekante entstanden – gehörte zum ""Segel Huaf"".",4726,4672
+flur-069,69,Bärnseigl,"Das Bärnseigl war ein liebliches Waldbächlein, welches am Ende dieses Feldweges aus dem Wald, der die Felder zu den Bergen hin begrenzte, heraustrat. Von dort an gab es nur einen Fußsteig, der gleichzeitig Rain zwischen zwei Feldern war und nach Neuhäuser führte.",4988,3715
+flur-070,70,Schütznwies,"Waldwiese, die vielleicht als Schieß- oder Übungsplatz der Dorfschützen diente.",4823,3592
+flur-071,71,Vogelschutzgebiet,"Dieses Waldstück war als Vogelschutzgebiet ausgewiesen und bot seltenen Vogelarten Schutz, die durch die benachbarte Teichlandschaft angezogen wurden.",5186,2886
+flur-072,72,Mitterwallerl,Kleiner Erdwall am Mitterberg gelegen.,5202,3229
+flur-073,73,Goldiche Leitn,Bis zu 610 m hoher Bergrücken an dem entlang der Schwarzebach von Kösteldorf aus zur Wehrmühle hinunterfloss.,4744,2238
+flur-074,74,Knigger,Geländekante oder kurzer Hangabsatz („Knick“ im Gelände).,4111,2846
+flur-075,75,Mitterberg,Breiter Höhenzug mit bis zu 650 m hohen Gipfeln.,3436,2795
+flur-076,76,Föllerberg,"Sagenumwogener 616,3 m hoher Berg – von dem etwas tiefer gelegenen ""Chodaublick"" Felsen hatte man eine herrliche Aussicht über das gesamte Egertalbecken bin hin zum Kaiserwald und Bayrischen Wald.",2104,4293
+flur-077,77,Chodaublick,"Aussichtspunkt auf dem Föllerberg (616,3 m). Früher sehr beliebtes Ausflugsziel bei den Chodauer Bürgern, heute etwas in Vergessenheit geraten und ziemlich zugewachsen.",2138,4419
+flur-078,78,Föllerberghöhle,Ursprünglich ein Wassersammelstollen (Kanat): unterirdischer Stollen zur Sammlung und Ableitung von Quell- und Sickerwasser mittels natürlichem Gefälle.,2898,4260
+flur-079,79,Masterberg,Kleiner Hügel im Bereich von Neuhäuser. Der Name bezieht sich vermutlich auf einen nahegelegenen Hof.,3465,5171
+flur-080,80,Neuhäuser,Ab 1924 Ortsteil von Pechgrün.,3815,4308
+flur-081,81,Flößbach,"Bach, der bei hohem Wasserstand zum Transport von Kurz-/Scheit-Holz (Flößen) genutzt wurde.",3208,5809
+flur-082,82,Steidlberg,Kleiner Hügel im Bereich von Neuhäuser. Der Name bezieht sich vermutlich auf einen nahegelegenen Hof.,4109,4707
+flur-083,83,Heuknuag,"Ort, an dem Heu aufgesetzt oder gelagert wurde.",4395,4190
+flur-084,84,Dotterwies,Nachbarort von Pechgrün.,871,2444
+flur-085,85,Doglasgrün,Nachbarort von Pechgrün.,1252,6637
+flur-086,86,Stelzengrün,Nachbarort von Pechgrün.,4700,7516
+flur-087,87,Braunsdorf,Nachbarort von Pechgrün.,4396,8589
+flur-088,88,Chodau,Heute Kreisstadt – Pechgrün gehörte früher zu den Gütern Ober- und Unterchodau und zum Chodauer Pfarrbezirk.,7749,10232
+flur-089,89,Poschetzau,Nachbarort von Pechgrün.,11291,6468
+flur-090,90,Schwarzebach (Oberlauf),Wilder Bachlauf mit stärkerem Gefälle oberhalb von Pechgrün.,4962,2025
+flur-091,91,Schwarzebach (Unterlauf),Sanfter Bachlauf mit ruhiger Wasserführung im Dorfbereich.,7706,4617

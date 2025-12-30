@@ -12,16 +12,12 @@ const title = "Über diese Website";
         grid-template-columns: 320px 1fr;
         gap: 1.25rem;
         align-items: start;
-
-        /* oben ok, unten NICHT zusätzlich aufblasen (sonst + nächster Absatz = zu groß) */
         margin: 1.5rem 0 0 0;
       }
 
       .impressum-figure {
         margin: 0;
         align-self: start;
-
-        /* OPTISCHE FLUCHT: Text hat oben „Luft“, Bild nicht → Bild minimal nach unten */
         padding-top: 0.5rem;
       }
 
@@ -43,7 +39,6 @@ const title = "Über diese Website";
         align-self: start;
       }
 
-      /* wenn globales CSS p-Abstände erzwingt: rechter Block soll oben sauber starten */
       .impressum-text > p:first-child {
         margin-top: 0 !important;
         margin-block-start: 0 !important;
@@ -55,7 +50,7 @@ const title = "Über diese Website";
         }
 
         .impressum-figure {
-          padding-top: 0; /* auf Mobile keine optische Flucht nötig */
+          padding-top: 0;
         }
       }
     </style>
@@ -183,18 +178,14 @@ const title = "Über diese Website";
     <p>
       Die Inhalte dieser Website beruhen auf privaten Recherchen, genealogischer
       Arbeit, zeitgenössischen Quellen, Erinnerungen sowie auf dem Abgleich
-      unterschiedlicher Materialien. Daten, Namen und Zusammenhänge wurden nach
-      bestem Wissen und Gewissen zusammengeführt und – wo sinnvoll – miteinander
-      verknüpft.
+      unterschiedlicher Materialien.
     </p>
 
     <p>
       Trotz sorgfältiger Arbeit können einzelne Angaben unvollständig,
       widersprüchlich oder fehlerhaft sein. In der genealogischen Forschung und
       in der Beschäftigung mit historischen Alltagsquellen lassen sich
-      Unsicherheiten nicht immer vermeiden. Die hier dargestellten Informationen
-      verstehen sich daher als Annäherung und Arbeitsstand, nicht als endgültige
-      oder amtliche Feststellung.
+      Unsicherheiten nicht immer vermeiden.
     </p>
 
     <p>
@@ -202,12 +193,13 @@ const title = "Über diese Website";
       willkommen.
     </p>
 
+    <h2>Dank</h2>
+
     <p>
-      Die Website befindet sich im Aufbau und wird schrittweise
-      weiterentwickelt. Viele Inhalte entstehen nach und nach, aus Ideen,
-      Recherchen und neu hinzukommendem Material. Es kann sich daher lohnen, von
-      Zeit zu Zeit wieder vorbeizuschauen, um neue Beiträge und Ergänzungen zu
-      entdecken.
+      Bei der Konzeption und Umsetzung dieser Website kam digitale Unterstützung
+      zum Einsatz. Ein besonderer Dank gilt <strong>Emil</strong>, der mir beim
+      Denken hilft, sowie <strong>Otto</strong>, der gut zuhört und immer fleißig
+      mitschreibt.
     </p>
 
     <hr />

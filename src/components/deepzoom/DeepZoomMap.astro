@@ -41,13 +41,10 @@ const {
   height?: number;
 };
 
-// base-safe URL prefix
-// NOTE: robust even if astro.config.mjs base is "/pechgruen-website" (missing trailing slash)
 const RAW_BASE = import.meta.env.BASE_URL;
 const BASE = RAW_BASE.endsWith("/") ? RAW_BASE : RAW_BASE + "/";
 const u = (p: string) => `${BASE}${p.replace(/^\/+/, "")}`;
 
-// ✅ base-safe tileSource for OSD
 const tileSourceFixed =
   typeof tileSource === "string" ? u(tileSource) : tileSource;
 ---
@@ -110,7 +107,6 @@ const tileSourceFixed =
   </div>
 </div>
 
-<!-- base-safe vendor path -->
 <script is:inline src={u("vendor/openseadragon.min.js")}></script>
 
 <script
@@ -129,13 +125,8 @@ const tileSourceFixed =
   const host = document.getElementById(id);
 
   if (!host || !OSD) {
-    console.warn("DeepZoomMap: host or OpenSeadragon missing", {
-      id,
-      host,
-      OSD: !!OSD,
-    });
+    // silent fail
   } else {
-    // ✅ Pointer-events-Regel zuverlässig injizieren
     const styleId = `dz-pe-${id}`;
     if (!document.getElementById(styleId)) {
       const s = document.createElement("style");
@@ -170,15 +161,10 @@ const tileSourceFixed =
       },
     });
 
-    /* ============================================================
-       DAS EINZIGE "HOME", DAS UNS INTERESSIERT:
-       -> der Zoom, den DU beim Öffnen (startView) siehst.
-       ============================================================ */
-    let BASE_ZOOM = null; // wird nach applyStartView gesetzt (einmalig)
+    let BASE_ZOOM = null;
+    let MANUAL_MIN = null;
+    let MANUAL_MAX = null;
 
-    /* ---------------------------
-       Tooltip-Layer (zweizeilig)
-       --------------------------- */
     const tip = document.createElement("div");
     tip.id = "marker-tip";
     tip.style.position = "absolute";
@@ -210,6 +196,7 @@ const tileSourceFixed =
        PINNED TOOLTIP + FREEZE (für Fly-to)
        ============================================================ */
     let pinned = false;
+    let pinnedMarkerId = null;
 
     function showTip(title, subtitle, clientX, clientY) {
       if (pinned) return;
@@ -267,13 +254,21 @@ const tileSourceFixed =
       tip.style.display = "none";
       tip.style.pointerEvents = "none";
       setFrozen(false);
+
+      // ✅ Event für die Liste (Highlight entfernen)
+      window.dispatchEvent(new CustomEvent("dz:pinned-close", {
+        detail: { mapId: id, id: pinnedMarkerId }
+      }));
+
+      pinnedMarkerId = null;
     }
 
-    function showPinnedTipAt(title, subtitle, vpPoint) {
+    function showPinnedTipAt(title, subtitle, vpPoint, markerId) {
       const t = title || "";
       const s = subtitle || "";
 
       pinned = true;
+      pinnedMarkerId = markerId || null;
       setFrozen(true);
 
       tip.innerHTML = `
@@ -508,8 +503,8 @@ const tileSourceFixed =
       if (!item) return;
 
       const home = viewer.viewport.getHomeZoom();
-      viewer.viewport.minZoomLevel = home;      // wird gleich nach BASE_ZOOM gesetzt
-      viewer.viewport.maxZoomLevel = home * 64; // großzügig
+      viewer.viewport.minZoomLevel = home;
+      viewer.viewport.maxZoomLevel = home * 64;
 
       if (!startView || startView.type === "home") return;
 
@@ -574,24 +569,26 @@ const tileSourceFixed =
         return;
       }
 
-      // ✅ Wenn BASE_ZOOM aus irgendeinem Grund noch nicht da ist: jetzt festnageln.
       if (BASE_ZOOM == null) {
         BASE_ZOOM = viewer.viewport.getZoom(true);
+        MANUAL_MIN = BASE_ZOOM / 3.0;
+        MANUAL_MAX = Math.max(viewer.viewport.maxZoomLevel, BASE_ZOOM * 2.1);
       }
 
-      // ✅ Exakt: hoch = 2× so hoch wie DEIN HOME (also Zoom halbieren)
-      //          tief = 2× so tief wie DEIN HOME (also Zoom verdoppeln)
       const zoomOut = BASE_ZOOM / 1.4;
       const zoomIn  = BASE_ZOOM * 2.1;
 
-      // ✅ Grenzen passend zu DEINEM HOME setzen (damit nichts "ins All" kann)
-      viewer.viewport.minZoomLevel = zoomOut;
-      viewer.viewport.maxZoomLevel = Math.max(viewer.viewport.maxZoomLevel, zoomIn);
+      // ✅ FlyTo darf die manuellen Grenzen nicht "zudrehen"
+      if (MANUAL_MIN != null) viewer.viewport.minZoomLevel = MANUAL_MIN;
+      viewer.viewport.maxZoomLevel = Math.max(
+        viewer.viewport.maxZoomLevel,
+        zoomIn,
+        MANUAL_MAX ?? zoomIn
+      );
 
       const imgPt = new OSD.Point(x, y);
       const vpTarget = item.imageToViewportCoordinates(imgPt);
 
-      // Smoothness
       const oldAnimX = viewer.viewport.centerSpringX.animationTime;
       const oldAnimY = viewer.viewport.centerSpringY.animationTime;
       const oldAnimZ = viewer.viewport.zoomSpring.animationTime;
@@ -600,15 +597,12 @@ const tileSourceFixed =
       viewer.viewport.centerSpringY.animationTime = 1.9;
       viewer.viewport.zoomSpring.animationTime    = 1.9;
 
-      // A: Zoom-out (animiert)
       viewer.viewport.zoomTo(zoomOut, undefined, false);
       await waitAnimationFinish();
 
-      // B: Pan (animiert)
       viewer.viewport.panTo(vpTarget, false);
       await waitAnimationFinish();
 
-      // C: Zoom-in (animiert)
       viewer.viewport.zoomTo(zoomIn, vpTarget, false);
       await waitAnimationFinish();
 
@@ -616,18 +610,16 @@ const tileSourceFixed =
       viewer.viewport.centerSpringY.animationTime = oldAnimY;
       viewer.viewport.zoomSpring.animationTime = oldAnimZ;
 
-      // Tooltip nach Ankunft (pinned, muss geschlossen werden)
       const m = findMarkerById(markerId);
       const title = m?.title || "";
       const subtitle = m?.subtitle || "";
-      showPinnedTipAt(title, subtitle, vpTarget);
+      showPinnedTipAt(title, subtitle, vpTarget, markerId);
     }
 
     window.addEventListener("dz:flyto", (ev) => {
       try {
         flyToWithPinnedTip(ev.detail);
-      } catch (e) {
-        console.warn("DeepZoomMap flyTo error", e);
+      } catch (_) {
         closePinnedTip();
         setFrozen(false);
       }
@@ -637,13 +629,13 @@ const tileSourceFixed =
       applyStartView();
       setMarkersVisible(!!markersDefaultVisible);
 
-      // ✅ JETZT: "DEIN HOME" festnageln (genau das, was du beim Öffnen siehst)
-      // (applyStartView arbeitet mit immediate=true, d.h. der Zoom ist sofort gesetzt)
       BASE_ZOOM = viewer.viewport.getZoom(true);
 
-      // ✅ Grenzen passend zu DEINEM HOME, damit 2× hoch / 2× tief immer geht
-      viewer.viewport.minZoomLevel = BASE_ZOOM / 1.4;
-      viewer.viewport.maxZoomLevel = Math.max(viewer.viewport.maxZoomLevel, BASE_ZOOM * 2.1);
+      MANUAL_MIN = BASE_ZOOM / 3.0;
+      MANUAL_MAX = Math.max(viewer.viewport.maxZoomLevel, BASE_ZOOM * 2.1);
+
+      viewer.viewport.minZoomLevel = MANUAL_MIN;
+      viewer.viewport.maxZoomLevel = MANUAL_MAX;
     });
   }
 </script>

@@ -163,23 +163,31 @@ const flurRowsNr = flurRows
             <col class="c-nr" />
             <col class="c-gap" />
             <col class="c-title" />
+            <!-- Block gap -->
+            <col class="c-blockgap" />
+            <!-- Block 4 -->
+            <col class="c-nr" />
+            <col class="c-gap" />
+            <col class="c-title" />
           </colgroup>
 
           <tbody id="flurTbody">
             {
               (() => {
-                const COLS = 3;
+                const COLS = 4;
                 const n = flurRowsNr.length;
                 const perCol = Math.ceil(n / COLS);
                 const col1 = flurRowsNr.slice(0 * perCol, 1 * perCol);
                 const col2 = flurRowsNr.slice(1 * perCol, 2 * perCol);
                 const col3 = flurRowsNr.slice(2 * perCol, 3 * perCol);
+                const col4 = flurRowsNr.slice(3 * perCol, 4 * perCol);
                 const rows = perCol;
 
                 return Array.from({ length: rows }, (_, i) => {
                   const a = col1[i];
                   const b = col2[i];
                   const c = col3[i];
+                  const d = col4[i];
 
                   return (
                     <tr class="flur-tr">
@@ -201,6 +209,13 @@ const flurRowsNr = flurRows
                       <td class="flur-td flur-nr" data-id={c?.id} data-x={c?.x} data-y={c?.y}>{c ? c.nr : ""}</td>
                       <td class="flur-td flur-gap" data-id={c?.id} data-x={c?.x} data-y={c?.y}></td>
                       <td class="flur-td flur-title" data-id={c?.id} data-x={c?.x} data-y={c?.y}>{c ? c.title : ""}</td>
+
+                      <td class="flur-td flur-blockgap" aria-hidden="true"></td>
+
+                      {/* Block 4 */}
+                      <td class="flur-td flur-nr" data-id={d?.id} data-x={d?.x} data-y={d?.y}>{d ? d.nr : ""}</td>
+                      <td class="flur-td flur-gap" data-id={d?.id} data-x={d?.x} data-y={d?.y}></td>
+                      <td class="flur-td flur-title" data-id={d?.id} data-x={d?.x} data-y={d?.y}>{d ? d.title : ""}</td>
                     </tr>
                   );
                 });
@@ -252,15 +267,15 @@ const flurRowsNr = flurRows
       line-height: 1.2;
 
       /* ✅ Stellschrauben für exakte Breiten */
-      --nrw: 5ch;         /* 4 Stellen + minimal Luft */
-      --gapw: 10px;       /* Leer-Spalte im Block */
-      --blockgapw: 36px;  /* Abstand zwischen Block 1–2 und 2–3 (identisch) */
+      --nrw: 5ch;         /* 4 Stellen */
+      --gapw: 8px;        /* Leer-Spalte im Block */
+      --blockgapw: 22px;  /* Abstand zwischen Blöcken (identisch, dichter) */
 
-      /* ✅ Titelbreite füllt exakt den restlichen Platz – symmetrisch */
-      --titlew: calc(
-        (100% - (2 * var(--blockgapw)) - (3 * (var(--nrw) + var(--gapw))))
-        / 3
-      );
+      /* ✅ Jeder Block bekommt exakt 1/4 der verfügbaren Breite (minus 3 blockgaps) */
+      --blockw: calc((100% - (3 * var(--blockgapw))) / 4);
+
+      /* ✅ Titelbreite = Blockbreite minus Nr+Gap */
+      --titlew: calc(var(--blockw) - (var(--nrw) + var(--gapw)));
     }
 
     .flur-table col.c-nr       { width: var(--nrw); }
@@ -306,6 +321,10 @@ const flurRowsNr = flurRows
       opacity: 1;
     }
 
+    /* ✅ ACTIVE HIGHLIGHT (robust sichtbar) */
+    .flur-td.is-active.flur-title { font-weight: 700; opacity: 1; }
+    .flur-td.is-active.flur-nr    { font-weight: 700; opacity: 1; }
+
     .flur-foot {
       margin-top: 10px;
       display: flex;
@@ -348,25 +367,13 @@ const flurRowsNr = flurRows
 
     /* Responsive: 2 Blöcke / 1 Block */
     @media (max-width: 740px) {
-      .flur-table td:nth-child(4),
-      .flur-table td:nth-child(5),
-      .flur-table td:nth-child(6),
-      .flur-table td:nth-child(7),
-      .flur-table td:nth-child(8),
-      .flur-table td:nth-child(9),
-      .flur-table td:nth-child(10),
-      .flur-table td:nth-child(11) {
-        display: none;
-      }
+      /* nur Block 1 */
+      .flur-table td:nth-child(n+4) { display: none; }
     }
 
     @media (min-width: 741px) and (max-width: 979px) {
-      .flur-table td:nth-child(8),
-      .flur-table td:nth-child(9),
-      .flur-table td:nth-child(10),
-      .flur-table td:nth-child(11) {
-        display: none;
-      }
+      /* Block 1 + Block 2 */
+      .flur-table td:nth-child(n+8) { display: none; }
     }
   </style>
 
@@ -396,7 +403,7 @@ const flurRowsNr = flurRows
       }
     }
 
-    function chunkToColumns(arr, cols = 3) {
+    function chunkToColumns(arr, cols = 4) {
       const n = arr.length;
       const perCol = Math.ceil(n / cols);
       return Array.from({ length: cols }, (_, c) => arr.slice(c * perCol, (c + 1) * perCol));
@@ -416,17 +423,38 @@ const flurRowsNr = flurRows
         .replaceAll("'", "&#39;");
     }
 
+    // ✅ Active highlight state (bleibt, bis pinned Tooltip geschlossen wird)
+    let activeId = null;
+
+    function clearActiveHighlight() {
+      activeId = null;
+      document.querySelectorAll(".flur-td.is-active").forEach((el) => el.classList.remove("is-active"));
+    }
+
+    // ✅ Robust: kein CSS.escape, kein selector mit Sonderzeichen -> dataset Vergleich
+    function applyActiveHighlight(id) {
+      clearActiveHighlight();
+      if (!id) return;
+      activeId = id;
+
+      const cells = document.querySelectorAll(".flur-td[data-id]");
+      cells.forEach((el) => {
+        if (el?.dataset?.id === id) el.classList.add("is-active");
+      });
+    }
+
     function render(sorted) {
       if (!tbody) return;
 
-      const cols = chunkToColumns(sorted, 3);
-      const rows = Math.ceil(sorted.length / 3);
+      const cols = chunkToColumns(sorted, 4);
+      const rows = Math.ceil(sorted.length / 4);
 
       let html = "";
       for (let i = 0; i < rows; i++) {
         const a = cols[0][i];
         const b = cols[1][i];
         const c = cols[2][i];
+        const d = cols[3][i];
 
         html += `<tr class="flur-tr">
           <td class="flur-td flur-nr"${tdAttrs(a)}>${a ? a.nr : ""}</td>
@@ -444,10 +472,19 @@ const flurRowsNr = flurRows
           <td class="flur-td flur-nr"${tdAttrs(c)}>${c ? c.nr : ""}</td>
           <td class="flur-td flur-gap"${tdAttrs(c)}></td>
           <td class="flur-td flur-title"${tdAttrs(c)}>${c ? escapeHtml(c.title) : ""}</td>
+
+          <td class="flur-td flur-blockgap" aria-hidden="true"></td>
+
+          <td class="flur-td flur-nr"${tdAttrs(d)}>${d ? d.nr : ""}</td>
+          <td class="flur-td flur-gap"${tdAttrs(d)}></td>
+          <td class="flur-td flur-title"${tdAttrs(d)}>${d ? escapeHtml(d.title) : ""}</td>
         </tr>`;
       }
 
       tbody.innerHTML = html;
+
+      // ✅ Nach Re-render Highlight wieder setzen (wenn aktiv)
+      if (activeId) applyActiveHighlight(activeId);
     }
 
     function getSorted(which) {
@@ -460,10 +497,7 @@ const flurRowsNr = flurRows
     // ----------------------------
     function wireFlurTableClicks() {
       const table = document.querySelector(".flur-table");
-      if (!table) {
-        console.warn("flurnamen: .flur-table not found (click wiring failed)");
-        return;
-      }
+      if (!table) return;
 
       table.addEventListener("click", (e) => {
         const td = e.target?.closest?.("td[data-id]");
@@ -474,11 +508,21 @@ const flurRowsNr = flurRows
         const y = Number(td.getAttribute("data-y"));
         if (!id || !Number.isFinite(x) || !Number.isFinite(y)) return;
 
+        // ✅ Highlight sofort setzen (sichtbarer Zusammenhang)
+        applyActiveHighlight(id);
+
         window.dispatchEvent(new CustomEvent("dz:flyto", {
           detail: { mapId: MAP_ID, id, x, y }
         }));
       });
     }
+
+    // ✅ Wenn pinned Tooltip geschlossen wird -> Highlight entfernen
+    window.addEventListener("dz:pinned-close", (ev) => {
+      const d = ev?.detail || {};
+      if (d.mapId !== MAP_ID) return;
+      clearActiveHighlight();
+    });
 
     // init
     setActive("nr");
@@ -492,7 +536,6 @@ const flurRowsNr = flurRows
       });
     }
 
-    // Click wiring nach DOM ready (sicher, egal wie Astro es lädt)
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", wireFlurTableClicks);
     } else {
