@@ -44,6 +44,12 @@ order: 1
   blockquote p {
     margin: 0 !important;
   }
+
+  /* Abstand NUR, wenn auf einen Einschub ein Absatz folgt */
+  blockquote + p {
+    margin-top: 1.2rem;
+  }
+  
   blockquote a {
     text-decoration: none;
   }
