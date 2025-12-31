@@ -179,7 +179,7 @@ const items = [
         <tbody>
           {
             items.map((e) => {
-              const q = `${e.title} ${e.subtitle}`.toLowerCase();
+              const q = `${e.title} ${e.subtitle} ${e.bereich} ${fmtDate(e.date)}`.toLowerCase();
               return (
                 <tr data-q={q}>
                   <td>
