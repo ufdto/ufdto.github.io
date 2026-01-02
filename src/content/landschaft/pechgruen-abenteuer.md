@@ -1,6 +1,6 @@
 ---
 title: "Das Halden-Abenteuer"
-subtitle: "Zwei Männer, sechs Tafeln, ein Felsen – und ein Name aus dem Jahr 1939"
+subtitle: "Zwei Männer, sechs Tafeln, ein Felsen – und ein Name aus dem Jahr 1938"
 date: 2025-12-17
 updated: 2026-01-02
 order: 5
@@ -52,7 +52,7 @@ Was uns zusätzlich motivierte, hatte mit einem **anderen Felsen** zu tun.
 
 Auf einer früheren Suche hatte Claus bereits einen anderen Felsen gefunden: den **Heinrich-Siehr-Felsen**. In einem der Pechgrüner Erinnerungsbände – jenen Büchern, an denen auch mein Onkel Erich mitgearbeitet hat – wird dieser Felsen erwähnt. Und der Name darauf.
 
-**Heinrich Siehr**, ein Jugendfreund meines Onkels Erich, hatte **1939** seinen Namen in diesen Felsen geritzt. Kurz bevor er eingezogen wurde. Heinrich Siehr kam aus dem Krieg nicht zurück.
+**Heinrich Siehr**, ein Jugendfreund meines Onkels Erich, hatte **1938** seinen Namen in diesen Felsen geritzt. Kurz bevor er eingezogen wurde. Heinrich Siehr kam aus dem Krieg nicht zurück.
 
 Aber sein Name blieb.
 
