@@ -1,0 +1,88 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("personen");
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const data = entry.data;
+
+const displayDate = (data.updated ?? data.date) as Date;
+const displayDateText = displayDate.toLocaleDateString("sv-SE", { timeZone: "UTC" });
+---
+
+<BaseLayout title={data.title}>
+  <article>
+    <header>
+      <h1>{data.title}</h1>
+
+      {data.subtitle && <p class="subtitle">{data.subtitle}</p>}
+
+      <p class="meta">{displayDateText}</p>
+    </header>
+
+    <Content />
+
+    {(data.author || data.source) && (
+      <footer class="source">
+        <hr />
+        <p>
+          {data.author && (
+            <>
+              <strong>Autor:</strong> {data.author}
+              {data.source ? " · " : ""}
+            </>
+          )}
+          {data.source && (
+            <>
+              <strong>Quelle:</strong> {data.source}
+            </>
+          )}
+        </p>
+      </footer>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  header {
+    margin-bottom: 1.8rem;
+  }
+
+  .subtitle {
+    margin-top: 6px;
+    margin-bottom: 4px;
+    color: rgba(0, 0, 0, 0.65);
+    font-size: 1.05rem;
+  }
+
+  .meta {
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.45);
+  }
+
+.source {
+  margin-top: 3.5rem;   /* vorher 2.5rem */
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.source hr {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+  margin-bottom: 0.75rem;
+  margin-top: 0;        /* sicherstellen, dass der Abstand nur von oben kommt */
+}
+
+  .source p {
+    margin: 0;
+    line-height: 1.4;
+  }
+</style>

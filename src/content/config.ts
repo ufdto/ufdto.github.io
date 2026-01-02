@@ -3,6 +3,7 @@ import { defineCollection, z } from "astro:content";
 
 /**
  * Gemeinsame Basis für chronikfähige Inhalte
+ * date/updated bleiben echte Dates (wie bisher)
  */
 const base = z.object({
   title: z.string(),
@@ -40,6 +41,23 @@ const ortschaften = base.extend({
 });
 
 /**
+ * Personen
+ * ========
+ * Biografien, Erinnerungen, Nachrufe
+ * birth/death bewusst als STRING (für "ca.", "?" etc.)
+ */
+const personen = base.extend({
+  birth: z.string().optional(),
+  birthplace: z.string().optional(),
+
+  death: z.string().optional(),
+  deathplace: z.string().optional(),
+
+  source: z.string().optional(),
+  author: z.string().optional(),
+});
+
+/**
  * Collections
  */
 export const collections = {
@@ -61,5 +79,10 @@ export const collections = {
   ortschaften: defineCollection({
     type: "content",
     schema: ortschaften,
+  }),
+
+  personen: defineCollection({
+    type: "content",
+    schema: personen,
   }),
 };

@@ -2,9 +2,12 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
-const fmtDate = (d: Date) => d.toLocaleDateString("sv-SE", { timeZone: "UTC" });
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString("sv-SE", { timeZone: "UTC" });
 
-// 1) Landschaft
+/* ================================================================
+   1) Landschaft
+   ================================================================ */
 const entriesLandschaft = await getCollection("landschaft");
 const landschaftItems = entriesLandschaft.map((e) => {
   const d = (e.data.updated ?? e.data.date) as Date;
@@ -20,9 +23,11 @@ const landschaftItems = entriesLandschaft.map((e) => {
   };
 });
 
-// 2) Stellen & Gebäude
-const entriesOrte = await getCollection("stellen");
-const orteItems = entriesOrte.map((e) => {
+/* ================================================================
+   2) Stellen & Gebäude
+   ================================================================ */
+const entriesStellen = await getCollection("stellen");
+const stellenItems = entriesStellen.map((e) => {
   const d = (e.data.updated ?? e.data.date) as Date;
   return {
     kind: "content" as const,
@@ -31,12 +36,14 @@ const orteItems = entriesOrte.map((e) => {
     date: d,
     isUpdated: Boolean(e.data.updated),
     bereich: "Stellen & Gebäude",
-    href: `/stellen/${e.slug}`, // ✅ FIX
+    href: `/stellen/${e.slug}`,
     order: typeof e.data.order === "number" ? e.data.order : 0,
   };
 });
 
-// 3) Ortschaften
+/* ================================================================
+   3) Ortschaften
+   ================================================================ */
 const entriesOrtschaften = await getCollection("ortschaften");
 const ortschaftenItems = entriesOrtschaften.map((e) => {
   const d = (e.data.updated ?? e.data.date) as Date;
@@ -52,7 +59,9 @@ const ortschaftenItems = entriesOrtschaften.map((e) => {
   };
 });
 
-// 4) Geschichte (Content Collection)
+/* ================================================================
+   4) Geschichte
+   ================================================================ */
 const entriesGeschichte = await getCollection("geschichte");
 const geschichteItems = entriesGeschichte.map((e) => {
   const d = (e.data.updated ?? e.data.date) as Date;
@@ -68,7 +77,27 @@ const geschichteItems = entriesGeschichte.map((e) => {
   };
 });
 
-// 5) Astro-Seiten mit export const chronik = {...}
+/* ================================================================
+   5) Personen
+   ================================================================ */
+const entriesPersonen = await getCollection("personen");
+const personenItems = entriesPersonen.map((e) => {
+  const d = (e.data.updated ?? e.data.date) as Date;
+  return {
+    kind: "content" as const,
+    title: e.data.title as string,
+    subtitle: (e.data.subtitle as string | undefined) ?? "",
+    date: d,
+    isUpdated: Boolean(e.data.updated),
+    bereich: "Personen",
+    href: `/personen/${e.slug}`,
+    order: typeof e.data.order === "number" ? e.data.order : 0,
+  };
+});
+
+/* ================================================================
+   6) Astro-Seiten mit export const chronik = { ... }
+   ================================================================ */
 const pageModules = import.meta.glob("./**/*.astro", { eager: true }) as Record<
   string,
   any
@@ -76,7 +105,8 @@ const pageModules = import.meta.glob("./**/*.astro", { eager: true }) as Record<
 
 const astroItems = Object.entries(pageModules)
   .filter(
-    ([path]) => !path.endsWith("/chronik.astro") && path !== "./chronik.astro",
+    ([path]) =>
+      !path.endsWith("/chronik.astro") && path !== "./chronik.astro",
   )
   .map(([, mod]) => mod?.chronik)
   .filter(Boolean)
@@ -84,28 +114,39 @@ const astroItems = Object.entries(pageModules)
     kind: "page" as const,
     title: String(c.title ?? ""),
     subtitle: String(c.subtitle ?? ""),
-    date: new Date(String(c.date)), // erwartet "YYYY-MM-DD"
-    isUpdated: false,
+    date: new Date(String(c.updated ?? c.date)),
+    isUpdated: Boolean(c.updated),
     bereich: String(c.bereich ?? "Seite"),
     href: String(c.href ?? "#"),
     order: typeof c.order === "number" ? c.order : 0,
   }))
-  .filter((x) => x.title && x.href && !Number.isNaN(x.date.getTime()));
+  .filter(
+    (x) =>
+      x.title &&
+      x.href &&
+      x.date instanceof Date &&
+      !Number.isNaN(x.date.getTime()),
+  );
 
-// 6) Merge + Sort
+/* ================================================================
+   7) Merge + Sort
+   - neueste Einträge oben
+   - bei gleichem Datum: höhere order = neuer
+   ================================================================ */
 const items = [
   ...landschaftItems,
-  ...orteItems,
+  ...stellenItems,
   ...ortschaftenItems,
   ...geschichteItems,
+  ...personenItems,
   ...astroItems,
 ]
   .slice()
   .sort((a, b) => {
     const ta = a.date.getTime();
     const tb = b.date.getTime();
-    if (tb !== ta) return tb - ta;
-    if (b.order !== a.order) return b.order - a.order;
+    if (tb !== ta) return tb - ta;          // neueres Datum zuerst
+    if (b.order !== a.order) return b.order - a.order; // höhere order = neuer
     return a.title.localeCompare(b.title, "de");
   });
 ---
@@ -123,20 +164,13 @@ const items = [
           Diese Website ist eine lebende Sammlung: Sie wächst im Laufe der Zeit
           weiter, weil ständig neue Informationen, Funde und Ergänzungen
           hinzukommen können. Die Seite „Entstehung“ zeigt deshalb die gesamte
-          Entwicklung der Website – alle Einträge, in zeitlicher Reihenfolge wie
-          in einem Blog (die neuesten oben). So kannst du beim Wiederkommen
-          sofort sehen, was seit deinem letzten Besuch neu hinzugekommen ist,
-          und zugleich auch ältere Inhalte wiederfinden. Da die Liste mit der
-          Zeit lang werden kann, gibt es den Filter: Er durchsucht Titel und
-          Untertitel und hilft dir, die Einträge einzugrenzen – zum Beispiel
-          nach einem Bereich wie „Landschaft“, „Stellen & Gebäude“,
-          „Ortschaften“ oder „Geschichte“, oder nach einem Stichwort, das du im
-          Titel oder Untertitel erwartest.
+          Entwicklung der Website – alle Einträge in zeitlicher Reihenfolge wie
+          in einem Blog (die neuesten oben). Bei mehreren Einträgen am selben
+          Tag entscheidet die Reihenfolge (order).
         </p>
       </section>
     </div>
 
-    <!-- ✅ Sticky: bleibt stehen, aber Intro kann wegscrollen -->
     <div class="filterbar" role="search">
       <label class="filterlabel" for="chronikFilter">Filtern</label>
 
@@ -159,7 +193,6 @@ const items = [
       </div>
     </div>
 
-    <!-- kein eigener Scroll-Container mehr; die ganze Seite scrollt -->
     <div class="listwrap" aria-label="Chronik-Liste">
       <table class="chronik">
         <colgroup>
@@ -179,7 +212,9 @@ const items = [
         <tbody>
           {
             items.map((e) => {
-              const q = `${e.title} ${e.subtitle} ${e.bereich} ${fmtDate(e.date)}`.toLowerCase();
+              const q = `${e.title} ${e.subtitle} ${e.bereich} ${fmtDate(
+                e.date,
+              )}`.toLowerCase();
               return (
                 <tr data-q={q}>
                   <td>
@@ -230,7 +265,7 @@ const items = [
           setClearVisible();
         };
 
-        let timerId: number | undefined;
+        let timerId;
 
         const schedule = () => {
           if (timerId !== undefined) window.clearTimeout(timerId);
@@ -260,7 +295,6 @@ const items = [
 </BaseLayout>
 
 <style>
-  /* ✅ Jetzt scrollt die ganze Chronik-Seite */
   .chronik-page {
     max-width: 980px;
     margin: 0 auto;
@@ -269,11 +303,8 @@ const items = [
     height: 100vh;
     overflow: auto;
 
-    /* macOS Overlay-Scrollbar kann Inhalte überdecken -> etwas Luft rechts */
     padding-right: 14px;
     scrollbar-gutter: stable;
-
-    /* Luft unten, damit das Ende nicht "abgeschnitten" wirkt */
     padding-bottom: 1.25rem;
   }
 
@@ -292,7 +323,6 @@ const items = [
     margin-bottom: 1.25rem;
   }
 
-  /* ✅ Hier soll es "stehen bleiben" */
   .filterbar {
     position: sticky;
     top: 0;
@@ -327,11 +357,7 @@ const items = [
     font-size: 0.98rem;
   }
 
-  #chronikFilter::-webkit-search-cancel-button {
-    -webkit-appearance: none;
-    appearance: none;
-    display: none;
-  }
+  #chronikFilter::-webkit-search-cancel-button,
   #chronikFilter::-webkit-search-decoration {
     -webkit-appearance: none;
     appearance: none;
@@ -375,7 +401,6 @@ const items = [
   col.c-bereich { width: 10%; }
   col.c-date { width: 10ch; }
 
-  /* ✅ Tabellenkopf bleibt beim Scrollen sichtbar (innerhalb .chronik-page) */
   thead th {
     text-align: left;
     font-weight: 600;
@@ -384,7 +409,7 @@ const items = [
     white-space: nowrap;
 
     position: sticky;
-    top: 3.15rem; /* ungefähr Höhe der Filterbar inkl. Padding */
+    top: 3.15rem;
     background: #fff;
     z-index: 2;
   }

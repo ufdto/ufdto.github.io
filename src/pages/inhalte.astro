@@ -7,12 +7,13 @@ const landschaften = await getCollection("landschaft");
 const geschichte = await getCollection("geschichte");
 const orte = await getCollection("stellen");
 const ortschaften = await getCollection("ortschaften");
+const personen = await getCollection("personen");
 
 // Spezielle Seiten
 import { chronik as stellenIndex } from "./stellen/index.astro";
 import { chronik as ortschaftenUmPechgruen } from "./ortschaften/um-pechgruen.astro";
 
-// Personen
+// Personen (Werkzeuge)
 import { chronik as personenEinwohnermeldebuch } from "./personen-einwohnermeldebuch.astro";
 import { chronik as personenStammbaum } from "./personen-stammbaum.astro";
 
@@ -38,12 +39,21 @@ const redelbachEntries = [
   redelbachGallery,
 ];
 
+/* ------------------------------------------------------------------
+   Date handling: base.date ist jetzt STRING.
+   Für Sortierung (Landschaft/Geschichte) versuchen wir ISO ("YYYY-MM-DD")
+   zu parsen. Falls unparsbar -> Datum = 0 (ganz früh), damit es nicht crasht.
+   ------------------------------------------------------------------ */
+const toTime = (s: unknown) => {
+  const d = new Date(String(s));
+  const t = d.getTime();
+  return Number.isNaN(t) ? 0 : t;
+};
+
 // ---------- Landschaft: Sortierung ältester Eintrag oben ----------
-// Primär: date (aufsteigend)
-// Sekundär (bei gleichem Tag): order (aufsteigend, kleinere Zahl = älter)
 const landschaftenSorted = [...landschaften].sort((a, b) => {
-  const da = new Date(a.data.date).getTime();
-  const db = new Date(b.data.date).getTime();
+  const da = toTime(a.data.date);
+  const db = toTime(b.data.date);
   if (da !== db) return da - db;
 
   const oa = Number(a.data.order ?? 0);
@@ -52,11 +62,9 @@ const landschaftenSorted = [...landschaften].sort((a, b) => {
 });
 
 // ---------- Geschichte: Sortierung ältester Eintrag oben ----------
-// Primär: date (aufsteigend)
-// Sekundär (bei gleichem Tag): order (aufsteigend, kleinere Zahl = älter)
 const geschichteSorted = [...geschichte].sort((a, b) => {
-  const da = new Date(a.data.date).getTime();
-  const db = new Date(b.data.date).getTime();
+  const da = toTime(a.data.date);
+  const db = toTime(b.data.date);
   if (da !== db) return da - db;
 
   const oa = Number(a.data.order ?? 0);
@@ -65,12 +73,8 @@ const geschichteSorted = [...geschichte].sort((a, b) => {
 });
 
 /* ------------------------------------------------------------------
-   ✅ NEU: Landschaft soll auch Astro-Seiten enthalten (z.B. Flurnamen)
-   - Wir sammeln ./landschaft/*.astro, nehmen deren export const chronik,
-     filtern auf bereich === "Landschaft" und mergen das mit den MD-Entries.
-   - Ergebnis: eine einzige Landschaft-Liste in "Einstieg".
+   ✅ Landschaft soll auch Astro-Seiten enthalten (z.B. Flurnamen)
    ------------------------------------------------------------------ */
-
 const landschaftPageModules = import.meta.glob("./landschaft/*.astro", {
   eager: true,
 }) as Record<string, any>;
@@ -79,24 +83,32 @@ const landschaftPages = Object.entries(landschaftPageModules)
   .map(([, mod]) => mod?.chronik)
   .filter(Boolean)
   .filter((c: any) => String(c.bereich ?? "") === "Landschaft")
-  .map((c: any) => ({
-    kind: "page" as const,
-    title: String(c.title ?? ""),
-    subtitle: String(c.subtitle ?? ""),
-    date: new Date(String(c.date)), // erwartet "YYYY-MM-DD"
-    order: typeof c.order === "number" ? c.order : 0,
-    href: String(c.href ?? "#"),
-  }))
-  .filter((x) => x.title && x.href && !Number.isNaN(x.date.getTime()));
+  .map((c: any) => {
+    const d = new Date(String(c.date));
+    const t = d.getTime();
+    return {
+      kind: "page" as const,
+      title: String(c.title ?? ""),
+      subtitle: String(c.subtitle ?? ""),
+      date: Number.isNaN(t) ? new Date(0) : d, // fallback
+      order: typeof c.order === "number" ? c.order : 0,
+      href: String(c.href ?? "#"),
+    };
+  })
+  .filter((x) => x.title && x.href);
 
-const landschaftContentItems = landschaftenSorted.map((e) => ({
-  kind: "content" as const,
-  title: e.data.title as string,
-  subtitle: (e.data.subtitle as string | undefined) ?? "",
-  date: new Date(e.data.date as any),
-  order: Number(e.data.order ?? 0),
-  href: `/landschaft/${e.slug}`,
-}));
+const landschaftContentItems = landschaftenSorted.map((e) => {
+  const d = new Date(String(e.data.date));
+  const t = d.getTime();
+  return {
+    kind: "content" as const,
+    title: e.data.title as string,
+    subtitle: (e.data.subtitle as string | undefined) ?? "",
+    date: Number.isNaN(t) ? new Date(0) : d,
+    order: Number(e.data.order ?? 0),
+    href: `/landschaft/${e.slug}`,
+  };
+});
 
 // Sortierung wie bisher: ältester oben
 const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
@@ -206,23 +218,16 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
 
       <div class="acc-body">
         <ul>
-          <!-- Einstieg (Luftbild) -->
           <li>
             <a href={stellenIndex.href}>{stellenIndex.title}</a>
-            {
-              stellenIndex.subtitle ? (
-                <span> — {stellenIndex.subtitle}</span>
-              ) : null
-            }
+            {stellenIndex.subtitle ? <span> — {stellenIndex.subtitle}</span> : null}
           </li>
 
-          <!-- Galerie (gleichrangig, kein Unterpunkt) -->
           <li>
             <a href="/stellen/gallery">Galerie – Stellen &amp; Gebäude</a>
             <span> — Übersicht</span>
           </li>
 
-          <!-- Detailseiten -->
           {
             orte
               .sort((a, b) => a.data.title.localeCompare(b.data.title, "de"))
@@ -252,14 +257,10 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
       <div class="acc-body">
         <ul>
           <li>
-            <a href={ortschaftenUmPechgruen.href}
-              >{ortschaftenUmPechgruen.title}</a
-            >
-            {
-              ortschaftenUmPechgruen.subtitle ? (
-                <span> — {ortschaftenUmPechgruen.subtitle}</span>
-              ) : null
-            }
+            <a href={ortschaftenUmPechgruen.href}>{ortschaftenUmPechgruen.title}</a>
+            {ortschaftenUmPechgruen.subtitle ? (
+              <span> — {ortschaftenUmPechgruen.subtitle}</span>
+            ) : null}
           </li>
 
           {
@@ -281,20 +282,34 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
       <button class="acc-head" type="button" aria-expanded="true">
         <span class="acc-title">Personen</span>
         <span class="acc-right">
-          <span class="acc-meta">2 Werkzeuge</span>
+          <span class="acc-meta">
+            {(personen.length + 2).toLocaleString("de-DE")} Einträge
+          </span>
           <span class="acc-arrow" aria-hidden="true">▲</span>
         </span>
       </button>
 
       <div class="acc-body">
         <ul>
+          <!-- Werkzeuge -->
           <li>
-            <a href={personenEinwohnermeldebuch.href}
-              >{personenEinwohnermeldebuch.title}</a>
+            <a href={personenEinwohnermeldebuch.href}>{personenEinwohnermeldebuch.title}</a>
           </li>
           <li>
             <a href={personenStammbaum.href}>{personenStammbaum.title}</a>
           </li>
+
+          <!-- Personen-Detailseiten -->
+          {
+            personen
+              .sort((a, b) => a.data.title.localeCompare(b.data.title, "de"))
+              .map((e) => (
+                <li>
+                  <a href={`/personen/${e.slug}`}>{e.data.title}</a>
+                  {e.data.subtitle ? <span> — {e.data.subtitle}</span> : null}
+                </li>
+              ))
+          }
         </ul>
       </div>
     </section>
@@ -312,12 +327,8 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
       <div class="acc-body">
         <ul>
           <li><a href={texteUebersicht.href}>{texteUebersicht.title}</a></li>
-          <li>
-            <a href={egerlaenderMundart.href}>{egerlaenderMundart.title}</a>
-          </li>
-          <li>
-            <a href={meineErinnerungen.href}>{meineErinnerungen.title}</a>
-          </li>
+          <li><a href={egerlaenderMundart.href}>{egerlaenderMundart.title}</a></li>
+          <li><a href={meineErinnerungen.href}>{meineErinnerungen.title}</a></li>
           <li><a href={aHooch.href}>{aHooch.title}</a></li>
           <li><a href={redelbachTeich.href}>{redelbachTeich.title}</a></li>
         </ul>
