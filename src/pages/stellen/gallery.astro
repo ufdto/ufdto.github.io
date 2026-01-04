@@ -153,10 +153,16 @@ const THUMB_SIZE = 74;
                 return requestAnimationFrame(waitForReady);
               }
 
+              const NO_HITS_TEXT = "Keine Treffer für diesen Filter.";
+
               let index = 0;
               let filtered = items.map((_, i) => i);
 
-              const normalize = (s) => String(s ?? "").trim();
+              // NBSP-safe normalize (copy/paste can include U+00A0)
+              const normalize = (s) =>
+                String(s ?? "")
+                  .replace(/\u00A0/g, " ")
+                  .trim();
 
               const clampInFiltered = (pos) => {
                 const n = filtered.length;
@@ -216,7 +222,7 @@ const THUMB_SIZE = 74;
 
                 moveIndicatorTo(i);
 
-                // ✅ Fundamental: pin start/end instead of centering there
+                // pin start/end instead of centering there
                 const firstIndex = filtered.length ? filtered[0] : 0;
                 const lastIndex = filtered.length ? filtered[filtered.length - 1] : 0;
 
@@ -244,6 +250,9 @@ const THUMB_SIZE = 74;
                 if (!it) return;
                 index = i;
 
+                // ensure hero is visible if it was previously hidden/cleared
+                heroFrame.style.display = "";
+
                 applyOrientationFor(it.small);
                 heroImg.src = it.small;
                 heroImg.alt = it.title;
@@ -262,35 +271,59 @@ const THUMB_SIZE = 74;
 
               openFullBtn?.addEventListener("click", openFullInNewTab);
 
-              const applyFilter = () => {
-                const qRaw = normalize(filterInput?.value);
-                const wantNoHouse = qRaw === "-";
+const applyFilter = () => {
+  const qRaw = normalize(filterInput?.value);
+  const wantNoHouse = qRaw === "-";
 
-                filtered = [];
+  filtered = [];
 
-                items.forEach((it, i) => {
-                  const houses = Array.isArray(it.houses) ? it.houses : [];
-                  const ok =
-                    qRaw === ""
-                      ? true
-                      : wantNoHouse
-                      ? houses.length === 0
-                      : houses.includes(qRaw);
+  items.forEach((it, i) => {
+    const houses = Array.isArray(it.houses) ? it.houses : [];
+    const ok =
+      qRaw === ""
+        ? true
+        : wantNoHouse
+        ? houses.length === 0
+        : houses.includes(qRaw);
 
-                  thumbs[i].style.display = ok ? "" : "none";
-                  if (ok) filtered.push(i);
-                });
+    thumbs[i].style.display = ok ? "" : "none";
+    if (ok) filtered.push(i);
+  });
 
-                if (hitCountEl) hitCountEl.textContent = String(filtered.length);
+  if (hitCountEl) hitCountEl.textContent = String(filtered.length);
 
-                if (filtered.length > 0) {
-                  if (!filtered.includes(index)) render(filtered[0], true);
-                  else setActiveThumb(index, true);
-                } else {
-                  thumbs.forEach((t) => t.classList.remove("is-active"));
-                  indicator.style.opacity = "0";
-                }
-              };
+  // CASE A: hits exist -> ensure hero shows a valid item
+  if (filtered.length > 0) {
+    heroFrame.style.display = "";
+
+    // If filter is empty, always reset to the very first gallery image
+    if (qRaw === "") {
+      render(0, false);
+      stripScroll.scrollLeft = 0;
+      return;
+    }
+
+    if (!filtered.includes(index)) {
+      // first hit
+      render(filtered[0], false);
+    } else {
+      // keep current, but ensure thumb strip follows
+      render(index, false);
+    }
+    return;
+  }
+
+  // CASE B: no hits -> clear hero + show message
+  thumbs.forEach((t) => t.classList.remove("is-active"));
+  indicator.style.opacity = "0";
+
+  heroImg.removeAttribute("src");
+  heroImg.alt = "";
+
+  caption.innerHTML = "";
+  caption.appendChild(document.createTextNode(NO_HITS_TEXT));
+};
+
 
               filterInput?.addEventListener("input", applyFilter);
 
@@ -557,7 +590,7 @@ const THUMB_SIZE = 74;
     border-radius: 12px;
 
     border: 2px solid rgba(200, 0, 0, 0.9);
-    z-index: 5; /* ✅ ABOVE thumbs */
+    z-index: 5;
 
     transform: translate(0px, 0px);
     transition: transform 120ms ease, width 120ms ease, height 120ms ease, opacity 120ms ease;
