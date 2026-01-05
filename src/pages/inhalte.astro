@@ -16,6 +16,7 @@ import { chronik as ortschaftenUmPechgruen } from "./ortschaften/um-pechgruen.as
 // Personen (Werkzeuge)
 import { chronik as personenEinwohnermeldebuch } from "./personen-einwohnermeldebuch.astro";
 import { chronik as personenStammbaum } from "./personen-stammbaum.astro";
+import { chronik as gallery } from "./personen/gallery.astro";
 
 // Texte (Heinzl)
 import { chronik as aHooch } from "./a-hooch-aaf-unna-dorf.astro";
@@ -220,7 +221,11 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
         <ul>
           <li>
             <a href={stellenIndex.href}>{stellenIndex.title}</a>
-            {stellenIndex.subtitle ? <span> — {stellenIndex.subtitle}</span> : null}
+            {
+              stellenIndex.subtitle ? (
+                <span> — {stellenIndex.subtitle}</span>
+              ) : null
+            }
           </li>
 
           <li>
@@ -257,10 +262,14 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
       <div class="acc-body">
         <ul>
           <li>
-            <a href={ortschaftenUmPechgruen.href}>{ortschaftenUmPechgruen.title}</a>
-            {ortschaftenUmPechgruen.subtitle ? (
-              <span> — {ortschaftenUmPechgruen.subtitle}</span>
-            ) : null}
+            <a href={ortschaftenUmPechgruen.href}
+              >{ortschaftenUmPechgruen.title}</a
+            >
+            {
+              ortschaftenUmPechgruen.subtitle ? (
+                <span> — {ortschaftenUmPechgruen.subtitle}</span>
+              ) : null
+            }
           </li>
 
           {
@@ -283,7 +292,7 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
         <span class="acc-title">Personen</span>
         <span class="acc-right">
           <span class="acc-meta">
-            {(personen.length + 2).toLocaleString("de-DE")} Einträge
+            {(personen.length + 3).toLocaleString("de-DE")} Einträge
           </span>
           <span class="acc-arrow" aria-hidden="true">▲</span>
         </span>
@@ -293,10 +302,17 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
         <ul>
           <!-- Werkzeuge -->
           <li>
-            <a href={personenEinwohnermeldebuch.href}>{personenEinwohnermeldebuch.title}</a>
+            <a href={personenEinwohnermeldebuch.href}
+              >{personenEinwohnermeldebuch.title}</a
+            >
           </li>
           <li>
             <a href={personenStammbaum.href}>{personenStammbaum.title}</a>
+          </li>
+          <!-- Galerie -->
+          <li>
+            <a href={gallery.href}>{gallery.title}</a>
+            {gallery.subtitle ? <span> — {gallery.subtitle}</span> : null}
           </li>
 
           <!-- Personen-Detailseiten -->
@@ -327,8 +343,12 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
       <div class="acc-body">
         <ul>
           <li><a href={texteUebersicht.href}>{texteUebersicht.title}</a></li>
-          <li><a href={egerlaenderMundart.href}>{egerlaenderMundart.title}</a></li>
-          <li><a href={meineErinnerungen.href}>{meineErinnerungen.title}</a></li>
+          <li>
+            <a href={egerlaenderMundart.href}>{egerlaenderMundart.title}</a>
+          </li>
+          <li>
+            <a href={meineErinnerungen.href}>{meineErinnerungen.title}</a>
+          </li>
           <li><a href={aHooch.href}>{aHooch.title}</a></li>
           <li><a href={redelbachTeich.href}>{redelbachTeich.title}</a></li>
         </ul>
@@ -391,11 +411,10 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
 </script>
 
 <style>
-  
   h1 {
     margin-bottom: 0.25rem;
   }
-  
+
   .subtitle {
     margin-top: 0;
     margin: 0.25rem 0 1.25rem;
