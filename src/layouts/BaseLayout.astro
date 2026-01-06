@@ -13,8 +13,33 @@ const { title = "Pechgrün", description = "" } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <meta name="author" content="Udo Dengler">
-    <meta name="creator" content="Udo Dengler">
+    <meta name="author" content="Udo Dengler" />
+    <meta name="creator" content="Udo Dengler" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Udo Dengler",
+        "url": "https://pechgruen.github.io/",
+        "sameAs": [
+          "https://www.linkedin.com/in/udodengler/",
+          "https://www.blurb.com/b/12483154-heimat-2025",
+          "https://gw.geneanet.org/udodengler"
+        ],
+        "knowsAbout": [
+          "Pechgrün",
+          "Egerland",
+          "Ortsgeschichte",
+          "Landschaftsgeschichte",
+          "Topografie",
+          "Historische Kartografie",
+          "Historische Luftbilder",
+          "Genealogie",
+          "Archivforschung"
+        ]
+      }
+    </script>
 
     <title>{title}</title>
     {description ? <meta name="description" content={description} /> : null}
