@@ -253,8 +253,8 @@ const THUMB_SIZE = 74;
                 // ensure hero is visible if it was previously hidden/cleared
                 heroFrame.style.display = "";
 
-                applyOrientationFor(it.small);
-                heroImg.src = it.small;
+                applyOrientationFor(it.full);
+                heroImg.src = it.full;
                 heroImg.alt = it.title;
 
                 renderCaption(it.desc);
@@ -447,7 +447,7 @@ const applyFilter = () => {
             >
               <div class="hero-frame is-landscape" data-hero-frame>
                 <img
-                  src={items[0].small}
+                  src={items[0].full}
                   alt={items[0].title}
                   loading="eager"
                   data-hero-img
