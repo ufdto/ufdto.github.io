@@ -1,6 +1,6 @@
 ---
 title: "Pechgrüner Straße"
-subtitle: "Wegbeschreibung von Chodau bis zur \"Krimming\""
+subtitle: "Von Chodau bis ins untere Dorf von Pechgrün"
 date: 2026-01-08
 order: 1
 
@@ -39,7 +39,7 @@ y: 8992
 <div class="weg">
 
 <p class="vorspann">
-Die Pechgrüner Straße war mehr als nur der Weg ins Dorf. Sie verband Pechgrün mit Chodau, führte durch Felder, Teiche und offene Landschaft und endete an der Krimming – dort, wo die Landstraße aufhörte und das Dorf begann. Die folgende Beschreibung folgt dieser Straße Schritt für Schritt, so wie sie in den Erinnerungen meines Onkels überliefert ist: vom Aufstieg zur Leitn über das Teichgebiet bis zu den ersten Häusern am Dorfrand.
+Die Pechgrüner Straße war mehr als nur der Weg ins Dorf. Sie verband Pechgrün mit Chodau, führte durch Felder, Teiche und offene Landschaft und reichte bis an den Rand des alten Dorfkerns. Die folgende Beschreibung folgt dieser Straße Schritt für Schritt, so wie sie in den Erinnerungen meines Onkels überliefert ist: vom Aufstieg zur Leitn über das Teichgebiet bis ins untere Dorf von Pechgrün, dort, wo der eigentliche Dorfkern begann.
 </p>
 
 <figure style="margin: 1.2rem 0;">
@@ -208,6 +208,40 @@ Neben dem Haus und dem unmittelbar angrenzenden Obstgarten vom »Hiacha Richard�
 
 <p>
 Der »Lei(n)berch« mit »Mastawenzls Huaf« und dem dahinter gelegenen Wäldchen vervollständigten diesen Rundblick.
+</p>
+
+<figure style="margin: 1.2rem 0;">
+  <img
+    src="/images/pechgruener-strasse-91.jpg"
+    alt="Haus Nr. 91, der Familie Karl Schuldes"
+    style="display:block; max-width:520px; width:100%; height:auto;"
+  >
+  <figcaption style="max-width:520px; margin: .4rem 0 0; font-size: .95rem; line-height: 1.35;">
+    Haus Nr. 91, der Familie Karl Schuldes
+  </figcaption>  
+</figure>
+
+<p>
+Von der »Krimming« bis ins Dorf standen am rechten Straßenrand Schleudersteine. Bevor man auf der linken Seite der Straße zur Einfahrt zu »P(ü)lz Kårls Haus«, Haus Nr. 91 kam, standen zwei alte Vogelbeerbäume. Das Haus war etwas von der höherverlaufenden Straße abgesetzt. Es war eingeschoßig und das Satteldach war mit Eternit gedeckt. Weil Kårls Grundstück sehr feucht war, sammelte er Erde und Abraum, und erhöhte damit die Oberfläche seines Gartens, um ihn vor gelegentlichen Überflutungen zu schützen.
+</p>
+
+<figure style="margin: 1.2rem 0;">
+  <img
+    src="/images/pechgruener-strasse-77-47.jpg"
+    alt="Haus Nr. 77, der Familie Ernst Dotzauer, im Hintergrund Haus Nr. 47, der Aloisia Haberditzl"
+    style="display:block; max-width:520px; width:100%; height:auto;"
+  >
+  <figcaption style="max-width:520px; margin: .4rem 0 0; font-size: .95rem; line-height: 1.35;">
+    Haus Nr. 77, der Familie Ernst Dotzauer, im Hintergrund Haus Nr. 47, der Aloisia Haberditzl
+  </figcaption>  
+</figure>
+
+<p>
+Das Haus vom »Dotzauer Ernst«, Haus Nr. 77,war teilweise zweigeschoßig. Sein Satteldach hatte T-Form, weil der eingeschoßige Teil des Hauses im rechten Winkel zum zweigeschoßigen gebaut war. Es stand direkt an der Straße und man kam über eine »Bruck« an der Frontseite des Hauses zum Eingang (die Bruck war ein aus Steinen gemauerter, erhöhter Vorplatz). Das Anwesen war rundum eingezäunt.
+</p>
+
+<p>
+An der rechten Zaunecke, schon zum Grundstück der »Werdl Luis« gehörend, stand ein Marterl. Stifter und Grund der Stiftung sind nicht bekannt. Das Haus der Luis, Haus Nr. 47, war schon sehr alt, es hatte ein mit Naturschiefer gedecktes Krüppelwalmdach und lag tiefer als die Straße.
 </p>
 
 <footer class="source">
