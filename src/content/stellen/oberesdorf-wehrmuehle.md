@@ -1,6 +1,6 @@
 ---
 title: "Oberes Dorf"
-subtitle: "Über die Wehrmühle nach Kösteldorf"
+subtitle: "Der Weg nach Kösteldorf über die Wehrmühle"
 date: 2026-01-08
 order: 10
 

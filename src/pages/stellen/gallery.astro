@@ -45,10 +45,10 @@ function buildUrlMap(mods: UrlMods): Map<string, string> {
 const fullMap = buildUrlMap(fullMods);
 const smallMap = buildUrlMap(smallMods);
 
-const COUNT = 93;
-const order: string[] = Array.from({ length: COUNT }, (_, i) =>
-  `h${String(i + 1).padStart(3, "0")}`
-);
+// IDs dynamisch aus vorhandenen Dateien bestimmen (damit neue Bilder automatisch erscheinen)
+const order: string[] = Array.from(
+  new Set([...smallMap.keys()].filter((id) => fullMap.has(id)))
+).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 
 type Item = {
   id: string;
