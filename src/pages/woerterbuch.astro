@@ -1,0 +1,184 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+export const chronik = {
+    title: "Egerländer Wörterbuch",
+    subtitle: "Wörter aus der Erinnerung",
+    date: "2026-01-12",
+    bereich: "Texte, Stimmen und Erinnerungen",
+    href: "/woerterbuch",
+    order: 1,
+};
+
+const intro =
+    "Dieses Wörterbuch ist kein wissenschaftliches Nachschlagewerk, sondern ein sprachliches Erinnerungsdokument: aus dem gelebten Sprachgefühl heraus gesammelt und notiert. Es bewahrt Wortformen, Klangnähe und Bedeutungsanklänge – so, wie sie im Alltag präsent waren. Gerade weil nicht alles eindeutig ist, bleibt der Charakter der Quelle sichtbar.";
+
+const note =
+    "Das Dokument wird hier bewusst unverändert gezeigt. Ergänzungen, Vereinheitlichungen oder „Verbesserungen“ würden den Quellencharakter verändern.";
+
+const pdfUrl = "/data/egerlaender-woerterbuch.pdf";
+---
+
+<BaseLayout title={chronik.title}>
+    <article class="text-ort">
+        <header class="head">
+            <h1>{chronik.title}</h1>
+            <p class="subtitle">{chronik.subtitle}</p>
+
+            <p class="intro">{intro}</p>
+            <p class="note">{note}</p>
+        </header>
+
+        <section class="content" lang="de" aria-label="PDF: Egerländer Wörterbuch">
+            <figure class="pdf">
+                <div class="pdf-frame" role="group" aria-label="PDF-Viewer">
+                    <object class="pdf-object" data={pdfUrl} type="application/pdf">
+                        <div class="pdf-fallback" role="note">
+                            <p>
+                                Dein Browser kann das PDF hier leider nicht direkt anzeigen.
+                            </p>
+                            <p class="links">
+                                <a href={pdfUrl} target="_blank" rel="noopener">
+                                    PDF in neuem Tab öffnen
+                                </a>
+                                <span class="dot">·</span>
+                                <a href={pdfUrl} download>
+                                    PDF herunterladen
+                                </a>
+                            </p>
+                        </div>
+                    </object>
+                </div>
+
+                <figcaption>
+                    Privates Wörterbuch aus dem Nachlass: zusammengestellt von
+                    <strong>Erich Heinzl</strong> (in der Familie überliefert),
+                    weitergegeben durch seinen Sohn <strong>Andreas Heinzl</strong>.
+                    Umfang: <strong>36 Seiten</strong>.
+                </figcaption>
+            </figure>
+
+            <div class="credit" aria-label="Hinweise zur Quelle">
+                <p>
+                    Hinweis: Die Schreibweisen folgen dem persönlichen Sprachgefühl
+                    und der Erinnerung an die gesprochene Mundart. Mehrdeutigkeiten
+                    (z. B. bei Lautnähe) sind Teil des Dokuments.
+                </p>
+                <p class="links">
+                    <a href={pdfUrl} target="_blank" rel="noopener">PDF öffnen</a>
+                    <span class="dot">·</span>
+                    <a href={pdfUrl} download>Download</a>
+                </p>
+            </div>
+        </section>
+    </article>
+</BaseLayout>
+
+<style>
+    /* ===== Grundlayout ===== */
+    .text-ort {
+        width: min(860px, 100%);
+        margin-left: 0;
+        margin-right: auto;
+    }
+
+    /* ===== Kopf ===== */
+    .head {
+        margin-bottom: 1.6rem;
+    }
+
+    .subtitle {
+        margin: -0.35rem 0 0.9rem 0;
+        font-size: 1.15rem;
+        line-height: 1.35;
+        color: rgba(0, 0, 0, 0.72);
+    }
+
+    .intro {
+        margin-top: 0.4rem;
+        margin-bottom: 0.9rem;
+        font-size: 0.9rem;
+        line-height: 1.55;
+        color: rgba(0, 0, 0, 0.55);
+    }
+
+    .note {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.55;
+        color: rgba(0, 0, 0, 0.55);
+    }
+
+    /* ===== Content ===== */
+    .content {
+        margin-top: 1.2rem;
+    }
+
+    /* ===== PDF ===== */
+    figure.pdf {
+        margin: 0;
+    }
+
+    .pdf-frame {
+        width: 100%;
+        border-radius: 12px;
+        overflow: hidden;
+        background: rgba(0, 0, 0, 0.03);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        /* Höhe ähnlich wie dein Video: großzügig, aber nicht endlos */
+        height: min(85vh, 980px);
+    }
+
+    .pdf-object {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+        background: transparent;
+    }
+
+    .pdf-fallback {
+        padding: 1rem;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: rgba(0, 0, 0, 0.65);
+    }
+
+    figcaption {
+        margin-top: 0.75rem;
+        font-size: 0.95rem;
+        line-height: 1.45;
+        color: rgba(0, 0, 0, 0.7);
+    }
+
+    /* ===== Credits ===== */
+    .credit {
+        margin-top: 1.25rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        color: rgba(0, 0, 0, 0.6);
+        font-size: 0.92rem;
+        line-height: 1.5;
+    }
+
+    .credit p {
+        margin: 0 0 0.6rem 0;
+    }
+
+    .links {
+        margin: 0;
+    }
+
+    .dot {
+        margin: 0 0.35rem;
+        opacity: 0.6;
+    }
+
+    .credit a {
+        text-decoration: none;
+    }
+
+    .credit a:hover {
+        text-decoration: underline;
+    }
+</style>

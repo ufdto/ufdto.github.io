@@ -40,6 +40,7 @@ import { chronik as meineErinnerungen } from "./meine-erinnerungen-heimatdorf-pe
 import { chronik as texteUebersicht } from "./texte.astro";
 import { chronik as egerlaenderMundart } from "./egerlaendermundart.astro";
 import { chronik as redelbachTeich } from "./redelbach-teich.astro";
+import { chronik as woerterbuch } from "./woerterbuch.astro";
 
 // Redelbach
 import { chronik as redelbachIndex } from "./redelbach/index.astro";
@@ -389,7 +390,7 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
       <button class="acc-head" type="button" aria-expanded="false">
         <span class="acc-title">Texte, Stimmen und Erinnerungen</span>
         <span class="acc-right">
-          <span class="acc-meta">5 Einträge</span>
+          <span class="acc-meta">6 Einträge</span>
           <span class="acc-arrow" aria-hidden="true">▲</span>
         </span>
       </button>
@@ -399,6 +400,9 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
           <li><a href={texteUebersicht.href}>{texteUebersicht.title}</a></li>
           <li>
             <a href={egerlaenderMundart.href}>{egerlaenderMundart.title}</a>
+          </li>
+          <li>
+            <a href={woerterbuch.href}>{woerterbuch.title}</a>
           </li>
           <li>
             <a href={meineErinnerungen.href}>{meineErinnerungen.title}</a>
