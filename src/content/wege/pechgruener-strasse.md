@@ -4,9 +4,6 @@ subtitle: "Von Chodau bis ins untere Dorf von Pechgrün"
 date: 2026-01-08
 order: 1
 
-label: PS
-x: 4643
-y: 8992
 ---
 
 <style>

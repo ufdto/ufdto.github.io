@@ -6,11 +6,27 @@ import { getCollection } from "astro:content";
 const landschaften = await getCollection("landschaft");
 const geschichte = await getCollection("geschichte");
 const orte = await getCollection("stellen");
+const wege = await getCollection("wege");
 const ortschaften = await getCollection("ortschaften");
 const personen = await getCollection("personen");
 
+const wegeOrder = [
+  "pechgruener-strasse",
+  "oberesdorf-wehrmuehle",
+  "oberesdorf-spitzeich",
+  "gasthaeuser",
+  "vogelsang",
+  "mittleresdorf",
+  "unteresdorf",
+  "neurohlau-weg1",
+  "neurohlau-weg2",
+  "neurohlau-weg3",
+  "haus-24",
+];
+
 // Spezielle Seiten
 import { chronik as stellenIndex } from "./stellen/index.astro";
+import { chronik as wegeIndex } from "./wege/index.astro";
 import { chronik as ortschaftenUmPechgruen } from "./ortschaften/um-pechgruen.astro";
 
 // Personen (Werkzeuge)
@@ -211,7 +227,7 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
         <span class="acc-title">Stellen &amp; Gebäude</span>
         <span class="acc-right">
           <span class="acc-meta">
-            {(orte.length + 3).toLocaleString("de-DE")} Einträge
+            {(orte.length + 2).toLocaleString("de-DE")} Einträge
           </span>
           <span class="acc-arrow" aria-hidden="true">▲</span>
         </span>
@@ -229,13 +245,10 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
           </li>
 
           <li>
-            <a href="/stellen/wege">Durch Pechgrün gehen</a>
-            <span> — Elf Wegbeschreibungen von Erich Heinzl mit Karten und Bildern</span>
-          </li>
-
-          <li>
             <a href="/stellen/gallery">Häuser Galerie</a>
-            <span> — Fotografien und Karten der ehemaligen Ortschaft Pechgrün</span>
+            <span>
+              — Fotografien und Karten der ehemaligen Ortschaft Pechgrün</span
+            >
           </li>
 
           {
@@ -247,6 +260,42 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
                   {e.data.subtitle ? <span> — {e.data.subtitle}</span> : null}
                 </li>
               ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Wege -->
+    <section class="acc" data-acc-id="wege">
+      <button class="acc-head" type="button" aria-expanded="false">
+        <span class="acc-title">Wege</span>
+        <span class="acc-right">
+          <span class="acc-meta">
+            {(wege.length + 1).toLocaleString("de-DE")} Einträge
+          </span>
+          <span class="acc-arrow" aria-hidden="true">▲</span>
+        </span>
+      </button>
+
+      <div class="acc-body">
+        <ul>
+          <li>
+            <a href={wegeIndex.href}>{wegeIndex.title}</a>
+            {wegeIndex.subtitle ? <span> — {wegeIndex.subtitle}</span> : null}
+          </li>
+
+          {
+            wegeOrder.map((slug) => {
+              const e = wege.find((x) => x.slug === slug);
+              if (!e) return null;
+
+              return (
+                <li>
+                  <a href={`/wege/${e.slug}`}>{e.data.title}</a>
+                  {e.data.subtitle ? <span> — {e.data.subtitle}</span> : null}
+                </li>
+              );
+            })
           }
         </ul>
       </div>

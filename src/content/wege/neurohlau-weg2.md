@@ -4,9 +4,6 @@ subtitle: "Vom Hechtenteich bis zu den Naatzns Birkla"
 date: 2026-01-04
 order: 60
 
-label: "N2"
-x: 4702
-y: 6199
 ---
 
 <style>

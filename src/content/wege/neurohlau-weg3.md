@@ -4,9 +4,6 @@ subtitle: "Entlang des Wöidichn Ochsn bis zum oberen Dorfende"
 date: 2026-01-04
 order: 70
 
-label: "N3"
-x: 5461
-y: 6267
 ---
 
 <style>

@@ -4,9 +4,6 @@ subtitle: "Vom Pleierhaisla zur Pumpm"
 date: 2026-01-10
 order: 20
 
-label: M
-x: 4079
-y: 6927
 ---
 
 <style>

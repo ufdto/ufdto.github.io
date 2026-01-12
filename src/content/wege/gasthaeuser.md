@@ -4,9 +4,6 @@ subtitle: "Die drei Wirtshäuser im Spiegel persönlicher Erinnerungen"
 date: 2026-01-04
 order: 40
 
-label: "G"
-x: 3722
-y: 6617
 ---
 
 <style>

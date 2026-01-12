@@ -4,9 +4,6 @@ subtitle: "Von der Schule über Kapelle und Hechtenteich bis zur Abzweigung"
 date: 2026-01-04
 order: 50
 
-label: "N1"
-x: 4449
-y: 6853
 ---
 
 <style>

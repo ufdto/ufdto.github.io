@@ -4,9 +4,6 @@ subtitle: "Der Weg nach Kösteldorf über die Wehrmühle"
 date: 2026-01-08
 order: 10
 
-label: OW
-x: 1798
-y: 4673
 ---
 
 <style>

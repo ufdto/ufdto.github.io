@@ -4,9 +4,6 @@ subtitle: "Der Kösteldorfer Weg über die Spitzeich"
 date: 2026-01-09
 order: 10
 
-label: OS
-x: 2965
-y: 4927
 ---
 
 <style>

@@ -4,9 +4,6 @@ subtitle: "Von Wickns Lo(d)n zum Eckl Huaf"
 date: 2026-01-11
 order: 10
 
-label: U
-x: 4227
-y: 7305
 ---
 
 <style>

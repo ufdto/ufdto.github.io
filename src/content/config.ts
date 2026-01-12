@@ -76,6 +76,11 @@ export const collections = {
     schema: stellen,
   }),
 
+  wege: defineCollection({
+    type: "content",
+    schema: base,
+  }),
+
   ortschaften: defineCollection({
     type: "content",
     schema: ortschaften,

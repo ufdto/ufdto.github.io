@@ -4,9 +4,6 @@ subtitle: "Weg, Ortsteil und Abzweige"
 date: 2026-01-10
 order: 10
 
-label: V
-x: 3103
-y: 7469
 ---
 
 <style>
