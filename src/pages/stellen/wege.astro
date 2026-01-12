@@ -41,7 +41,8 @@ const sections = [
   {
     key: "gasthaeuser",
     href: "/stellen/gasthaeuser",
-    title: "Wo man einkehrte in Pechgrün - Die drei Wirtshäuser im Spiegel persönlicher Erinnerungen",
+    title:
+      "Wo man einkehrte in Pechgrün - Die drei Wirtshäuser im Spiegel persönlicher Erinnerungen",
     intro:
       "Diese Seite versammelt die drei Wirtshäuser von Pechgrün, wie sie im Erinnerungsbericht meines Onkels beschrieben werden. Sie lagen nicht zufällig im Dorf verteilt, sondern markierten zentrale Punkte des gemeinschaftlichen Lebens – Orte des Feierns, der Versammlung, der Politik und des Alltags.\nDie Übersichtskarte zeigt ihre Lage im Dorfgefüge und dient als Orientierung für die folgenden Beschreibungen, die jeweils an den einzelnen Häusern ansetzen.",
   },
@@ -69,21 +70,24 @@ const sections = [
   {
     key: "neurohlau-weg1",
     href: "/stellen/neurohlau-weg1",
-    title: "Der Weg Richtung Neurohlau – Teil 1 - Von der Schule über Kapelle und Hechtenteich bis zur Abzweigung",
+    title:
+      "Der Weg Richtung Neurohlau – Teil 1 - Von der Schule über Kapelle und Hechtenteich bis zur Abzweigung",
     intro:
       "Der Weg Richtung Neurohlau beginnt an der Schule und führt zunächst nicht auf der kürzesten Verbindung aus dem Dorf hinaus. Es gab auch einen direkteren Anstieg, der ohne Umwege nach oben führte und kaum bebaut war. Der hier beschriebene Weg nimmt jedoch eine Schleife über den Wöidichn Ochsn: Er erschließt die höher gelegenen Häuser am Rand des Dorfes und macht sichtbar, wie sich Pechgrün Schritt für Schritt den Hang hinauf ausdehnte. Erst von dort gelangt man wieder auf den eigentlichen Neurohlauer Weg.",
   },
   {
     key: "neurohlau-weg2",
     href: "/stellen/neurohlau-weg2",
-    title: "Der Weg Richtung Neurohlau – Teil 2 - Vom Hechtenteich bis zu den Naatzns Birkla",
+    title:
+      "Der Weg Richtung Neurohlau – Teil 2 - Vom Hechtenteich bis zu den Naatzns Birkla",
     intro:
       "Vom Hechtenteich aus setzt sich der Weg Richtung Neurohlau fort und führt in einen offeneren Bereich oberhalb des Dorfes. Hier erreicht man die Nazns Birkla, ein Bereich, der sich deutlich von den älteren Dorfstrukturen unterscheidet. Das frühere Birkenwäldchen wurde gerodet und als Baugelände erschlossen. Mit den Häusern Nr. 100, 102, 104 und 106 entstand hier das zuletzt erschlossene Neubaugebiet Pechgrüns. Diese Häuser gehören zu den jüngsten Wohnbauten des Ortes und markieren den letzten geschlossenen Siedlungsausbau vor dem Ortsende. Bereits zuvor waren mit dem Vogelsang sowie dem Furzwinkel neue Wohnbereiche entstanden, jeweils als zusammenhängende Bauabschnitte. Die Nazns Birkla schließen diese Entwicklung ab und bilden den zeitlich jüngsten dieser Neubauzüge.",
   },
   {
     key: "neurohlau-weg3",
     href: "/stellen/neurohlau-weg3",
-    title: "Der Weg Richtung Neurohlau – Teil 3 - Entlang des Wöidichn Ochsn bis zum oberen Dorfende",
+    title:
+      "Der Weg Richtung Neurohlau – Teil 3 - Entlang des Wöidichn Ochsn bis zum oberen Dorfende",
     intro:
       "Jenseits der Nazns Birkla führt der Weg in den obersten Wohnbereich von Pechgrün. Hier lösen sich die geschlossenen Dorfstrukturen zunehmend auf: Die Häuser stehen weiter auseinander, das Gelände wird offener, und der Blick reicht ins Umland. Der Abschnitt beschreibt diesen Übergang bis an das Ortsende – dorthin, wo Pechgrün endet und man beim Abstieg wieder auf die kürzere Verbindung trifft, die weiter Richtung Neurohlau hinausführt.",
   },
@@ -127,191 +131,115 @@ const sections = [
         >
           <!-- Reihenfolge hier = Klick-Priorität bei Überlagerung -->
 
-          <a href="/stellen/pechgruener-strasse" aria-label="Pechgrüner Straße">
-            <polygon class="area" points="1167,972 1496,972 1496,1848 1167,1848"
+          <a
+            href="/stellen/pechgruener-strasse"
+            data-key="pechgruener-strasse"
+            aria-label="Pechgrüner Straße - Von Chodau bis ins untere Dorf von Pechgrün"
+          >
+            <polygon
+              class="area"
+              points="1167,972 1496,972 1496,1848 1167,1848"
             ></polygon>
-
-            <foreignObject
-              class="hover-label"
-              x="1500"
-              y="14"
-              width="480"
-              height="92"
-            >
-              <div class="label-box">Pechgrüner Straße</div>
-            </foreignObject>
           </a>
 
           <a
             href="/stellen/oberesdorf-wehrmuehle"
-            aria-label="Oberes Dorf – über die Wehrmühle"
+            data-key="oberesdorf-wehrmuehle"
+            aria-label="Oberes Dorf – Der Weg nach Kösteldorf über die Wehrmühle"
           >
             <polygon class="area" points="228,281 911,281 911,924 228,924"
             ></polygon>
-
-            <foreignObject
-              class="hover-label"
-              x="1500"
-              y="14"
-              width="480"
-              height="92"
-            >
-              <div class="label-box">Oberes Dorf – über die Wehrmühle</div>
-            </foreignObject>
           </a>
 
           <a
             href="/stellen/oberesdorf-spitzeich"
-            aria-label="Oberes Dorf – über die Spitzeich"
+            data-key="oberesdorf-spitzeich"
+            aria-label="Oberes Dorf – Der Kösteldorfer Weg über die Spitzeich"
           >
             <polygon class="area" points="623,0 1100,0 1100,788 623,788"
             ></polygon>
-
-            <foreignObject
-              class="hover-label"
-              x="1500"
-              y="14"
-              width="480"
-              height="92"
-            >
-              <div class="label-box">Oberes Dorf – über die Spitzeich</div>
-            </foreignObject>
           </a>
 
-          <a href="/stellen/vogelsang" aria-label="Vogelsang">
+          <a
+            href="/stellen/vogelsang"
+            data-key="vogelsang"
+            aria-label="Vogelsang - Weg, Ortsteil und Abzweige"
+          >
             <polygon class="area" points="144,1086 930,745 1048,1017 260,1355"
             ></polygon>
-
-            <foreignObject
-              class="hover-label"
-              x="1500"
-              y="14"
-              width="480"
-              height="92"
-            >
-              <div class="label-box">Vogelsang</div>
-            </foreignObject>
           </a>
 
           <a
             href="/stellen/neurohlau-weg1"
-            aria-label="Weg Richtung Neurohlau I"
+            data-key="neurohlau-weg1"
+            aria-label="Der Weg Richtung Neurohlau – Teil 1 - Von der Schule über Kapelle und Hechtenteich bis zur Abzweigung"
           >
             <polygon class="area" points="1068,840 1302,700 1437,924 1204,1065"
-            ></polygon>
-
-            <foreignObject
-              class="hover-label"
-              x="1500"
-              y="14"
-              width="480"
-              height="92"
-            >
-              <div class="label-box">Weg Richtung Neurohlau I</div>
-            </foreignObject>
+ controversies></polygon>
           </a>
 
           <a
             href="/stellen/neurohlau-weg2"
-            aria-label="Weg Richtung Neurohlau II"
+            data-key="neurohlau-weg2"
+            aria-label="Der Weg Richtung Neurohlau – Teil 2 - Vom Hechtenteich bis zu den Naatzns Birkla"
           >
             <polygon class="area" points="1130,756 1404,487 1507,591 1234,861"
             ></polygon>
-
-            <foreignObject
-              class="hover-label"
-              x="1500"
-              y="14"
-              width="480"
-              height="92"
-            >
-              <div class="label-box">Weg Richtung Neurohlau II</div>
-            </foreignObject>
           </a>
 
           <a
             href="/stellen/neurohlau-weg3"
-            aria-label="Weg Richtung Neurohlau III"
+            data-key="neurohlau-weg3"
+            aria-label="Der Weg Richtung Neurohlau – Teil 3 - Entlang des Wöidichn Ochsn bis zum oberen Dorfende"
           >
             <polygon class="area" points="1327,706 1378,573 1962,798 1911,931"
             ></polygon>
-
-            <foreignObject
-              class="hover-label"
-              x="1500"
-              y="14"
-              width="480"
-              height="92"
-            >
-              <div class="label-box">Weg Richtung Neurohlau III</div>
-            </foreignObject>
           </a>
 
-          <a href="/stellen/unteresdorf" aria-label="Unteres Dorf">
+          <a
+            href="/stellen/unteresdorf"
+            data-key="unteresdorf"
+            aria-label="Unteres Dorf - Von Wickns Lo(d)n zum Eckl Huaf"
+          >
             <polygon class="area" points="945,924 1275,924 1275,1165 945,1165"
             ></polygon>
-
-            <foreignObject
-              class="hover-label"
-              x="1500"
-              y="14"
-              width="480"
-              height="92"
-            >
-              <div class="label-box">Unteres Dorf</div>
-            </foreignObject>
           </a>
 
-          <a href="/stellen/mittleresdorf" aria-label="Mittleres Dorf">
+          <a
+            href="/stellen/mittleresdorf"
+            data-key="mittleresdorf"
+            aria-label="Mittleres Dorf - Vom Pleierhaisla zur Pumpm"
+          >
             <polygon class="area" points="932,840 1028,761 1219,994 1124,1072"
             ></polygon>
-
-            <foreignObject
-              class="hover-label"
-              x="1500"
-              y="14"
-              width="480"
-              height="92"
-            >
-              <div class="label-box">Mittleres Dorf</div>
-            </foreignObject>
           </a>
 
-          <a href="/stellen/gasthaeuser" aria-label="Gasthäuser">
+          <a
+            href="/stellen/gasthaeuser"
+            data-key="gasthaeuser"
+            aria-label="Wo man einkehrte in Pechgrün - Die drei Wirtshäuser im Spiegel persönlicher Erinnerungen"
+          >
             <polygon class="area" points="873,744 1067,744 1067,884 873,884"
             ></polygon>
-
-            <foreignObject
-              class="hover-label"
-              x="1500"
-              y="14"
-              width="480"
-              height="92"
-            >
-              <div class="label-box">Gasthäuser</div>
-            </foreignObject>
           </a>
 
-          <a href="/stellen/haus-24" aria-label="Haus Nr. 24 – Fellner-Laden">
+          <a
+            href="/stellen/haus-24"
+            data-key="haus-24"
+            aria-label="Haus Nr. 24 – Fellner Kolonialwarenladen"
+          >
             <polygon class="area" points="1050,940 1083,940 1083,967 1050,967"
             ></polygon>
-
-            <foreignObject
-              class="hover-label"
-              x="1500"
-              y="14"
-              width="480"
-              height="92"
-            >
-              <div class="label-box">Haus Nr. 24 – Fellner-Laden</div>
-            </foreignObject>
           </a>
         </svg>
       </div>
 
       <figcaption class="cap">
-        Klicke auf eine Fläche. (Überlagerungen sind nur grafische
-        Vereinfachung.)
+        <span id="cap-default">
+          Klicke auf eine Fläche. (Überlagerungen sind nur grafische
+          Vereinfachung.)
+        </span>
+        <span id="cap-dynamic" hidden></span>
       </figcaption>
     </figure>
 
@@ -336,6 +264,41 @@ const sections = [
       </ol>
     </section>
   </article>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const capDefault = document.getElementById("cap-default");
+      const capDynamic = document.getElementById("cap-dynamic");
+      const hotspots = Array.from(
+        document.querySelectorAll(".map-hotspots a[aria-label]")
+      );
+
+      if (!capDefault || !capDynamic || hotspots.length === 0) return;
+
+      const show = (text) => {
+        capDynamic.textContent = text;
+        capDynamic.hidden = false;
+        capDefault.hidden = true;
+      };
+
+      const hide = () => {
+        capDynamic.textContent = "";
+        capDynamic.hidden = true;
+        capDefault.hidden = false;
+      };
+
+      hotspots.forEach((a) => {
+        const text = a.getAttribute("aria-label") || "";
+        a.addEventListener("mouseenter", () => show(text));
+        a.addEventListener("mouseleave", hide);
+        a.addEventListener("focus", () => show(text));
+        a.addEventListener("blur", hide);
+      });
+
+      const wrap = document.querySelector(".map-wrap");
+      if (wrap) wrap.addEventListener("mouseleave", hide);
+    });
+  </script>
 
   <style>
     .head .subtitle {
@@ -394,44 +357,6 @@ const sections = [
       stroke: rgba(0, 0, 0, 1);
       stroke-width: 5;
     }
-    /* =========================
-       Label oben rechts (global, wegen Astro CSS scoping + foreignObject)
-       ========================= */
-
-    :global(.map-hotspots .hover-label) {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    :global(.map-hotspots a:hover .hover-label),
-    :global(.map-hotspots a:focus-visible .hover-label) {
-      opacity: 1;
-    }
-
-    /* Label nicht als Link aussehen lassen (kein Underline oben rechts) */
-    :global(.map-hotspots a),
-    :global(.map-hotspots a:visited),
-    :global(.map-hotspots a:hover),
-    :global(.map-hotspots a:active) {
-      text-decoration: none !important;
-    }
-
-    :global(.map-hotspots .label-box) {
-      padding: 10px 12px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.92);
-      color: rgba(0, 0, 0, 0.92);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
-
-      font-size: 26px; /* größer als 18px */
-      line-height: 1.2;
-      font-weight: 650;
-
-      max-width: 100%;
-      word-wrap: break-word;
-      text-decoration: none !important;
-      cursor: default;
-    }
 
     .cap {
       margin: 0.55rem 0 0;
@@ -439,6 +364,11 @@ const sections = [
       line-height: 1.35;
       opacity: 0.85;
       max-width: 1100px;
+    }
+
+    #cap-dynamic {
+      font-weight: 650;
+      opacity: 0.95;
     }
 
     .list {
