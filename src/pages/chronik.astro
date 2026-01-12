@@ -42,6 +42,24 @@ const stellenItems = entriesStellen.map((e) => {
 });
 
 /* ================================================================
+   2b) Wege
+   ================================================================ */
+const entriesWege = await getCollection("wege");
+const wegeItems = entriesWege.map((e) => {
+  const d = (e.data.updated ?? e.data.date) as Date;
+  return {
+    kind: "content" as const,
+    title: e.data.title as string,
+    subtitle: (e.data.subtitle as string | undefined) ?? "",
+    date: d,
+    isUpdated: Boolean(e.data.updated),
+    bereich: "Wege",
+    href: `/wege/${e.slug}`,
+    order: typeof e.data.order === "number" ? e.data.order : 0,
+  };
+});
+
+/* ================================================================
    3) Ortschaften
    ================================================================ */
 const entriesOrtschaften = await getCollection("ortschaften");
@@ -136,6 +154,7 @@ const astroItems = Object.entries(pageModules)
 const items = [
   ...landschaftItems,
   ...stellenItems,
+  ...wegeItems,
   ...ortschaftenItems,
   ...geschichteItems,
   ...personenItems,
