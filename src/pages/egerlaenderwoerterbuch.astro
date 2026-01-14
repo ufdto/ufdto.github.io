@@ -1,0 +1,421 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+export const chronik = {
+  title: "Ebbas va dahuim",
+  subtitle: "Egerländer Wörterbuch",
+  date: "2026-01-13",
+  bereich: "Texte, Stimmen und Erinnerungen",
+  href: "/egerlaenderwoerterbuch",
+  order: 1,
+};
+
+// ===== Hardcoded Mapping (aus CSV buchstabe-seiten-mapping.csv) =====
+// Buchstabe -> Index der JPG-Datei "seite-XX.jpg" (XX = 00..35)
+const letterToIndex: Record<string, number> = {
+  A: 1,
+  B: 2,
+  C: 4,
+  D: 4,
+  E: 6,
+  F: 7,
+  G: 9,
+  H: 12,
+  I: 14,
+  J: 14,
+  K: 15,
+  L: 18,
+  M: 20,
+  N: 21,
+  O: 22,
+  P: 23,
+  Q: 25,
+  R: 26,
+  S: 27,
+  T: 30,
+  U: 32,
+  V: 33,
+  W: 34,
+  X: 35,
+  Y: 35,
+  Z: 35,
+};
+
+type Page = {
+  index: number;
+  file: string;
+  src: string;
+};
+
+// ===== Seitenliste (Vite-konform via glob) =====
+const wbImages = import.meta.glob("../assets/woerterbuch/*.jpg", {
+  eager: true,
+  import: "default",
+}) as Record<string, any>;
+
+const getSrcByFile = (file: string): string => {
+  const key = `../assets/woerterbuch/${file}`;
+  const v = wbImages[key];
+  return v?.src ?? v ?? "";
+};
+
+const pageCount = 36;
+
+const pages: Page[] = Array.from({ length: pageCount }, (_, i) => {
+  const file = `seite-${String(i).padStart(2, "0")}.jpg`;
+  return {
+    index: i,
+    file,
+    src: getSrcByFile(file),
+  };
+});
+
+// Alphabet A..Z
+const letters: string[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+// Start bei seite-00
+const initialIndex = 0;
+const initialSrc: string = pages[initialIndex]?.src ?? "";
+---
+
+<BaseLayout title={chronik.title}>
+  <header class="head">
+    <h1>{chronik.title}</h1>
+    <p class="subtitle">{chronik.subtitle}</p>
+  </header>
+
+  <section class="intro">
+    Auch wenn ich im Schwabenland geboren und aufgewachsen bin, ist mir der
+    Egerländer Dialekt vertraut. Ich kann ihn zwar nicht nachahmen, doch als
+    junger Mensch habe ich ihn oft gehört – vor allem von meinen Großeltern und
+    Eltern, aber auch bei den zahlreichen Zusammenkünften mit unserer
+    Verwandtschaft oder mit anderen Heimatvertriebenen. Dennoch gab es immer
+    wieder Wörter, die mir völlig fremd waren und deren Bedeutung ich nur aus
+    dem Zusammenhang heraus erahnen konnte. Vieles habe ich auch gar nicht
+    verstanden, es sei denn, man erklärte es mir auf Nachfrage.<br />
+    <br />
+    Mein auf dieser Website bereits mehrfach zitierter Onkel Erich Heinzl hat sich
+    in seinem späteren Leben die Mühe gemacht, aus dem Gedächtnis heraus ein Wörterbuch
+    zusammenzustellen, um viele dieser egerlandspezifischen Wörter, Ausdrücke und
+    Begriffe zu sammeln. Dieses Wörterbuch ist nie veröffentlicht worden. Von Onkel
+    Erichs Sohn, meinem Cousin Andi, habe ich nun eine PDF-Kopie erhalten, die aus
+    dem Nachlass seines Vaters stammt. Ich kann mir gut vorstellen, wie viel Aufwand
+    und Arbeit in dieses Projekt geflossen sind. Entstanden ist – so meine ich – ein
+    herausragendes Geschichtsdokument, das seinesgleichen sucht und sich auf ganz
+    natürliche Weise in diese Website einfügt, die der Erinnerung an das Dorf Pechgrün
+    und seine ehemaligen Bewohner gewidmet ist.
+  </section>
+
+  <section class="wb">
+    <!-- B: Buchstabenleiste + Pfeile rechts -->
+    <nav class="alpha-nav" aria-label="Wörterbuch Navigation">
+      <div class="alpha-letters" role="group" aria-label="Buchstaben">
+        {
+          letters.map((ch: string, idx: number) => (
+            <>
+              <button
+                class="alpha-letter"
+                type="button"
+                data-letter={ch}
+                data-target={String(letterToIndex[ch] ?? 0)}
+                aria-label={`Zum Buchstaben ${ch}`}
+              >
+                {ch}
+              </button>
+              {idx < letters.length - 1 ? (
+                <span class="dot" aria-hidden="true">
+                  ·
+                </span>
+              ) : null}
+            </>
+          ))
+        }
+      </div>
+
+      <div class="alpha-arrows" role="group" aria-label="Seitenwechsel">
+        <button
+          class="nav-btn"
+          type="button"
+          data-nav="prev"
+          aria-label="Vorherige Seite"
+        >
+          ←
+        </button>
+        <button
+          class="nav-btn"
+          type="button"
+          data-nav="next"
+          aria-label="Nächste Seite"
+        >
+          →
+        </button>
+      </div>
+    </nav>
+
+    <!-- C: Galerie-Fenster -->
+    <div class="viewer" aria-label="Wörterbuch Seitenanzeige">
+      <img
+        id="wb-image"
+        class="page-img"
+        src={initialSrc}
+        alt="Egerländer Wörterbuch – Seite"
+        loading="eager"
+        decoding="async"
+      />
+    </div>
+
+    <!-- D: Bedienhilfe -->
+    <p class="hint">
+      Die Seiten werden bewusst als überlappende Doppelseiten gezeigt. So bleibt
+      der Zusammenhang erhalten, während man sich schrittweise durch das
+      Wörterbuch bewegt.
+    </p>
+  </section>
+</BaseLayout>
+
+<script is:inline define:vars={{ pages, initialIndex, letterToIndex }}>
+  (() => {
+    /** @type {HTMLImageElement | null} */
+    const img = document.getElementById("wb-image");
+    /** @type {HTMLElement | null} */
+    const label = document.getElementById("wb-page-label");
+    /** @type {HTMLElement | null} */
+    const viewer = document.querySelector(".viewer");
+
+    /** @type {HTMLButtonElement[]} */
+    const letterButtons = Array.from(
+      document.querySelectorAll(".alpha-letter")
+    );
+    /** @type {HTMLButtonElement | null} */
+    const prevBtn = document.querySelector('[data-nav="prev"]');
+    /** @type {HTMLButtonElement | null} */
+    const nextBtn = document.querySelector('[data-nav="next"]');
+
+    let currentIndex = Number(initialIndex) || 0;
+    /** @type {string | null} */
+    let activeLetter = null;
+
+    const clampWrap = (idx) => {
+      const n = pages.length;
+      if (n === 0) return 0;
+      return ((idx % n) + n) % n;
+    };
+
+    const formatIndex = (idx) => String(idx).padStart(2, "0");
+
+    const sortedLetters = Object.keys(letterToIndex).sort((a, b) => {
+      const da = Number(letterToIndex[a] ?? 0);
+      const db = Number(letterToIndex[b] ?? 0);
+      return da - db || a.localeCompare(b);
+    });
+
+    const deriveLetterFromIndex = (idx) => {
+      let best = null;
+      for (const ch of sortedLetters) {
+        const start = Number(letterToIndex[ch] ?? 0);
+        if (start <= idx) best = ch;
+        else break;
+      }
+      return best ?? sortedLetters[0] ?? null;
+    };
+
+    const applyActiveLetterUI = () => {
+      letterButtons.forEach((btn) => {
+        const isActive = activeLetter && btn.dataset.letter === activeLetter;
+        btn.classList.toggle("active", !!isActive);
+        btn.setAttribute("aria-current", isActive ? "true" : "false");
+      });
+    };
+
+    const setPage = (idx, opts = {}) => {
+      currentIndex = clampWrap(idx);
+      const page = pages[currentIndex];
+      if (!page) return;
+
+      if (img) img.src = page.src;
+
+      // aktivierter Buchstabe: entweder explizit (Klick) oder dynamisch aus der Seite abgeleitet (Pfeile/Tastatur)
+      if (opts.letter) {
+        activeLetter = opts.letter;
+      } else {
+        activeLetter = deriveLetterFromIndex(currentIndex);
+      }
+      applyActiveLetterUI();
+
+      // bei Navigation automatisch zum Viewer scrollen (hilft wenn die Einleitung länger wird)
+      if (opts.scroll && viewer) {
+        viewer.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    };
+
+    const step = (delta, scroll = false) =>
+      setPage(currentIndex + delta, { scroll });
+
+    // Klick auf Buchstaben
+    letterButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const letter = btn.dataset.letter || "";
+        const target = Number(btn.dataset.target || 0);
+        setPage(target, { letter, scroll: true });
+      });
+    });
+
+    // Pfeilbuttons
+    prevBtn?.addEventListener("click", () => step(-1, true));
+    nextBtn?.addEventListener("click", () => step(+1, true));
+
+    // Tastatur
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        step(-1, true);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        step(+1, true);
+      }
+    });
+
+    // Initial
+    setPage(currentIndex, { scroll: false });
+  })();
+</script>
+
+<style>
+  /* ===== Kopf (ruhiger, wie auf den anderen Seiten) ===== */
+  .head {
+    margin-bottom: 1.6rem;
+  }
+
+  .head h1 {
+    margin: 0 0 0.35rem 0;
+  }
+
+  .subtitle {
+    margin: 0 0 1.15rem 0;
+    font-size: 1.15rem;
+    line-height: 1.35;
+    color: rgba(0, 0, 0, 0.78);
+  }
+
+  .intro {
+    margin: 0 0 1.25rem 0;
+  }
+
+  /* ===== Wörterbuch-Bereich ===== */
+  .wb {
+    margin-top: 1.25rem;
+    max-width: 980px; /* <- deine Zielbreite */
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  /* B: Buchstabenleiste + Pfeile rechts */
+  .alpha-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    margin: 0 0 1rem 0;
+  }
+
+  .alpha-letters {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.12rem; /* deutlich enger */
+    line-height: 1;
+  }
+
+  .dot {
+    opacity: 0.35;
+    user-select: none;
+    margin: 0 -0.05rem; /* Punkt rückt näher an die Buchstaben */
+  }
+
+  .alpha-letter {
+    appearance: none;
+    border: none;
+    background: transparent;
+    padding: 0.08rem 0.04rem; /* weniger Luft um den Buchstaben */
+    margin: 0;
+    font: inherit;
+    letter-spacing: 0; /* nimmt Breite raus */
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.78);
+  }
+
+  .alpha-letter:hover {
+    text-decoration: underline;
+  }
+
+  .alpha-letter.active {
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  /* kein "Quadrat" mehr */
+  .alpha-letter:focus-visible {
+    outline: none;
+    text-decoration: underline;
+  }
+
+  .alpha-arrows {
+    display: flex;
+    gap: 0.35rem;
+    flex: 0 0 auto;
+  }
+
+  .nav-btn {
+    appearance: none;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    background: rgba(0, 0, 0, 0.03);
+    padding: 0.25rem 0.55rem;
+    border-radius: 8px;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .nav-btn:hover {
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  .nav-btn:focus-visible {
+    outline: none;
+  }
+
+  /* C: Viewer (leicht kleiner) */
+  .viewer {
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.02);
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .page-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+  }
+
+  /* D: Hint */
+  .hint {
+    margin: 0.75rem 0 0 0;
+    font-size: 0.95rem;
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  @media (max-width: 560px) {
+    .alpha-nav {
+      align-items: flex-start;
+    }
+    .nav-btn {
+      padding: 0.2rem 0.45rem;
+      border-radius: 10px;
+    }
+  }
+</style>

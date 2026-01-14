@@ -40,7 +40,7 @@ import { chronik as meineErinnerungen } from "./meine-erinnerungen-heimatdorf-pe
 import { chronik as texteUebersicht } from "./texte.astro";
 import { chronik as egerlaenderMundart } from "./egerlaendermundart.astro";
 import { chronik as redelbachTeich } from "./redelbach-teich.astro";
-import { chronik as woerterbuch } from "./woerterbuch.astro";
+import { chronik as woerterbuch } from "./egerlaenderwoerterbuch.astro";
 
 // Redelbach
 import { chronik as redelbachIndex } from "./redelbach/index.astro";
@@ -403,6 +403,7 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
           </li>
           <li>
             <a href={woerterbuch.href}>{woerterbuch.title}</a>
+             {woerterbuch.subtitle ? <span> — {woerterbuch.subtitle}</span> : null}
           </li>
           <li>
             <a href={meineErinnerungen.href}>{meineErinnerungen.title}</a>
