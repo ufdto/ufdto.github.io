@@ -81,6 +81,9 @@ export const collections = {
     schema: base,
   }),
 
+// NOTE:
+// Collection "ortschaften" enthält die Inhalte des Bereichs "Nachbarorte".
+// Der Name ist historisch gewachsen und bewusst beibehalten.
   ortschaften: defineCollection({
     type: "content",
     schema: ortschaften,

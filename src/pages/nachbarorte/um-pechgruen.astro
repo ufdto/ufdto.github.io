@@ -11,7 +11,7 @@ export const chronik = {
   date: "2025-12-20",
   order: 1,
   bereich: "Ortschaften",
-  href: "/ortschaften/um-pechgruen",
+  href: "/nachbarorte/um-pechgruen",
 };
 
 // Marker direkt aus src/content/ortschaften/*.md
@@ -28,7 +28,7 @@ const markers = entries.map((e) => {
     label: String(d.label ?? ""),
     title,
     subtitle, // <-- neu
-    href: `/ortschaften/${e.slug}`,
+    href: `/nachbarorte/${e.slug}`,
   };
 });
 ---

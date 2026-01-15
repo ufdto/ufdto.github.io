@@ -27,7 +27,7 @@ const wegeOrder = [
 // Spezielle Seiten
 import { chronik as stellenIndex } from "./stellen/index.astro";
 import { chronik as wegeIndex } from "./wege/index.astro";
-import { chronik as ortschaftenUmPechgruen } from "./ortschaften/um-pechgruen.astro";
+import { chronik as ortschaftenUmPechgruen } from "./nachbarorte/um-pechgruen.astro";
 
 // Personen (Werkzeuge)
 import { chronik as personenEinwohnermeldebuch } from "./personen-einwohnermeldebuch.astro";
@@ -305,7 +305,7 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
     <!-- Ortschaften -->
     <section class="acc" data-acc-id="ortschaften">
       <button class="acc-head" type="button" aria-expanded="false">
-        <span class="acc-title">Ortschaften</span>
+        <span class="acc-title">Nachbarorte</span>
         <span class="acc-right">
           <span class="acc-meta">
             {(ortschaften.length + 1).toLocaleString("de-DE")} Einträge
@@ -332,7 +332,7 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
               .sort((a, b) => a.data.title.localeCompare(b.data.title, "de"))
               .map((e) => (
                 <li>
-                  <a href={`/ortschaften/${e.slug}`}>{e.data.title}</a>
+                  <a href={`/nachbarorte/${e.slug}`}>{e.data.title}</a>
                   {e.data.subtitle ? <span> — {e.data.subtitle}</span> : null}
                 </li>
               ))

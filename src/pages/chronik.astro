@@ -71,8 +71,8 @@ const ortschaftenItems = entriesOrtschaften.map((e) => {
     subtitle: (e.data.subtitle as string | undefined) ?? "",
     date: d,
     isUpdated: Boolean(e.data.updated),
-    bereich: "Ortschaften",
-    href: `/ortschaften/${e.slug}`,
+    bereich: "Nachbarorte",
+    href: `/nachbarorte/${e.slug}`,
     order: typeof e.data.order === "number" ? e.data.order : 0,
   };
 });
