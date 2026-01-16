@@ -38,7 +38,7 @@ const markers = entries.map((e) => {
     <h1 style="margin:0 0 0.35rem;">{chronik.title}</h1>
     <p class="subtitle">{chronik.subtitle}</p>
 
-    <DeepZoomMap {...ortschaftenUmPechgruen} markers={markers} height={640} />
+    <DeepZoomMap {...ortschaftenUmPechgruen} markers={markers} height={640} stateKey="nachbarorte_um_pechgruen" />
 
     <p style="margin:1.4rem 0 1rem;">
       Diese Übersicht zeigt die Umgebung von Pechgrün in einem erweiterten Sinn.

@@ -30,6 +30,9 @@ const {
   authorMode = true,
   startView = { type: "home" },
   height = 640,
+
+  // ✅ NEW (opt-in): persist view + marker state via sessionStorage
+  stateKey = null,
 } = Astro.props as {
   id: string;
   tileSource: string | Record<string, any>;
@@ -39,6 +42,9 @@ const {
   authorMode?: boolean;
   startView?: StartView;
   height?: number;
+
+  // ✅ NEW
+  stateKey?: string | null;
 };
 
 const RAW_BASE = import.meta.env.BASE_URL;
@@ -118,6 +124,9 @@ const tileSourceFixed =
     showMarkersToggle,
     authorMode,
     startView,
+
+    // ✅ NEW
+    stateKey,
   }}
 >
   // @ts-ignore
@@ -143,6 +152,11 @@ const tileSourceFixed =
     const toggleBtn = host.querySelector("[data-dz-toggle]");
     const toast = host.querySelector("[data-dz-toast]");
 
+    // ✅ NEW: opt-in persistence keys
+    const HAS_STATE = typeof stateKey === "string" && stateKey.length > 0;
+    const VIEW_KEY = HAS_STATE ? `${stateKey}_view_v1` : null;
+    const MARKER_KEY = HAS_STATE ? `${stateKey}_markers_v1` : null;
+
     const viewer = OSD({
       element: host,
       tileSources: tileSource,
@@ -160,6 +174,58 @@ const tileSourceFixed =
         flickEnabled: true,
       },
     });
+
+    // ✅ NEW: save/load view (exactly like Stellen)
+    function saveView() {
+      if (!HAS_STATE) return;
+      try {
+        const c = viewer.viewport.getCenter(true); // viewport coords
+        const z = viewer.viewport.getZoom(true);   // absolute zoom
+        sessionStorage.setItem(
+          VIEW_KEY,
+          JSON.stringify({ z, c: { x: c.x, y: c.y } })
+        );
+      } catch (_) {}
+    }
+
+    function loadView() {
+      if (!HAS_STATE) return null;
+      try {
+        const raw = sessionStorage.getItem(VIEW_KEY);
+        if (!raw) return null;
+        const v = JSON.parse(raw);
+        if (!v || typeof v.z !== "number" || !v.c) return null;
+        if (typeof v.c.x !== "number" || typeof v.c.y !== "number") return null;
+        return v;
+      } catch (_) {
+        return null;
+      }
+    }
+
+    function loadMarkersVisibleFallback() {
+      // Default behavior remains: start with markersDefaultVisible,
+      // but if persistence is enabled and we have a stored value, use it.
+      if (!HAS_STATE) return !!markersDefaultVisible;
+      try {
+        const raw = sessionStorage.getItem(MARKER_KEY);
+        if (raw === "1") return true;
+        if (raw === "0") return false;
+      } catch (_) {}
+      return !!markersDefaultVisible;
+    }
+
+    function saveMarkersVisible(v) {
+      if (!HAS_STATE) return;
+      try {
+        sessionStorage.setItem(MARKER_KEY, v ? "1" : "0");
+      } catch (_) {}
+    }
+
+    // ✅ NEW: also save when leaving page (back/forward, close tab)
+    if (HAS_STATE) {
+      window.addEventListener("pagehide", () => { try { saveView(); } catch (_) {} }, { passive: true });
+      window.addEventListener("beforeunload", () => { try { saveView(); } catch (_) {} }, { passive: true });
+    }
 
     let BASE_ZOOM = null;
     let MANUAL_MIN = null;
@@ -400,6 +466,10 @@ const tileSourceFixed =
           e.stopPropagation();
           if (e.stopImmediatePropagation) e.stopImmediatePropagation();
           hideTip();
+
+          // ✅ NEW: persist view before navigation (opt-in)
+          saveView();
+
           window.location.assign(m.href);
         };
 
@@ -411,7 +481,9 @@ const tileSourceFixed =
     }
 
     let item = null;
-    let markersVisible = !!markersDefaultVisible;
+
+    // ✅ NEW: initial marker visibility uses storage when enabled
+    let markersVisible = loadMarkersVisibleFallback();
 
     function addMarkers() {
       viewer.clearOverlays();
@@ -431,6 +503,10 @@ const tileSourceFixed =
 
     function setMarkersVisible(v) {
       markersVisible = v;
+
+      // ✅ NEW: persist markers flag (opt-in)
+      saveMarkersVisible(v);
+
       if (markersVisible) addMarkers();
       else {
         viewer.clearOverlays();
@@ -626,8 +702,18 @@ const tileSourceFixed =
     });
 
     viewer.addHandler("open", () => {
-      applyStartView();
-      setMarkersVisible(!!markersDefaultVisible);
+      // ✅ NEW: restore view if available (opt-in)
+      const saved = loadView();
+      if (saved) {
+        const vpCenter = new OSD.Point(saved.c.x, saved.c.y);
+        viewer.viewport.panTo(vpCenter, true);
+        viewer.viewport.zoomTo(saved.z, vpCenter, true);
+      } else {
+        applyStartView();
+      }
+
+      // ✅ marker state: storage wins, else default
+      setMarkersVisible(loadMarkersVisibleFallback());
 
       BASE_ZOOM = viewer.viewport.getZoom(true);
 
