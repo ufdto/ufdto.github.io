@@ -1,0 +1,216 @@
+---
+title: "Der Hanrich-Hof in Pechgrün"
+subtitle: "Rekonstruktion der Entstehung und Aufspaltung eines Ursprungshofes (1575–1945)"
+date: 2026-01-23
+order: 10
+---
+
+<style set:html={`
+  .hanrich-huaf-page {
+    line-height: 1.55;
+  }
+
+  .hanrich-huaf-page section {
+    margin: 2.2rem 0;
+  }
+
+  .hanrich-huaf-page p {
+    margin: 0.65rem 0;
+  }
+
+  .hanrich-huaf-map-wrap {
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-end;
+    margin: 1.2rem 0 2.0rem 0;
+  }
+
+  .hanrich-huaf-map {
+    width: min(650px, 100%);
+  }
+
+  .hanrich-huaf-map-figure {
+    position: relative;
+    width: 100%;
+    margin: 0;
+  }
+
+  .hanrich-huaf-map-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  .hanrich-huaf-overlay {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .hanrich-huaf-controls {
+    flex: 1 1 260px;
+    min-width: 240px;
+    max-width: 360px;
+    margin-bottom: 5rem;
+  }
+
+  .hanrich-huaf-controls h3 {
+    margin: 0 0 0.6rem 0;
+    font-size: 1.05rem;
+  }
+
+  .hanrich-huaf-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .hanrich-huaf-item label {
+    display: flex;
+    gap: 0.55rem;
+    align-items: flex-start;
+    cursor: pointer;
+  }
+
+  .hanrich-huaf-item input {
+    margin-top: 0.15rem;
+  }
+
+  .hanrich-huaf-item .lbl {
+    font-size: 0.98rem;
+    line-height: 1.25;
+  }
+
+  @media (max-width: 900px) {
+    .hanrich-huaf-map-wrap {
+      flex-direction: column;
+    }
+    .hanrich-huaf-controls {
+      max-width: 650px;
+      width: 100%;
+    }
+  }
+
+  .hanrich-table {
+    width: min(780px, 100%);
+    margin: 1.6rem 0;
+  }
+
+  .hanrich-table img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+`}/>
+
+<div class="hanrich-huaf-page">
+
+  <section>
+    <p>
+      Der Hanrich-Hof der Familie Heinzl gehört zu den beiden großen Ursprungshöfen, aus denen sich die bäuerliche Struktur Pechgrüns entwickelt hat. Neben ihm bestand nur ein weiterer Hof vergleichbarer Größe – der Matzl-Hof der Familie Dürrschmidt. Aus diesen beiden Hofkomplexen gingen im Laufe von rund 350 Jahren sämtliche späteren Bauernhöfe des Ortes hervor.
+    </p>
+
+    <p>
+      Ausgangspunkt dieser Rekonstruktion ist der Katasterplan von 1842. Er stellt den frühesten Zeitpunkt dar, an dem die Besitzverhältnisse Pechgrüns vollständig und räumlich eindeutig erfasst sind. Frühere Zustände sind kartografisch nicht überliefert; es existieren keine Dorfpläne oder Besitzkarten aus dem 16. oder 17. Jahrhundert.
+    </p>
+
+    <p>
+      Die hier gezeigte Entwicklung wird daher rückwärts erschlossen. Ausgehend von den im Jahr 1842 nachweisbaren Besitzkörpern lassen sich über genealogische Zusammenhänge, Erbfolgen und Besitzkontinuitäten frühere Hofstrukturen rekonstruieren. Die interaktive Karte zeigt den räumlichen Befund, die begleitende Tabelle ordnet ihn zeitlich ein und macht nachvollziehbar, wie sich die einzelnen Besitzkörper aus dem ursprünglichen Hanrich-Hof herausgelöst haben.
+    </p>
+
+    <p>
+      Karte und Tabelle sind dabei als Arbeitsinstrumente zu verstehen. Durch das Ein- und Ausblenden einzelner Besitzflächen lassen sich frühere Zustände schrittweise nachvollziehen – vom großflächigen Ursprungshof bis zu den kleineren, späteren Hofeinheiten. Die Darstellung erhebt keinen Anspruch auf formale Grundbuchrekonstruktion, sondern zeigt eine historisch plausible Entwicklung auf der Grundlage der verfügbaren Quellen.
+    </p>
+
+    <p>
+      Diese Seite beschreibt ausschließlich die Entwicklung des Hanrich-Hofes. Die Entwicklung des Matzl-Hofes wird auf einer eigenen Seite dargestellt.
+    </p>
+    
+  </section>
+
+  <section>
+    <div class="hanrich-huaf-map-wrap" data-hanrich-map>
+
+      <div class="hanrich-huaf-map">
+        <figure class="hanrich-huaf-map-figure">
+          <img
+            src="/images/grundbesitz-karte.jpg"
+            alt="Grundbesitz 1842 – Pechgrün (Arbeitskarte)"
+          />
+
+          <img class="hanrich-huaf-overlay" data-overlay="1"  src="/images/grundbesitz-1.png"  alt="" />
+          <img class="hanrich-huaf-overlay" data-overlay="2"  src="/images/grundbesitz-2.png"  alt="" />
+          <img class="hanrich-huaf-overlay" data-overlay="4"  src="/images/grundbesitz-4.png"  alt="" />
+          <img class="hanrich-huaf-overlay" data-overlay="8"  src="/images/grundbesitz-8.png"  alt="" />
+          <img class="hanrich-huaf-overlay" data-overlay="21" src="/images/grundbesitz-21.png" alt="" />
+          <img class="hanrich-huaf-overlay" data-overlay="24" src="/images/grundbesitz-24.png" alt="" />
+          <img class="hanrich-huaf-overlay" data-overlay="44" src="/images/grundbesitz-44.png" alt="" />
+          <img class="hanrich-huaf-overlay" data-overlay="45" src="/images/grundbesitz-45.png" alt="" />
+        </figure>
+      </div>
+
+      <aside class="hanrich-huaf-controls">
+        <p>
+          Wählen Sie einen oder mehrere Besitzstände aus, um die zugehörigen Flächen in der Karte ein- oder auszublenden.
+        </p>
+        <ul class="hanrich-huaf-list">
+
+          <li class="hanrich-huaf-item"><label><input type="checkbox" data-toggle="1"  unchecked /> <span class="lbl">Hanrich Huaf – Nr. 1</span></label></li>
+          <li class="hanrich-huaf-item"><label><input type="checkbox" data-toggle="2"  unchecked /> <span class="lbl">Hanrich Huaf – Nr. 2</span></label></li>
+          <li class="hanrich-huaf-item"><label><input type="checkbox" data-toggle="4"  unchecked /> <span class="lbl">Kutscherbauer – Nr. 4</span></label></li>
+          <li class="hanrich-huaf-item"><label><input type="checkbox" data-toggle="8"  unchecked /> <span class="lbl">Moder Besitz – Nr. 8</span></label></li>
+          <li class="hanrich-huaf-item"><label><input type="checkbox" data-toggle="21" unchecked /> <span class="lbl">Euin Huaf – Nr. 21</span></label></li>
+          <li class="hanrich-huaf-item"><label><input type="checkbox" data-toggle="24" unchecked /> <span class="lbl">Scherbaum Besitz – Nr. 24</span></label></li>
+          <li class="hanrich-huaf-item"><label><input type="checkbox" data-toggle="44" unchecked /> <span class="lbl">Neibauernhuaf – Nr. 44</span></label></li>
+          <li class="hanrich-huaf-item"><label><input type="checkbox" data-toggle="45" unchecked /> <span class="lbl">Neibauernhuaf – Nr. 45</span></label></li>
+        </ul>
+      </aside>
+
+    </div>
+  </section>
+
+  <section>
+    <p>
+      Die folgende Tabelle fasst die genealogisch und räumlich rekonstruierbaren Abspaltungen des Hanrich-Hofs zusammen und ordnet sie zeitlich ein. Sie ergänzt die Karte um eine historische Perspektive und macht die langfristige Entwicklung der Besitzstruktur nachvollziehbar.
+    </p>
+
+    <figure class="hanrich-table">
+      <img
+        src="/images/hanrich-hof-tabelle.jpg"
+        alt="Entstehung und Aufspaltung des Hanrich-Hofs"
+      />
+    </figure>
+  </section>
+
+</div>
+
+<script set:html={`
+  (function () {
+    const root = document.querySelector('[data-hanrich-map]');
+    if (!root) return;
+
+    const overlays = new Map(
+      Array.from(root.querySelectorAll('[data-overlay]'))
+        .map(img => [img.getAttribute('data-overlay'), img])
+    );
+
+    function setOverlay(key, on) {
+      const img = overlays.get(key);
+      if (!img) return;
+      img.style.opacity = on ? '1' : '0';
+    }
+
+    const toggles = root.querySelectorAll('input[data-toggle]');
+    toggles.forEach(cb => {
+      setOverlay(cb.dataset.toggle, cb.checked);
+      cb.addEventListener('change', () => {
+        setOverlay(cb.dataset.toggle, cb.checked);
+      });
+    });
+  })();
+`}/>

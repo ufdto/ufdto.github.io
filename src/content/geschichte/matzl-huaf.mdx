@@ -1,0 +1,208 @@
+---
+title: "Der Matzl-Hof in Pechgrün"
+subtitle: "Rekonstruktion der Entstehung und Aufspaltung eines Ursprungshofes (1599–1945)"
+date: 2026-01-24
+order: 10
+---
+
+<style set:html={`
+  .matzl-huaf-page {
+    line-height: 1.55;
+  }
+
+  .matzl-huaf-page section {
+    margin: 2.2rem 0;
+  }
+
+  .matzl-huaf-page p {
+    margin: 0.65rem 0;
+  }
+
+  .matzl-huaf-map-wrap {
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-end;
+    margin: 1.2rem 0 2.0rem 0;
+  }
+
+  .matzl-huaf-map {
+    width: min(650px, 100%);
+  }
+
+  .matzl-huaf-map-figure {
+    position: relative;
+    width: 100%;
+    margin: 0;
+  }
+
+  .matzl-huaf-map-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  .matzl-huaf-overlay {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .matzl-huaf-controls {
+    flex: 1 1 260px;
+    min-width: 240px;
+    max-width: 360px;
+    margin-bottom: 5rem;
+  }
+
+  .matzl-huaf-controls h3 {
+    margin: 0 0 0.6rem 0;
+    font-size: 1.05rem;
+  }
+
+  .matzl-huaf-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .matzl-huaf-item label {
+    display: flex;
+    gap: 0.55rem;
+    align-items: flex-start;
+    cursor: pointer;
+  }
+
+  .matzl-huaf-item input {
+    margin-top: 0.15rem;
+  }
+
+  .matzl-huaf-item .lbl {
+    font-size: 0.98rem;
+    line-height: 1.25;
+  }
+
+  @media (max-width: 900px) {
+    .matzl-huaf-map-wrap {
+      flex-direction: column;
+    }
+    .matzl-huaf-controls {
+      max-width: 650px;
+      width: 100%;
+    }
+  }
+
+  .matzl-table {
+    width: min(900px, 100%);
+    margin: 1.6rem 0;
+  }
+
+  .matzl-table img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+`}/>
+
+<div class="matzl-huaf-page">
+
+  <section>
+    <p>
+      Der Matzl-Hof der Familie Dürrschmidt gehört zu den beiden großen Ursprungshöfen, aus denen sich die bäuerliche Struktur Pechgrüns entwickelt hat. Neben ihm bestand nur ein weiterer Hof vergleichbarer Größe – der Hanrich-Hof der Familie Heinzl. Aus diesen beiden Hofkomplexen gingen im Laufe von rund 350 Jahren sämtliche späteren Bauernhöfe des Ortes hervor.
+    </p>
+
+    <p>
+      Ausgangspunkt dieser Rekonstruktion ist der Katasterplan von 1842. Er stellt den frühesten Zeitpunkt dar, an dem die Besitzverhältnisse Pechgrüns vollständig und räumlich eindeutig erfasst sind. Frühere Zustände sind kartografisch nicht überliefert; es existieren keine Dorfpläne oder Besitzkarten aus dem 16. oder 17. Jahrhundert.
+    </p>
+
+    <p>
+      Die hier gezeigte Entwicklung wird daher rückwärts erschlossen. Ausgehend von den im Jahr 1842 nachweisbaren Besitzkörpern lassen sich über genealogische Zusammenhänge, Erbfolgen und Besitzkontinuitäten frühere Hofstrukturen rekonstruieren. Die interaktive Karte zeigt den räumlichen Befund, die begleitende Tabelle ordnet ihn zeitlich ein und macht nachvollziehbar, wie sich die einzelnen Besitzkörper aus dem ursprünglichen Matzl-Hof herausgelöst haben.
+    </p>
+
+    <p>
+      Karte und Tabelle sind dabei als Arbeitsinstrumente zu verstehen. Durch das Ein- und Ausblenden einzelner Besitzflächen lassen sich frühere Zustände schrittweise nachvollziehen – vom großflächigen Ursprungshof bis zu den kleineren, späteren Hofeinheiten. Die Darstellung erhebt keinen Anspruch auf formale Grundbuchrekonstruktion, sondern zeigt eine historisch plausible Entwicklung auf der Grundlage der verfügbaren Quellen.
+    </p>
+
+    <p>
+      Diese Seite beschreibt ausschließlich die Entwicklung des Matzl-Hofes. Die Entwicklung des Hanrich-Hofes wird auf einer eigenen Seite dargestellt.
+    </p>
+    
+  </section>
+
+  <section>
+    <div class="matzl-huaf-map-wrap" data-matzl-map>
+
+      <div class="matzl-huaf-map">
+        <figure class="matzl-huaf-map-figure">
+          <img
+            src="/images/grundbesitz-karte.jpg"
+            alt="Grundbesitz 1842 – Pechgrün (Arbeitskarte)"
+          />
+
+          <img class="matzl-huaf-overlay" data-overlay="11"  src="/images/grundbesitz-11.png"  alt="" />
+          <img class="matzl-huaf-overlay" data-overlay="19"  src="/images/grundbesitz-19.png"  alt="" />
+          <img class="matzl-huaf-overlay" data-overlay="20"  src="/images/grundbesitz-20.png"  alt="" />
+          <img class="matzl-huaf-overlay" data-overlay="nh2"  src="/images/grundbesitz-nh2.png"  alt="" />
+        </figure>
+      </div>
+
+      <aside class="matzl-huaf-controls">
+        <p>
+          Wählen Sie einen oder mehrere Besitzstände aus, um die zugehörigen Flächen in der Karte ein- oder auszublenden.
+        </p>
+        <ul class="matzl-huaf-list">
+
+          <li class="matzl-huaf-item"><label><input type="checkbox" data-toggle="11"  unchecked /> <span class="lbl">Schneida Huaf – Nr. 11</span></label></li>
+          <li class="matzl-huaf-item"><label><input type="checkbox" data-toggle="19"  unchecked /> <span class="lbl">Matzl Huaf (1842) – Nr. 19</span></label></li>
+          <li class="matzl-huaf-item"><label><input type="checkbox" data-toggle="20"  unchecked /> <span class="lbl">Läin Huaf – Nr. 20</span></label></li>
+          <li class="matzl-huaf-item"><label><input type="checkbox" data-toggle="nh2"  unchecked /> <span class="lbl">Neuhäuser - Nr. 2 – Nr. 8</span></label></li>
+        </ul>
+      </aside>
+
+    </div>
+  </section>
+
+  <section>
+    <p>
+      Die folgende Tabelle fasst die genealogisch und räumlich rekonstruierbaren Abspaltungen des Matzl-Hofs zusammen und ordnet sie zeitlich ein. Sie ergänzt die Karte um eine historische Perspektive und macht die langfristige Entwicklung der Besitzstruktur nachvollziehbar.
+    </p>
+
+    <figure class="matzl-table">
+      <img
+        src="/images/matzl-hof-tabelle.jpg"
+        alt="Entstehung und Aufspaltung des Matzl-Hofs"
+      />
+    </figure>
+  </section>
+
+</div>
+
+<script set:html={`
+  (function () {
+    const root = document.querySelector('[data-matzl-map]');
+    if (!root) return;
+
+    const overlays = new Map(
+      Array.from(root.querySelectorAll('[data-overlay]'))
+        .map(img => [img.getAttribute('data-overlay'), img])
+    );
+
+    function setOverlay(key, on) {
+      const img = overlays.get(key);
+      if (!img) return;
+      img.style.opacity = on ? '1' : '0';
+    }
+
+    const toggles = root.querySelectorAll('input[data-toggle]');
+    toggles.forEach(cb => {
+      setOverlay(cb.dataset.toggle, cb.checked);
+      cb.addEventListener('change', () => {
+        setOverlay(cb.dataset.toggle, cb.checked);
+      });
+    });
+  })();
+`}/>

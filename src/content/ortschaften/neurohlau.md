@@ -4,7 +4,7 @@ subtitle: "Geschichte zwischen Bahn, Porzellan und Landschaft"
 date: 2026-01-17
 order: 30
 
-label: "NR"
+label: "Nr"
 x: 4416
 y: 3484
 ---
