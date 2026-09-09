@@ -48,7 +48,7 @@ import { chronik as wicknSeff } from "./texte/da-wickn-seff.astro";
 import { chronik as daDrrrn } from "./texte/da-drrrn.astro";
 import { chronik as erichLill } from "./texte/erich-lill.astro";
 import { chronik as josefModer } from "./texte/josef-moder.astro";
-
+import { chronik as rudolfWildner } from "./texte/rudolf-wildner.astro";
 
 // Redelbach
 import { chronik as redelbachIndex } from "./redelbach/index.astro";
@@ -154,7 +154,7 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
     const db = b.date.getTime();
     if (da !== db) return da - db;
     return (a.order ?? 0) - (b.order ?? 0);
-  }
+  },
 );
 ---
 
@@ -370,19 +370,33 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
           <!-- Werkzeuge -->
           <li>
             <a href={personFinden.href}>{personFinden.title}</a>
-            {personFinden.subtitle ? <span> — {personFinden.subtitle}</span> : null}
+            {
+              personFinden.subtitle ? (
+                <span> — {personFinden.subtitle}</span>
+              ) : null
+            }
           </li>
           <li>
             <a href={gedNamen.href}>{gedNamen.title}</a>
             {gedNamen.subtitle ? <span> — {gedNamen.subtitle}</span> : null}
           </li>
           <li>
-            <a href={personenEinwohnermeldebuch.href}>{personenEinwohnermeldebuch.title}</a>
-            {personenEinwohnermeldebuch.subtitle ? <span> — {personenEinwohnermeldebuch.subtitle}</span> : null}
+            <a href={personenEinwohnermeldebuch.href}
+              >{personenEinwohnermeldebuch.title}</a
+            >
+            {
+              personenEinwohnermeldebuch.subtitle ? (
+                <span> — {personenEinwohnermeldebuch.subtitle}</span>
+              ) : null
+            }
           </li>
           <li>
             <a href={personenStammbaum.href}>{personenStammbaum.title}</a>
-            {personenStammbaum.subtitle ? <span> — {personenStammbaum.subtitle}</span> : null}
+            {
+              personenStammbaum.subtitle ? (
+                <span> — {personenStammbaum.subtitle}</span>
+              ) : null
+            }
           </li>
           <!-- Galerie -->
           <li>
@@ -482,6 +496,10 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
             <a href={josefModer.href}>{josefModer.title}</a>
             {josefModer.subtitle ? <span> — {josefModer.subtitle}</span> : null}
           </li>
+          <li>
+            <a href={rudolfWildner.href}>{rudolfWildner.title}</a>
+            {rudolfWildner.subtitle ? <span> — {rudolfWildner.subtitle}</span> : null}
+          </li>
         </ul>
       </div>
     </section>
@@ -523,7 +541,7 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
       <div class="acc-body">
         <ul>
           {
-           mitmachenEntries.map((e) => (
+            mitmachenEntries.map((e) => (
               <li>
                 <a href={e.href}>{e.title}</a>
                 {e.subtitle ? <span> — {e.subtitle}</span> : null}
@@ -533,7 +551,6 @@ const landschaftCombined = [...landschaftContentItems, ...landschaftPages].sort(
         </ul>
       </div>
     </section>
-
   </div>
 </BaseLayout>
 

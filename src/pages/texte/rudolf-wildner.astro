@@ -1,0 +1,467 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export const chronik = {
+  title: "Rudolf Wildner trägt vor",
+  subtitle: "Das Gedicht „Winter in Pechgrün“ von Karl Redelbach",
+  date: "2026-09-09",
+  bereich: "Texte, Stimmen und Erinnerungen",
+  href: "/texte/rudolf-wildner",
+  order: 1,
+};
+---
+
+<BaseLayout title={chronik.title}>
+  <header class="head">
+    <h1>{chronik.title}</h1>
+    <p class="subtitle">{chronik.subtitle}</p>
+  </header>
+
+  <section class="content">
+    <p>
+      Im August 2026 besuchte Claus Kircheiss den über 90-jährigen Rudolf
+      Wildner bei ihm zu Hause. Bei diesem Besuch entstand auch diese schöne
+      Aufnahme, in der Rudolf ein Stück seiner Erinnerungen an Pechgrün mit uns
+      teilt.
+    </p>
+
+    <figure class="media">
+      <div class="video-frame">
+        <iframe
+          src="https://player.vimeo.com/video/1225280894?badge=0&autopause=0&player_id=0&app_id=58479"
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          title="Rudolf Wildner trägt „Winter in Pechgrün“ vor"
+          allowfullscreen></iframe>
+      </div>
+    </figure>
+
+    <p>
+      Rudolf Wildner wurde 1934 in Chodau (Chodov) geboren. Als er vier Jahre
+      alt war, zog die Familie nach Pechgrün, dem Heimatort seiner Mutter, wo er
+      aufwuchs.
+    </p>
+
+    <p>
+      In der Aufnahme erzählt er von Karl Redelbach aus Pechgrün, der Gedichte
+      über das Dorf und das Leben seiner Bewohner verfasste. Eines davon hat
+      Rudolf bis heute im Gedächtnis: „Winter in Pechgrün“, das er hier im
+      Egerländer Dialekt vorträgt.
+    </p>
+
+    <p>
+      Das Gedicht schildert einen Wintertag im damaligen Pechgrün so anschaulich
+      und mit so vielen kleinen, oft humorvollen Beobachtungen aus dem Alltag,
+      dass man sich beim Zuhören beinahe selbst in das Dorf zurückversetzt
+      fühlt: Kinder sausen auf Fassdauben durch den Schnee und über die
+      Schanzen, vor einem Stadel streiten sich die Vögel um einen Brocken Brot,
+      der Postler bringt die Weihnachtspost, ein Bergmann kommt vom
+      Heinrichschacht nach Hause, und am Abend hört man nur noch das Feuer
+      prasseln und die Mutter mit ihren Klöppeln rasseln.
+    </p>
+
+    <p>
+      Die Aufnahme bewahrt damit nicht nur ein Stück Erinnerung an das
+      verschwundene Dorf Pechgrün, sondern auch ein Stück seiner Mundart und
+      Alltagskultur.
+    </p>
+  </section>
+
+  <section class="gedicht">
+    <h2>Winter in Pechgrün</h2>
+
+    <p class="gedicht-intro">
+      Nach dem Vortrag von Rudolf Wildner transkribiert. Links steht der Text im
+      Egerländer Dialekt, rechts die hochdeutsche Übertragung.
+    </p>
+
+    <div class="strophe">
+      <div class="dialekt">
+        <p>
+          Winter in Pechgrain,<br />
+          drass is 's kålt u Nachts hat 's g'schneit.<br />
+          Af d'Weihnacht'n is 's nimmer weit.
+        </p>
+      </div>
+
+      <div class="hochdeutsch">
+        <p>
+          Winter in Pechgrün,<br />
+          draußen ist es kalt und nachts hat es geschneit.<br />
+          Bis Weihnachten ist es nicht mehr weit.
+        </p>
+      </div>
+    </div>
+
+    <div class="strophe">
+      <div class="dialekt">
+        <p>
+          d'Feicht'n biag'n sich unter'm Schnei,<br />
+          drie'm am Wåldrand stenga Reih.
+        </p>
+      </div>
+
+      <div class="hochdeutsch">
+        <p>
+          die Fichten biegen sich unter dem Schnee,<br />
+          drüben am Waldrand stehen Rehe.
+        </p>
+      </div>
+    </div>
+
+    <div class="strophe">
+      <div class="dialekt">
+        <p>
+          Über d'Leit'n all dei Baima<br />
+          han voll Said'nschwanz u Seima.
+        </p>
+      </div>
+
+      <div class="hochdeutsch">
+        <p>
+          Über der Leitn all die Bäume<br />
+          sind voll Seidenschwänze und Zeisige.
+        </p>
+        <p class="erklaerung">
+          Die Leitn ist der Hausberg von Chodau. „Seima“ ist die mundartliche
+          Bezeichnung für Zeisige.
+        </p>
+      </div>
+    </div>
+
+    <div class="strophe">
+      <div class="dialekt">
+        <p>
+          Vom Meisla siat ma's ojestaub'n,<br />
+          kloina Buab'n mit Fasseldaub'n.
+        </p>
+      </div>
+
+      <div class="hochdeutsch">
+        <p>
+          Vom Meislberg sieht man es herunterstauben,<br />
+          kleine Buben mit Fassdauben als Skiern.
+        </p>
+        <p class="erklaerung">
+          Fassdauben waren die gebogenen Bretter eines Fasses. Kinder
+          verwendeten sie früher als einfache Skier.
+        </p>
+      </div>
+    </div>
+
+    <div class="strophe">
+      <div class="dialekt">
+        <p>
+          Mer mou sich wunnern, wei dei Ranzen<br />
+          scho ohjespringa über d'Schanz'n.
+        </p>
+      </div>
+
+      <div class="hochdeutsch">
+        <p>
+          Man muss sich wundern, wie diese Ranzen<br />
+          schon über die Schanzen springen.
+        </p>
+        <p class="erklaerung">
+          „Ranzen“ ist hier scherzhaft für die Buben bzw. Lausbuben gebraucht.
+        </p>
+      </div>
+    </div>
+
+    <div class="strophe">
+      <div class="dialekt">
+        <p>
+          U tschienern do'n se, d'Buab'n u d'Moidla,<br />
+          dei håb'n Courasch, da fleig'n dei Kleudla!
+        </p>
+      </div>
+
+      <div class="hochdeutsch">
+        <p>
+          Und tschienern tun sie, die Buben und die Mädels,<br />
+          die haben Mut, da fliegen die Kleider!
+        </p>
+        <p class="erklaerung">
+          „tschienern“ bezeichnet das Rutschen oder Schlittern auf Eis.
+        </p>
+      </div>
+    </div>
+
+    <div class="strophe">
+      <div class="dialekt">
+        <p>
+          Vor'm Master-Wenzl sei'm Stadel dau'er<br />
+          raffen Spåtzen mit ner Graue,<br />
+          immer an alt'n Brock'n Broat,<br />
+          d'Viagl hab'n jetzt große Noat.
+        </p>
+      </div>
+
+      <div class="hochdeutsch">
+        <p>
+          Vor dem Stadel vom Master-Wenzel dort<br />
+          zanken Spatzen mit der Krähe,<br />
+          über einen alten Brocken Brot,<br />
+          die Vögel haben jetzt große Not.
+        </p>
+      </div>
+    </div>
+
+    <div class="strophe">
+      <div class="dialekt">
+        <p>
+          Der Postler bringt a Weihnachtskart'n,<br />
+          der Nachbar schaufelt Schnei im Gart'n.<br />
+          Am Kutscherberch wird Åscha g'straht,<br />
+          a Fuahrmann bringt's Deportat.
+        </p>
+      </div>
+
+      <div class="hochdeutsch">
+        <p>
+          Der Postbote bringt eine Weihnachtskarte,<br />
+          der Nachbar schaufelt Schnee im Garten.<br />
+          Am Kutscherberg wird Asche gestreut,<br />
+          ein Fuhrmann bringt das Deportat.
+        </p>
+        <p class="erklaerung">
+          „Deportat“ bezeichnete eine festgesetzte Sach- oder Naturallieferung,
+          etwa von Holz, Kohle, Getreide oder anderen Gütern.
+        </p>
+      </div>
+    </div>
+
+    <div class="strophe">
+      <div class="dialekt">
+        <p>
+          A Weib geiht schnell nu Essen trog'n,<br />
+          der Mo braucht ganz schnell woas im Mog'n.<br />
+          Es geiht ja scha aaf Zwölfa zu,<br />
+          er schimpft glei, wenn er wart'n mou.
+        </p>
+      </div>
+
+      <div class="hochdeutsch">
+        <p>
+          Ein Weib geht schnell noch Essen austragen,<br />
+          der Mann braucht ganz schnell etwas im Magen.<br />
+          Es geht ja schon auf zwölf Uhr zu,<br />
+          er schimpft gleich, wenn er warten muss.
+        </p>
+      </div>
+    </div>
+
+    <div class="strophe">
+      <div class="dialekt">
+        <p>
+          Der Duaglasgraina Bäck bringt Broat,<br />
+          u oiner, der a Radl håt,<br />
+          rutscht aas u fällt in tief'n Schnei!<br />
+          Ban Aufsteihn sagt er: „s'Boan tuat weh!“
+        </p>
+      </div>
+
+      <div class="hochdeutsch">
+        <p>
+          Der Doglasgrüner Bäcker bringt Brot,<br />
+          und einer, der ein Fahrrad hat,<br />
+          rutscht aus und fällt in tiefen Schnee!<br />
+          Beim Aufstehen sagt er: „Das Bein tut weh!“
+        </p>
+      </div>
+    </div>
+
+    <div class="strophe">
+      <div class="dialekt">
+        <p>
+          Er soucht sa Uhr – die Tasch is laa,<br />
+          d'Uhr liegt im Schnei, es is holber draa.
+        </p>
+      </div>
+
+      <div class="hochdeutsch">
+        <p>
+          Er sucht seine Uhr – die Tasche ist leer,<br />
+          die Uhr liegt im Schnee, es ist halb drei.
+        </p>
+      </div>
+    </div>
+
+    <div class="strophe">
+      <div class="dialekt">
+        <p>
+          Nu zwoa, draa Stund', af is scho Nåcht,<br />
+          a Mo kemmt ham von Heinrichschåcht.<br />
+          Für jed'n Schritt doa verzaiht er 's G'sicht,<br />
+          bei derer Költ', doa plågt nan d'Gicht.
+        </p>
+      </div>
+
+      <div class="hochdeutsch">
+        <p>
+          Noch zwei, drei Stunden, dann ist schon Nacht,<br />
+          ein Mann kommt heim vom Heinrichschacht.<br />
+          Bei jedem Schritt verzieht er das Gesicht,<br />
+          bei dieser Kälte plagt ihn die Gicht.
+        </p>
+      </div>
+    </div>
+
+    <div class="strophe">
+      <div class="dialekt">
+        <p>
+          Sa Ålta håt heit aa ihr Gfrett,<br />
+          di Kinner woll'n net ain ins Bett.<br />
+          Di denk'n scho an murg'n u låcha,<br />
+          di woll'n vor'm Haus an Schneimo mach'n.
+        </p>
+      </div>
+
+      <div class="hochdeutsch">
+        <p>
+          Seine Frau hat heute auch ihre liebe Not,<br />
+          die Kinder wollen nicht hinein ins Bett.<br />
+          Die denken schon an morgen und lachen,<br />
+          die wollen vor dem Haus einen Schneemann machen.
+        </p>
+        <p class="erklaerung">„Gfrett“ bedeutet Mühsal, Plage oder Ärger.</p>
+      </div>
+    </div>
+
+    <div class="strophe">
+      <div class="dialekt">
+        <p>
+          Da Voada versteiht für soa waas koin Spaß,<br />
+          er schaut nur vo der Zeiting aaf,<br />
+          scho san se wei zwoo Schaifla brav.
+        </p>
+      </div>
+
+      <div class="hochdeutsch">
+        <p>
+          Der Vater versteht für so etwas keinen Spaß,<br />
+          er schaut nur von der Zeitung auf,<br />
+          schon sind sie wie zwei Schäflein brav.
+        </p>
+      </div>
+    </div>
+
+    <div class="strophe">
+      <div class="dialekt">
+        <p>
+          Erst schlaaft das Moidl, aff der Bua,<br />
+          aaf oimal is im Haus a Ruah.
+        </p>
+      </div>
+
+      <div class="hochdeutsch">
+        <p>
+          Erst schläft das Mädel, dann der Bub,<br />
+          auf einmal ist im Haus eine Ruhe.
+        </p>
+      </div>
+    </div>
+
+    <div class="strophe">
+      <div class="dialekt">
+        <p>
+          Mer hei'rt nur noch's Feia prasseln<br />
+          u d'Moadr mit ihrn Glibbln rasseln.<br />
+          Drass'n murmalt staat der Boch,<br />
+          u d'Nacht verschluckt dein Wintertoch.
+        </p>
+      </div>
+
+      <div class="hochdeutsch">
+        <p>
+          Man hört nur noch das Feuer prasseln<br />
+          und die Mutter mit ihren Klöppeln rasseln.<br />
+          Draußen murmelt still der Bach,<br />
+          und die Nacht verschluckt den Wintertag.
+        </p>
+        <p class="erklaerung">
+          „Glibbln“ sind die Klöppel beim Spitzenklöppeln.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .media {
+    margin: 2rem 0;
+  }
+
+  .video-frame {
+    width: 640px;
+    max-width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #f5f5f3;
+  }
+
+  .video-frame iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .gedicht {
+    margin: 3rem 0;
+  }
+
+  .gedicht h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  .gedicht-intro {
+    margin: 0 0 2rem;
+    color: #666;
+  }
+
+  .strophe {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 2.5rem;
+    padding: 1.1rem 0;
+    border-top: 1px solid #ddd;
+  }
+
+  .strophe:last-child {
+    border-bottom: 1px solid #ddd;
+  }
+
+  .strophe p {
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  .strophe .erklaerung {
+    margin-top: 0.65rem;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: #777;
+    font-style: italic;
+  }
+
+  .dialekt {
+    font-weight: 600;
+  }
+
+  .hochdeutsch {
+    color: #555;
+  }
+
+  @media (max-width: 700px) {
+    .strophe {
+      grid-template-columns: 1fr;
+      gap: 0.55rem;
+    }
+
+    .hochdeutsch {
+      padding-bottom: 0.25rem;
+    }
+  }
+</style>
